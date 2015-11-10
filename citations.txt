@@ -1,0 +1,5 @@
+D3 world map 	- http://techslides.com/demos/d3/worldmap-template.html
+topojson 		- https://github.com/mbostock/topojson/wiki/Gallery
+				- https://www.npmjs.com/package/topojson
+coloring states - https://groups.google.com/forum/#!topic/d3-js/kxMRr-CzZkY
+chloropeth 		- http://bl.ocks.org/mbostock/4060606
