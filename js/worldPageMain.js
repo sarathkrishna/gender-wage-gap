@@ -8,6 +8,8 @@
     function initVis() {
        
         var worldMapVis = new countryMapVis(d3.select("#map"), countryWiseData, metaData, null);
+        //var worldBarVis = new worldBarChartVis(d3.select("#world-states-bar-chart"), stateWiseData, metaData, null);
+        //var worldSectorBarVis = new worldSectorBarChartVis(d3.select("#world-sector-bar-chart"), stateWiseData, metaData, null);
                 
     }
 
