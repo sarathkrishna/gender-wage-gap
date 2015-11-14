@@ -1,23 +1,24 @@
 <html>
-<head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
-<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
-</head>
-<style>
-.a {
-	stroke: rgb(255, 255, 255);
-	fill: rgb(216, 216, 216);
-}
-</style>
-<body>
-	<div>
-		<h2>World Map</h2>
-		<svg width="900" height="500" id="map">
-            <g id="countries"></g>
-        </svg>
-	</div>
-	<script type="application/javascript" src="js/worldmap.js"></script>
-</body>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+		<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
+		<script src="http://d3js.org/queue.v1.min.js"></script>
+		<script src="js/worldMapVis.js"></script>
+	</head>
+	<style>
+		.a {
+			stroke: rgb(255, 255, 255);
+			fill: rgb(216, 216, 216);
+			}
+	</style>
+	<body>
+		<div>
+			<h2>World Map</h2>
+			<svg width="900" height="500" id="map">
+	            <g id="countries"></g>
+    	    </svg>
+		</div>
+		<script src="js/worldPageMain.js"></script>
+	</body>
 </html>
