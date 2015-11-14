@@ -9,32 +9,32 @@ function addToMap(localWageGapData) {
 	}
 }
 
-function drawStates(usStateData) {
-	var projection = d3.geo.albersUsa()
+function drawStates(countriesData) {
+	var projection = d3.geo.mercator;
 	var path = d3.geo.path().projection(projection);
 
-	console.log(usStateData);
-	d3.select("#states")
+	console.log(countriesData);
+	d3.select("#countries")
 	.selectAll("path")
-	.data(topojson.feature(usStateData, usStateData.objects.states).features)
+	.data(topojson.feature(countriesData, countriesData.objects.countries).features)
 	.enter()
 	.append("path")
-	.attr("d", path)
-	.attr("fill", function(d) {
+	.attr("d", path);
+	/*.attr("fill", function(d) {
 		console.log(d.properties.STATE + ":" + colorScale(wageGapData[parseInt(d.properties.STATE)]));
 		return colorScale(wageGapData[d.properties.STATE]);
-	});
+	});*/
 	
-	console.log(usStateData);
+	console.log(countriesData);
 }
 
-d3.json("data/states.json", function(error, usStateData) {
+d3.json("data/out.json", function(error, countriesData) {
 	if (error)
 		throw error;
 	d3.csv("data/USStatewise_2011.csv", function(error1, wageGapData) {
 		if (error1)
 			throw error1;
 		addToMap(wageGapData);
-		drawStates(usStateData);
+		drawStates(countriesData);
 	});
 });

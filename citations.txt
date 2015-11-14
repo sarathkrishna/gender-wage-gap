@@ -3,3 +3,10 @@ topojson 		- https://github.com/mbostock/topojson/wiki/Gallery
 				- https://www.npmjs.com/package/topojson
 coloring states - https://groups.google.com/forum/#!topic/d3-js/kxMRr-CzZkY
 chloropeth 		- http://bl.ocks.org/mbostock/4060606
+US geojson		- http://eric.clst.org/Stuff/USGeoJSON
+geojson to topojson conversion
+				- http://blog.webkid.io/maps-with-leaflet-and-topojson/
+topojson installation issue
+				- http://stackoverflow.com/a/24592328/812004
+Command used:
+	topojson states.json -o out.json -p
