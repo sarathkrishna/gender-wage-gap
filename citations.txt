@@ -8,5 +8,9 @@ geojson to topojson conversion
 				- http://blog.webkid.io/maps-with-leaflet-and-topojson/
 topojson installation issue
 				- http://stackoverflow.com/a/24592328/812004
-Command used:
+Making maps with D3
+				- http://volumelabs.net/making-maps-with-d3/
+Countries data	- https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson
+Commands used:
 	topojson states.json -o out.json -p
+	topojson countries.json -o out.json -p
