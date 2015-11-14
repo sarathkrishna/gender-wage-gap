@@ -8,6 +8,8 @@
     function initVis() {
         
         var statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
+        //var statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseData, metaData, null);
+        //var usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData, metaData, null);
                 
     }
 
