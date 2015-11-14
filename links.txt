@@ -11,6 +11,14 @@ topojson installation issue
 Making maps with D3
 				- http://volumelabs.net/making-maps-with-d3/
 Countries data	- https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson
+
+
+
+
+US state-wise Data:
+	https://docs.google.com/spreadsheets/d/1WgPxsDur8OTUkF8K0KMfKvl8U_3iiiPoF0fPGRzFiGw/edit?usp=sharing
+	
+	
 Commands used:
 	topojson states.json -o out.json -p
 	topojson countries.json -o out.json -p
