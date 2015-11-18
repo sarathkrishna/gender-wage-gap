@@ -1,7 +1,7 @@
 var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 		colorbrewer.Blues[3]);
 
-var currYear = 2011;
+var selectedYear = 2011;
 
 function drawCountries(countriesData, metaData) {
 	var projection = d3.geo.mercator();
@@ -10,11 +10,11 @@ function drawCountries(countriesData, metaData) {
 	console.log(metaData);
 	console.log("See here!");
 	console.log(countriesData);
-	console.log([ currYear ]);
+	console.log([ selectedYear ]);
 	d3.select("#countries").selectAll("path").data(
 			topojson.feature(metaData, metaData.objects.countries).features)
 			.enter().append("path").attr("d", path).attr("fill", function(d) {
-				var val = countriesData[currYear][d.properties.name];
+				var val = countriesData[selectedYear][d.properties.name];
 				console.log(d.properties.STATE + ":" + val);
 				if (isNaN(val)) {
 					return "#C0C0C0";

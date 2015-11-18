@@ -18,8 +18,16 @@
 
             console.log(usStateData);
             for (var i = 0; i < usStateData.length; i++) {
-                stateWiseData[parseInt(usStateData[i].Id)] = usStateData[i].data;
+            	var year = usStateData[i].Year;
+            	delete usStateData[i].Year;
+            	var keys = Object.keys(usStateData[i]);
+            	var object = {};
+            	for (var key of keys) {
+            		object[key] = usStateData[i][key];
+            	}
+            	stateWiseData[year] = object;
             }
+            console.log(stateWiseData);
             metaData = _metaData;
 
             initVis();
@@ -28,7 +36,7 @@
 
     function startHere() {
         queue()
-            .defer(d3.csv, '../data/USStatewise_2011.csv')
+            .defer(d3.csv, '../data/USStatewise.csv')
             .defer(d3.json, '../data/states.json')
             .await(dataLoaded);
         
