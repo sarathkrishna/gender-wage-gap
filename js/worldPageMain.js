@@ -25,6 +25,7 @@
         }
 
         worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idWorldMap, metaData, null);
+        var lineChartVis = new worldLineChartVis(d3.select("#world-line-chart"), yearToCountriesDataWithID, metaData, null);
                 
     }
 
