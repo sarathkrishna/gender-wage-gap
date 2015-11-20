@@ -3,7 +3,7 @@ var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 var selectedYear = 2011;
 
 function drawStates(usStateData, metaData) {
-	var projection = d3.geo.albersUsa();
+	var projection = d3.geo.albersUsa().scale(600);
 	var path = d3.geo.path().projection(projection);
 	d3.select("#states").selectAll("path").data(
 			topojson.feature(metaData, metaData.objects.states).features)

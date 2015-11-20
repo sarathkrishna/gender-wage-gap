@@ -4,7 +4,7 @@ var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 var selectedYear = 2011;
 
 function drawCountries(countriesData, metaData) {
-	var projection = d3.geo.mercator();
+	var projection = d3.geo.mercator().scale(70);
 	var path = d3.geo.path().projection(projection);
 
 	d3.select("#countries").selectAll("path").data(
