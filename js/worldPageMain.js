@@ -4,10 +4,11 @@
 
     var yearToCountriesData = {};
     var metaData = {};
-
+    var worldMapVis;
+    
     function initVis() {
        
-        var worldMapVis = new countryMapVis(d3.select("#map"), yearToCountriesData, metaData, null);
+        worldMapVis = new countryMapVis(d3.select("#map"), yearToCountriesData, metaData, null);
         //var worldBarVis = new worldBarChartVis(d3.select("#world-states-bar-chart"), stateWiseData, metaData, null);
         //var worldSectorBarVis = new worldSectorBarChartVis(d3.select("#world-sector-bar-chart"), stateWiseData, metaData, null);
                 
@@ -25,7 +26,7 @@
             	}
             	yearToCountriesData[year] = object;
             }
-            console.log(yearToCountriesData);
+            //console.log(yearToCountriesData);
             metaData = _metaData;
 
             initVis();
@@ -37,7 +38,13 @@
             .defer(d3.csv, '../data/OECD_Data.csv')
             .defer(d3.json, '../data/countries.json')
             .await(dataLoaded);
-        
+        var slider = d3.slider().min(1979).max(2013).ticks(26).showRange(true).value(2013).callback(updateOnSliderChange);
+        d3.select('#world-slider').call(slider); 
+    }
+    
+    function updateOnSliderChange(slider) {
+    	var year = d3.format(".0f")(slider.value());
+    	worldMapVis.updateYear(year);
     }
     
     startHere();

@@ -43,8 +43,8 @@
             .defer(d3.csv, '../data/USStatewise.csv')
             .defer(d3.json, '../data/states.json')
             .await(dataLoaded);
-        var slider = d3.slider().min(2011).max(2014).ticks(4).showRange(true).value(4).callback(updateOnSliderChange);
-        d3.select('#slider').call(slider);
+        var slider = d3.slider().min(2011).max(2014).ticks(4).showRange(true).value(2011).callback(updateOnSliderChange);
+        d3.select('#us-slider').call(slider);
         
     }
     

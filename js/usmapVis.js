@@ -45,7 +45,6 @@ usmapVis.prototype.initVis = function() {
 
 usmapVis.prototype.updateYear = function(year) {
 	var self = this;
-	console.log("Here! " + year);
 	if (year != selectedYear) {
 		selectedYear = year;
 		updateData(self.data);
