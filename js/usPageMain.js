@@ -3,6 +3,7 @@
     function () {
 
     var statesMapVis;
+    var lineCharVis;
     var stateWiseData = {};
     var metaData = {};
     var idStateMap = {};
@@ -26,6 +27,13 @@
         var statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, metaData, null);
   //       var usSectorBarVis = new
 		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData, metaData, null);
+        var lineCharVis = new usStatesLineChartVis(d3.select("#us-line-chart"), stateWiseData, metaData, null);
+        // var statesBarVis = new
+		// usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseData,
+		// metaData, null);
+        // var usSectorBarVis = new
+		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData,
+		// metaData, null);
                 
     }
 

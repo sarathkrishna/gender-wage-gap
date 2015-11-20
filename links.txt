@@ -15,7 +15,7 @@ Country Codes 	- https://raw.githubusercontent.com/datasets/country-codes/master
 d3 slider		- http://thematicmapping.org/playground/d3/d3.slider/
 US Map States - Choropleth Plus Bar (An example)
 				- https://vida.io/documents/4vZ9mRGyepoyQxFcK
-
+Line chart		- http://projects.flowingdata.com/life-expectancy/
 
 
 US state-wise Data:
