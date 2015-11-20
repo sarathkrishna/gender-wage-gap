@@ -2,14 +2,18 @@
 (
     function () {
 
+    var statesMapVis;
     var stateWiseData = {};
     var metaData = {};
-
     function initVis() {
         
-        var statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
-        //var statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseData, metaData, null);
-        //var usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData, metaData, null);
+        statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
+        // var statesBarVis = new
+		// usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseData,
+		// metaData, null);
+        // var usSectorBarVis = new
+		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData,
+		// metaData, null);
                 
     }
 
@@ -39,7 +43,14 @@
             .defer(d3.csv, '../data/USStatewise.csv')
             .defer(d3.json, '../data/states.json')
             .await(dataLoaded);
+        var slider = d3.slider().min(2011).max(2014).ticks(4).showRange(true).value(4).callback(updateOnSliderChange);
+        d3.select('#slider').call(slider);
         
+    }
+    
+    function updateOnSliderChange(slider) {
+    	var year = d3.format(".0f")(slider.value());
+    	statesMapVis.updateYear(year);
     }
     
     startHere();

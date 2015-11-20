@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 
 <html>
-	<head lang="en">
-		<meta charset="UTF-8">
-		<title>Gender Wage Gap</title>
+<head lang="en">
+<meta charset="UTF-8">
+<title>Gender Wage Gap</title>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
-		<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
-		<script src="http://d3js.org/queue.v1.min.js"></script>
-    	
-    	<script src="js/usmapVis.js"></script>
-    	<script src="js/usStatesBarChartVis.js"></script>
-    	<script src="js/usSectorBarChartVis.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="js/d3.slider.js"></script>
 
-    	<style>
-			.a {
-				stroke: rgb(255, 255, 255);
-				fill: rgb(216, 216, 216);
-			}
-		</style>
-	</head>
+<script src="js/usmapVis.js"></script>
+<script src="js/usStatesBarChartVis.js"></script>
+<script src="js/usSectorBarChartVis.js"></script>
+<link rel="stylesheet" href="css/d3.slider.css" />
+<link rel="stylesheet" href="css/styler.css" />
 
-	<body>
-		<div>
-			<h2>US Map</h2>
-			<svg width="900" height="500" id="map">
+<style>
+.a {
+	stroke: rgb(255, 255, 255);
+	fill: rgb(216, 216, 216);
+}
+</style>
+</head>
+
+<body>
+	<div>
+		<h2>US Map</h2>
+		<svg width="900" height="500" id="map">
             	<g id="states"></g>
         	</svg>
-		</div>
-	
-		<div id="us-states-bar-chart">
-        	<svg width="650" height="440">
+	</div>
+	<div id="slider" width="100"></div>
+	<div id="us-states-bar-chart">
+		<svg width="650" height="440">
         	</svg>
-    	</div>
+	</div>
 
-    	<div id="us-sector-bar-chart">
-        	<svg width="650" height="440">
+	<div id="us-sector-bar-chart">
+		<svg width="650" height="440">
         	</svg>
-    	</div>
+	</div>
 
-    	<script src="js/usPageMain.js"></script>
+	<script src="js/usPageMain.js"></script>
 
-	</body>
+</body>
 </html>
