@@ -3,11 +3,13 @@
     function () {
 
     var statesMapVis;
+    var lineCharVis;
     var stateWiseData = {};
     var metaData = {};
     function initVis() {
         
         statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
+        lineCharVis = new usStatesLineChartVis(d3.select("#us-line-chart"), stateWiseData, metaData, null);
         // var statesBarVis = new
 		// usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseData,
 		// metaData, null);

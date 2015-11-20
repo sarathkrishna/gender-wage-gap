@@ -1,7 +1,22 @@
 #us-slider {
-	width:250px
+	width: 250px
 }
 
 #world-slider {
-	width:1000px
+	width: 1000px
+}
+
+.axis {
+	stroke-width: 0.8;
+	stroke: #000;
+}
+
+.xTicks, .yTicks {
+	stroke-width: 0.6;
+	stroke: #000;
+}
+
+text {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 11px;
 }
