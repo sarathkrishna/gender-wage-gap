@@ -50,19 +50,19 @@ usStatesBarChartVis.prototype.initVis = function () {
 
     self.visG.append("g").attr("class", "yAxis axis");
 
-    self.updateVis();
+    self.updateVis(2011);
 };
 
 
 /**
  * the drawing function - should use the D3 selection, enter, exit
  */
-usStatesBarChartVis.prototype.updateVis = function () {
+usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var self = this;
     console.log(self.idStateMap);
 
-    dataForYear = self.data["2011"];
+    dataForYear = self.data[selectedYear];
     console.log(dataForYear);
     var sortedKeys = [];
     for(var key in dataForYear) sortedKeys.push(key);

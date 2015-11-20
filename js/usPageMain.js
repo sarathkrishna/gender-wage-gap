@@ -8,6 +8,7 @@
     var metaData = {};
     var idStateMap = {};
     var stateIdMap = {};
+    var statesBarVis;
 
     function initVis() {
         
@@ -24,7 +25,7 @@
             stateWiseDataWithID[year] = object;
         }
 
-        var statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, metaData, null);
+        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, metaData, null);
         // var usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData, metaData, null);
         var lineChartVis = new usStatesLineChartVis(d3.select("#us-line-chart"), stateWiseData, metaData, null);                
     }
@@ -72,6 +73,7 @@
     function updateOnSliderChange(slider) {
     	var year = d3.format(".0f")(slider.value());
     	statesMapVis.updateYear(year);
+        statesBarVis.updateVis(year);
     }
     
     startHere();

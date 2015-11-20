@@ -5,6 +5,7 @@
     var yearToCountriesData = {};
     var metaData = {};
     var worldMapVis;
+    var worldBarVis;
     var idWorldMap = {};
     var worldIdMap = {};
     
@@ -23,7 +24,7 @@
             yearToCountriesDataWithID[year] = object;
         }
 
-        var worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idWorldMap, metaData, null);
+        worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idWorldMap, metaData, null);
                 
     }
 
@@ -66,6 +67,7 @@
     function updateOnSliderChange(slider) {
     	var year = d3.format(".0f")(slider.value());
     	worldMapVis.updateYear(year);
+        worldBarVis.updateVis(year);
     }
     
     startHere();

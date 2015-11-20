@@ -50,18 +50,18 @@ worldBarChartVis.prototype.initVis = function () {
 
     self.visG.append("g").attr("class", "yAxis axis");
 
-    self.updateVis();
+    self.updateVis(2013);
 };
 
 
 /**
  * the drawing function - should use the D3 selection, enter, exit
  */
-worldBarChartVis.prototype.updateVis = function () {
+worldBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var self = this;
 
-    dataForYear = self.data["2011"];
+    dataForYear = self.data[selectedYear];
     console.log(dataForYear);
     var sortedKeys = [];
     for(var key in dataForYear) sortedKeys.push(key);
