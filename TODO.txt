@@ -3,10 +3,9 @@
 	a) US line to be highlighted
 	b) Tooltip
 3) US Area chart to be done
-4) World line chart to be done
-5) Visual appeal, transitions
-6) Sector barchart to be added
-7) To be done for all:
+4) Visual appeal, transitions
+5) Sector barchart to be added
+6) To be done for all:
 	a) Tool tip
 	b) Better coloring
 	c) Fonts/coloring to be made same for all
