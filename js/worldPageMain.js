@@ -5,12 +5,25 @@
     var yearToCountriesData = {};
     var metaData = {};
     var worldMapVis;
+    var idWorldMap = {};
+    var worldIdMap = {};
     
     function initVis() {
        
         worldMapVis = new countryMapVis(d3.select("#map"), yearToCountriesData, metaData, null);
-        //var worldBarVis = new worldBarChartVis(d3.select("#world-states-bar-chart"), stateWiseData, metaData, null);
-        //var worldSectorBarVis = new worldSectorBarChartVis(d3.select("#world-sector-bar-chart"), stateWiseData, metaData, null);
+        
+        yearToCountriesDataWithID = {};
+        years = Object.keys(yearToCountriesData);
+        for (var year of years) {
+            var object = {};
+            countries = Object.keys(yearToCountriesData[year]);
+            for (var country of countries) {
+                object[worldIdMap[country]] = yearToCountriesData[year][country];
+            }
+            yearToCountriesDataWithID[year] = object;
+        }
+
+        var worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idWorldMap, metaData, null);
                 
     }
 
@@ -24,6 +37,14 @@
             	for (var key of keys) {
             		object[key] = countriesData[i][key];
             	}
+                if (i == 0) {
+                    var count = 0;
+                    for (var key of keys) {
+                        idWorldMap[count] = key;
+                        worldIdMap[key] = count;
+                        count = count + 1;
+                    }
+                }
             	yearToCountriesData[year] = object;
             }
             //console.log(yearToCountriesData);
