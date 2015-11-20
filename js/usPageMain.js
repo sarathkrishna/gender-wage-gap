@@ -5,33 +5,54 @@
     var statesMapVis;
     var stateWiseData = {};
     var metaData = {};
+    var idStateMap = {};
+    var stateIdMap = {};
+
     function initVis() {
         
-        statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
-        // var statesBarVis = new
-		// usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseData,
-		// metaData, null);
-        // var usSectorBarVis = new
-		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData,
-		// metaData, null);
+        var statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
+
+        var stateWiseDataWithID = {};
+        var years = Object.keys(stateWiseData);
+        for (var year of years) {
+            var states = Object.keys(stateWiseData[year]);
+            var object = {}
+            for (var state of states) {
+                object[stateIdMap[state]] = stateWiseData[year][state];
+            }
+            stateWiseDataWithID[year] = object;
+        }
+
+        var statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, metaData, null);
+  //       var usSectorBarVis = new
+		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData, metaData, null);
                 
     }
 
     function dataLoaded(error, usStateData, _metaData) {
         if (!error) {
 
-            console.log(usStateData);
+            // console.log(usStateData);
             for (var i = 0; i < usStateData.length; i++) {
             	var year = usStateData[i].Year;
             	delete usStateData[i].Year;
             	var keys = Object.keys(usStateData[i]);
             	var object = {};
-            	for (var key of keys) {
-            		object[key] = usStateData[i][key];
-            	}
+
+                for (var key of keys) {
+                    object[key] = usStateData[i][key];
+                }
+                if (i == 0) {
+                   var stateId = 0;
+                	for (var key of keys) {
+                        idStateMap[stateId] = key;
+                        stateIdMap[key] = stateId;
+                        stateId = stateId + 1;
+            	   }
+                }
             	stateWiseData[year] = object;
             }
-            console.log(stateWiseData);
+            // console.log(stateWiseData);
             metaData = _metaData;
 
             initVis();

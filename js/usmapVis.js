@@ -14,7 +14,7 @@ function drawStates(usStateData, metaData) {
 function updateData(usStateData) {
 	d3.select("#states").selectAll("path").attr("fill", function(d) {
 		var val = usStateData[selectedYear][d.properties.NAME];
-		console.log(d.properties.NAME + ":" + val);
+		// console.log(d.properties.NAME + ":" + val);
 		if (isNaN(val)) {
 			return "#C0C0C0";
 		} else {
