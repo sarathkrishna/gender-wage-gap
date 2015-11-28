@@ -75,11 +75,11 @@ usSectorLineChartVis.prototype.updateVis = function() {
 
 	var self = this;
 	var line = d3.svg.line().x(function(d, i) {
-		console.log(d);
-		console.log("x: "+ self.xScale(d['year']));
+		//console.log(d);
+		//console.log("x: "+ self.xScale(d['year']));
 		return self.xScale(d['year']);
 	}).y(function(d,i) {
-		console.log(self.yScale(d['val']));
+		//console.log(self.yScale(d['val']));
 		return self.yScale(d['val']);
 	});
 
@@ -101,10 +101,10 @@ usSectorLineChartVis.prototype.updateVis = function() {
 			object[sector].push(obj);
 		}
 	}
-	console.log(object);
+	//console.log(object);
 	for (var sector of sectors) {
 		var yearsObj = object[sector];
-		console.log(yearsObj);
+		//console.log(yearsObj);
 		// console.log(sectorObj[yearObj]);
 		self.visG.append("path").data([yearsObj]).attr("d", line).attr("class","line").on("mouseover",onmouseover).on("mouseout",onmouseout);
 	}
@@ -113,7 +113,7 @@ usSectorLineChartVis.prototype.updateVis = function() {
 function onmouseover(d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
-	console.log(this);
+	//console.log(this);
 /*
  * var sectorCode = $(this).attr("sector"); var sectorVals =
  * startEnd[sectorCode]; var percentChange = 100 * (sectorVals['endVal'] -
