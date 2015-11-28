@@ -60,10 +60,10 @@ usStatesBarChartVis.prototype.initVis = function () {
 usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var self = this;
-    console.log(self.idStateMap);
+//    console.log(self.idStateMap);
 
     dataForYear = self.data[selectedYear];
-    console.log(dataForYear);
+  //  console.log(dataForYear);
     var sortedKeys = [];
     for(var key in dataForYear) sortedKeys.push(key);
     sortedKeys.sort( function(a, b) { return dataForYear[b] - dataForYear[a] } );
@@ -72,8 +72,8 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
     for (var i = 0; i < sortedKeys.length; i++)
       sortedValues.push(dataForYear[sortedKeys[i]]);
 
-    console.log(sortedKeys);
-    console.log(sortedValues);
+    //console.log(sortedKeys);
+    //console.log(sortedValues);
 
     // update the scales :
     var minMaxY = [0, 100];

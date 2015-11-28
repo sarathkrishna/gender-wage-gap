@@ -5,14 +5,15 @@
     var statesMapVis;
     var lineChartVis;
     var stateWiseData = {};
-    var metaData = {};
+    var sectorWiseData = {};
+    var mapData = {};
     var idStateMap = {};
     var stateIdMap = {};
     var statesBarVis;
 
     function initVis() {
         
-        statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, metaData, null);
+        statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, mapData, null);
 
         var stateWiseDataWithID = {};
         var years = Object.keys(stateWiseData);
@@ -25,12 +26,15 @@
             stateWiseDataWithID[year] = object;
         }
 
-        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, metaData, null);
-        // var usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData, metaData, null);
-        var lineChartVis = new usStatesLineChartVis(d3.select("#us-line-chart"), stateWiseData, metaData, null);                
+        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, mapData, null);
+        // var usSectorBarVis = new
+		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData,
+		// mapData, null);
+        var stateLineChartVis = new usStatesLineChartVis(d3.select("#us-state-line-chart"), stateWiseData, mapData, null);
+        var sectorLineChartVis = new usSectorLineChartVis(d3.select("#us-sector-line-chart"), sectorWiseData, mapData, null);
     }
 
-    function dataLoaded(error, usStateData, _metaData) {
+    function stateDataLoaded(error, usStateData, _mapData, usSectorData) {
         if (!error) {
 
             // console.log(usStateData);
@@ -53,8 +57,21 @@
                 }
             	stateWiseData[year] = object;
             }
-            // console.log(stateWiseData);
-            metaData = _metaData;
+            //console.log(stateWiseData);
+            console.log(usSectorData);
+            for (var i = 0; i < usSectorData.length; i++) {
+            	var year = usSectorData[i].Year;
+            	delete usSectorData[i].Year;
+            	var keys = Object.keys(usSectorData[i]);
+            	var object = {};
+
+                for (var key of keys) {
+                    object[key] = usSectorData[i][key];
+                }
+            	sectorWiseData[year] = object;
+            }
+            console.log(sectorWiseData);
+            mapData = _mapData;
 
             initVis();
         }
@@ -64,10 +81,10 @@
         queue()
             .defer(d3.csv, '../data/USStatewise.csv')
             .defer(d3.json, '../data/states.json')
-            .await(dataLoaded);
+            .defer(d3.csv, '../data/sectors.csv')
+            .await(stateDataLoaded);
         var slider = d3.slider().min(2011).max(2014).ticks(4).showRange(true).value(2011).callback(updateOnSliderChange);
         d3.select('#us-slider').call(slider);
-        
     }
     
     function updateOnSliderChange(slider) {
