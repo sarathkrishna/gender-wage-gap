@@ -105,7 +105,12 @@ worldLineChartVis.prototype.updateVis = function() {
 		var yearsObj = object[country];
 		console.log(yearsObj);
 		// console.log(countryObj[yearObj]);
-		self.visG.append("path").data([yearsObj]).attr("d", line).attr("class","line").on("mouseover",onmouseover).on("mouseout",onmouseout);
+		self.visG.append("path")
+				.data([yearsObj])
+				.attr("d", line)
+				.attr("class","line")
+				.on("mouseover",onmouseover)
+				.on("mouseout",onmouseout);
 	}
 };
 
@@ -113,24 +118,10 @@ function onmouseover(d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
 	console.log(this);
-/*
- * var countryCode = $(this).attr("country"); var countryVals =
- * startEnd[countryCode]; var percentChange = 100 * (countryVals['endVal'] -
- * countryVals['startVal']) / countryVals['startVal']; var blurb = '<h2>' +
- * countryCodes[countryCode] + '</h2>'; blurb += "<p>On average: a life
- * expectancy of " + Math.round(countryVals['startVal']) + " years in " +
- * countryVals['startYear'] + " and " + Math.round(countryVals['endVal']) + "
- * years in " + countryVals['endYear'] + ", "; if (percentChange >= 0) { blurb +=
- * "an increase of " + Math.round(percentChange) + " percent." } else { blurb +=
- * "a decrease of " + -1 * Math.round(percentChange) + " percent." } blurb += "</p>";
- * $("#default-blurb").hide(); $("#blurb-content").html(blurb);
- */
 }
+
 function onmouseout(d, i) {
 	var currClass = d3.select(this).attr("class");
 	var prevClass = currClass.substring(0, currClass.length - 8);
 	d3.select(this).attr("class", prevClass);
-	/*
-	 * $("#default-blurb").show(); $("#blurb-content").html('');
-	 */
 }

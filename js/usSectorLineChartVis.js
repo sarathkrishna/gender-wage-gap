@@ -75,11 +75,11 @@ usSectorLineChartVis.prototype.updateVis = function() {
 
 	var self = this;
 	var line = d3.svg.line().x(function(d, i) {
-		//console.log(d);
-		//console.log("x: "+ self.xScale(d['year']));
+		// console.log(d);
+		// console.log("x: "+ self.xScale(d['year']));
 		return self.xScale(d['year']);
 	}).y(function(d,i) {
-		//console.log(self.yScale(d['val']));
+		// console.log(self.yScale(d['val']));
 		return self.yScale(d['val']);
 	});
 
@@ -99,39 +99,30 @@ usSectorLineChartVis.prototype.updateVis = function() {
 			obj['year'] = year;
 			obj['val'] = self.data[year][sector];
 			object[sector].push(obj);
+			object['sector'] = sector;
 		}
 	}
-	//console.log(object);
+	// console.log(object);
 	for (var sector of sectors) {
 		var yearsObj = object[sector];
-		//console.log(yearsObj);
+		// console.log(yearsObj);
 		// console.log(sectorObj[yearObj]);
-		self.visG.append("path").data([yearsObj]).attr("d", line).attr("class","line").on("mouseover",onmouseover).on("mouseout",onmouseout);
+		self.visG.append("path")
+			.data([yearsObj])
+			.attr("d", line)
+			.attr("class", "line")
+			.on("mouseover", self.onmouseOver)
+			.on("mouseout", self.onmouseOut);
 	}
 };
 
-function onmouseover(d, i) {
+usSectorLineChartVis.prototype.onmouseOver = function (d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
-	//console.log(this);
-/*
- * var sectorCode = $(this).attr("sector"); var sectorVals =
- * startEnd[sectorCode]; var percentChange = 100 * (sectorVals['endVal'] -
- * sectorVals['startVal']) / sectorVals['startVal']; var blurb = '<h2>' +
- * sectorCodes[sectorCode] + '</h2>'; blurb += "<p>On average: a life
- * expectancy of " + Math.round(sectorVals['startVal']) + " years in " +
- * sectorVals['startYear'] + " and " + Math.round(sectorVals['endVal']) + "
- * years in " + sectorVals['endYear'] + ", "; if (percentChange >= 0) { blurb +=
- * "an increase of " + Math.round(percentChange) + " percent." } else { blurb +=
- * "a decrease of " + -1 * Math.round(percentChange) + " percent." } blurb += "</p>";
- * $("#default-blurb").hide(); $("#blurb-content").html(blurb);
- */
+	console.log(this);
 }
-function onmouseout(d, i) {
+usSectorLineChartVis.prototype.onmouseOut = function(d, i) {
 	var currClass = d3.select(this).attr("class");
 	var prevClass = currClass.substring(0, currClass.length - 8);
 	d3.select(this).attr("class", prevClass);
-	/*
-	 * $("#default-blurb").show(); $("#blurb-content").html('');
-	 */
 }

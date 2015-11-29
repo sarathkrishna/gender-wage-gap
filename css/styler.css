@@ -22,8 +22,8 @@ text {
 }
 
 path.line.current {
-	stroke: #003399;
-	stroke-width: 4;
+	stroke: steelblue;
+	stroke-width: 5;
 }
 
 path.line {
@@ -36,4 +36,14 @@ path.area {
 	stroke: steelblue;
 	stroke-width: 3;
 	fill: steelblue;
+}
+
+div.tooltip {
+	color: #222;
+	background-color: #cce5ff;
+	padding: .5em;
+	text-shadow: #f5f5f5 0 1px 0;
+	border-radius: 2px;
+	opacity: 0.9;
+	position: absolute;
 }
