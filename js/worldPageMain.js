@@ -23,12 +23,26 @@
             }
             yearToCountriesDataWithID[year] = object;
         }
-
+        var worldLineChartInfo = getLineChartInfo(d3.select("#world-line-chart"), yearToCountriesDataWithID, 1200, 500, 30, 50, 100, 1970, 2013, 0.21);
+        
         worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idWorldMap, metaData, null);
-        var lineChartVis = new worldLineChartVis(d3.select("#world-line-chart"), yearToCountriesDataWithID, metaData, null);
-                
+        var worldLineChartVis = new lineChartVis(worldLineChartInfo);
     }
 
+    function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
+    	var infoObject = {};
+    	infoObject.parentElement = parentElement;
+    	infoObject.data = data;
+    	infoObject.width = width;
+    	infoObject.height = height;
+    	infoObject.margin = margin;
+    	infoObject.yMinimum = yMinimum;
+    	infoObject.yMaximum = yMaximum;
+    	infoObject.lowestYear = lowestYear;
+    	infoObject.highestYear = highestYear;
+    	infoObject.yTickWidth = yTickWidth;
+    	return infoObject;
+    }
     function dataLoaded(error, countriesData, _metaData) {
         if (!error) {
             for (var i = 0; i < countriesData.length; i++) {

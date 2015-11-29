@@ -15,7 +15,7 @@ usAreaChartVis.prototype.initVis = function() {
 
 	self.chart = self.parentElement.select("svg");
 
-	self.graphW = 1400;
+	self.graphW = 1300;
 	self.graphH = 500;
 	self.margin = 30;
 	self.yMinimum = 50;

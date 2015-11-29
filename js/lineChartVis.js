@@ -1,29 +1,31 @@
-var usSectorLine_this;
-function usSectorLineChartVis(_parentElement, _data, _metaData) {
+var line_this;
+function lineChartVis(lineChartInfo) {
 
 	var self = this;
-	usSectorLine_this = this;
+	line_this = this;
 
-	self.parentElement = _parentElement;
-	self.data = _data;
-	self.metaData = _metaData;
+	self.parentElement = lineChartInfo.parentElement;
+	self.data = lineChartInfo.data;
+	self.lineChartInfo = lineChartInfo;
 
 	self.initVis();
 }
 
-usSectorLineChartVis.prototype.initVis = function() {
+lineChartVis.prototype.initVis = function() {
 	var self = this;
-
+	console.log(self.lineChartInfo);
+	
 	self.chart = self.parentElement.select("svg");
 
-	self.graphW = 800;
-	self.graphH = 300;
-	self.margin = 30;
-	self.yMinimum = 50;
-	self.yMaximum = 100;
-	var lowestYear = 2011;
-	var highestYear = 2014;
-	var yTickWidth = 0.015;
+	self.graphW = self.lineChartInfo.width;
+	self.graphH = self.lineChartInfo.height;
+	self.margin = self.lineChartInfo.margin;
+	self.yMinimum = self.lineChartInfo.yMinimum;
+	self.yMaximum = self.lineChartInfo.yMaximum;
+	var lowestYear = self.lineChartInfo.lowestYear;
+	var highestYear = self.lineChartInfo.highestYear;
+	var yTickWidth = self.lineChartInfo.yTickWidth;
+	
 	self.xScale = d3.scale.linear().domain([ lowestYear, highestYear ]).range(
 			[ 0 + self.margin - 5, self.graphW ])
 
@@ -71,7 +73,7 @@ usSectorLineChartVis.prototype.initVis = function() {
 	self.updateVis();
 };
 
-usSectorLineChartVis.prototype.updateVis = function() {
+lineChartVis.prototype.updateVis = function() {
 
 	var self = this;
 	var line = d3.svg.line().x(function(d, i) {
@@ -85,28 +87,28 @@ usSectorLineChartVis.prototype.updateVis = function() {
 
 	var years = Object.keys(self.data);
 	var object = {}
-	var sectors;
+	var elements;
 	for (var year of years) {
-		sectors = Object.keys(self.data[year]);
-		for (var sector of sectors) {
-			if (!object[sector]) {
-				object[sector] = [];
+		elements = Object.keys(self.data[year]);
+		for (var element of elements) {
+			if (!object[element]) {
+				object[element] = [];
 			}
-			if (!self.data[year][sector]) {
+			if (!self.data[year][element]) {
 				continue;
 			}
 			var obj = {};
 			obj['year'] = year;
-			obj['val'] = self.data[year][sector];
-			object[sector].push(obj);
-			object['sector'] = sector;
+			obj['val'] = self.data[year][element];
+			object[element].push(obj);
+			object['element'] = element;
 		}
 	}
 	// console.log(object);
-	for (var sector of sectors) {
-		var yearsObj = object[sector];
+	for (var element of elements) {
+		var yearsObj = object[element];
 		// console.log(yearsObj);
-		// console.log(sectorObj[yearObj]);
+		// console.log(elementObj[yearObj]);
 		self.visG.append("path")
 			.data([yearsObj])
 			.attr("d", line)
@@ -116,12 +118,12 @@ usSectorLineChartVis.prototype.updateVis = function() {
 	}
 };
 
-usSectorLineChartVis.prototype.onmouseOver = function (d, i) {
+lineChartVis.prototype.onmouseOver = function (d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
 	console.log(this);
 }
-usSectorLineChartVis.prototype.onmouseOut = function(d, i) {
+lineChartVis.prototype.onmouseOut = function(d, i) {
 	var currClass = d3.select(this).attr("class");
 	var prevClass = currClass.substring(0, currClass.length - 8);
 	d3.select(this).attr("class", prevClass);

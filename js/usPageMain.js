@@ -3,7 +3,6 @@
     function () {
 
     var statesMapVis;
-    var lineChartVis;
     var stateWiseData = {};
     var sectorWiseData = {};
     var mapData = {};
@@ -31,11 +30,29 @@
         // var usSectorBarVis = new
 		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData,
 		// mapData, null);
-        var stateLineChartVis = new usStatesLineChartVis(d3.select("#us-state-line-chart"), stateWiseData, mapData, null);
-        var sectorLineChartVis = new usSectorLineChartVis(d3.select("#us-sector-line-chart"), sectorWiseData, mapData, null);
+        var sectorLineChartInfo = getLineChartInfo(d3.select("#us-sector-line-chart"), stateWiseData, 800, 300, 30, 60, 90, 2011, 2014, 0.015);
+        var stateLineChartInfo = getLineChartInfo(d3.select("#us-state-line-chart"), stateWiseData, 800, 300, 30, 60, 90, 2011, 2014, 0.015);
+        
+        var sectorLineChartVis = new lineChartVis(sectorLineChartInfo);
+        var stateLineChartVis = new lineChartVis(stateLineChartInfo);
+        
         var areaChartVis = new usAreaChartVis(d3.select("#us-area-chart"), usAggrData);
     }
 
+    function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
+    	var infoObject = {};
+    	infoObject.parentElement = parentElement;
+    	infoObject.data = data;
+    	infoObject.width = width;
+    	infoObject.height = height;
+    	infoObject.margin = margin;
+    	infoObject.yMinimum = yMinimum;
+    	infoObject.yMaximum = yMaximum;
+    	infoObject.lowestYear = lowestYear;
+    	infoObject.highestYear = highestYear;
+    	infoObject.yTickWidth = yTickWidth;
+    	return infoObject;
+    }
     function stateDataLoaded(error, usStateData, _mapData, usSectorData, _usAggrData) {
         if (!error) {
 
