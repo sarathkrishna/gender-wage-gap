@@ -6,10 +6,25 @@ var selectedYear = 2011;
 function drawCountries(countriesData, metaData) {
 	var projection = d3.geo.mercator().scale(70);
 	var path = d3.geo.path().projection(projection);
-
+	var body = d3.select('body');
+	var tooltip = body.append('div').attr('class', 'hidden tooltip');
+	console.log(metaData);
 	d3.select("#countries").selectAll("path").data(
 			topojson.feature(metaData, metaData.objects.countries).features)
-			.enter().append("path").attr("d", path);
+			.enter().append("path").attr("d", path).on(
+					'mousemove',
+					function(d) {
+						var mouse = d3.mouse(body.node()).map(function(d) {
+							return parseInt(d);
+						});
+						tooltip.classed('hidden', false).attr(
+								'style',
+								'left:' + (mouse[0] + 15) + 'px; top:'
+										+ (mouse[1] + 50) + 'px').html(
+								d.properties.name + ", " + (countriesData[selectedYear][d.properties.name]?countriesData[selectedYear][d.properties.name]:"-"));
+					}).on('mouseout', function() {
+				tooltip.classed('hidden', true);
+			});
 	updateData(countriesData);
 	//console.log(countriesData);
 }

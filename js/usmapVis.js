@@ -6,8 +6,7 @@ function drawStates(usStateData, metaData) {
 	var projection = d3.geo.albersUsa().scale(600);
 	var path = d3.geo.path().projection(projection);
 	var body = d3.select('body');
-	var tooltip = body.append('div').attr('class',
-			'hidden tooltip');
+	var tooltip = body.append('div').attr('class', 'hidden tooltip');
 	d3.select("#states").selectAll("path").data(
 			topojson.feature(metaData, metaData.objects.states).features)
 			.enter().append("path").attr("d", path).on(
@@ -20,9 +19,8 @@ function drawStates(usStateData, metaData) {
 								'style',
 								'left:' + (mouse[0] + 15) + 'px; top:'
 										+ (mouse[1] + 50) + 'px').html(
-								d.properties.NAME);
+								d.properties.NAME + ", " + usStateData[selectedYear][d.properties.NAME]);
 					}).on('mouseout', function() {
-						console.log("Out!!");
 				tooltip.classed('hidden', true);
 			});
 	updateData(usStateData);
