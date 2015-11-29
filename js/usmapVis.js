@@ -5,26 +5,26 @@ var selectedYear = 2011;
 function drawStates(usStateData, metaData) {
 	var projection = d3.geo.albersUsa().scale(600);
 	var path = d3.geo.path().projection(projection);
-	var tooltip = d3.select('body').append('div').attr('class',
+	var body = d3.select('body');
+	var tooltip = body.append('div').attr('class',
 			'hidden tooltip');
-	var states = d3.select("#states");
-	states.selectAll("path").data(
+	d3.select("#states").selectAll("path").data(
 			topojson.feature(metaData, metaData.objects.states).features)
 			.enter().append("path").attr("d", path).on(
 					'mousemove',
 					function(d) {
-						var mouse = d3.mouse(states.node()).map(function(d) {
+						var mouse = d3.mouse(body.node()).map(function(d) {
 							return parseInt(d);
 						});
 						tooltip.classed('hidden', false).attr(
 								'style',
 								'left:' + (mouse[0] + 15) + 'px; top:'
-										+ (mouse[1] + 200) + 'px').html(
+										+ (mouse[1] + 50) + 'px').html(
 								d.properties.NAME);
 					}).on('mouseout', function() {
+						console.log("Out!!");
 				tooltip.classed('hidden', true);
 			});
-	;
 	updateData(usStateData);
 }
 

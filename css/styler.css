@@ -38,6 +38,10 @@ path.area {
 	fill: steelblue;
 }
 
+.hidden {
+	display: none;
+}
+
 div.tooltip {
 	color: #222;
 	background-color: #cce5ff;
