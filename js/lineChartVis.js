@@ -131,7 +131,7 @@ lineChartVis.prototype.updateVis = function() {
 lineChartVis.prototype.onmouseover = function (d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
-	console.log(this);
+	//console.log(this);
 }
 lineChartVis.prototype.onmouseout = function(d, i) {
 	var self = line_this;
@@ -144,19 +144,37 @@ lineChartVis.prototype.onmouseout = function(d, i) {
 
 lineChartVis.prototype.onmousemove = function(d,i) {
 	var self = line_this;
-	console.log(d);
-	console.log(i);
 	var mouse = d3.mouse(self.body.node()).map(function(d) {
 		return parseInt(d);
 	});
 	//var year = self.xScale.invert(d3.mouse(this)[0]).getFullYear();
 	var year = self.xScale.invert(d3.mouse(this)[0]);
 	year = d3.format(".0f")(year);
-	console.log(year);
 	index = year - self.lineChartInfo.lowestYear;
+	//console.log(d[0]['element']);
+	if(!d[index] || d[index]['year'] != year) {
+		var diff = 10000;
+		var calcYear = d[0]['year'];
+		var i = -1;
+		for(var object of d) {
+			i++;
+			var newDiff = year - object['year'];
+			if (newDiff<0) {
+				newDiff = -newDiff;
+			}
+			if (newDiff<diff) {
+				diff = newDiff;
+				calcYear = object['year'];
+				index = i;
+			}
+		}
+		//console.log("year: " + year);
+		year = calcYear;
+		//console.log("new year: " + year);
+	}
 	self.tooltip.classed('hidden', false).attr(
 			'style',
 			'left:' + (mouse[0] + 15) + 'px; top:'
 					+ (mouse[1] + 50) + 'px').html(
-			d[index]['element'] + ", " + d[index]['val']);
+			d[index]['element'] + " in " +year + ": " + d[index]['val']);
 }
