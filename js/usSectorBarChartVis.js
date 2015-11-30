@@ -1,13 +1,73 @@
 
+
+function Interpolate(start, end, steps, count) {
+    var s = start,
+        e = end,
+        final = s + (((e - s) / steps) * count);
+    return Math.floor(final);
+}
+
+function Color(_r, _g, _b) {
+    var r, g, b;
+    var setColors = function(_r, _g, _b) {
+        r = _r;
+        g = _g;
+        b = _b;
+    };
+
+    setColors(_r, _g, _b);
+    this.getColors = function() {
+        var colors = {
+            r: r,
+            g: g,
+            b: b
+        };
+        return colors;
+    };
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+var COLOR_FIRST = "#c3e2ff", COLOR_LAST = "#08306B";
+
+var rgb = hexToRgb(COLOR_FIRST);
+var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
+var rgb = hexToRgb(COLOR_LAST);
+var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
+
+var startColors = COLOR_START.getColors(),
+    endColors = COLOR_END.getColors();
+
+
+var colors = [];
+
+for (var i = 0; i < 9; i++) {
+  var r = Interpolate(startColors.r, endColors.r, 9, i);
+  var g = Interpolate(startColors.g, endColors.g, 9, i);
+  var b = Interpolate(startColors.b, endColors.b, 9, i);
+  colors.push(new Color(r, g, b));
+}
+
+var quantize = d3.scale.quantize()
+    .domain([0, 1.0])
+    .range(d3.range(9).map(function(i) { return i }));
+
 var usSectorBar_this;
-function usSectorBarChartVis (_parentElement, _data, _metaData) {
+function usSectorBarChartVis (_parentElement, _data, _idSectorMap) {
 
     var self = this;
     usSectorBar_this = this;
 
     self.parentElement = _parentElement;
     self.data = _data;
-    self.metaData = _metaData;
+    self.idSectorMap = _idSectorMap;
 
     self.initVis();
 }
@@ -18,168 +78,86 @@ usSectorBarChartVis.prototype.initVis = function () {
 
     self.svg = self.parentElement.select("svg");
 
-    self.graphW = 500;
-    self.graphH = 300;
+    self.left_width = 400;
+    self.bar_height = 15;
+    self.width = 300;
+    self.gap = 1;
+    self.height = (self.bar_height + 2 * self.gap) * 23;
 
-    self.xScale = d3.scale.ordinal().rangeBands([0, self.graphW], 0.1).domain(d3.range(0, self.data));
+    self.x = d3.scale.linear()
+        .domain([0, 100])
+        .range([0, self.width]);
+  
+    self.xAxis = d3.svg.axis()
+        .scale(self.x)
+        .orient("top");
+ 
+    self.chart = self.svg.attr('class', 'chart')
+        .attr('width', self.left_width + self.width + 100)
+        .attr('height', (self.bar_height + self.gap * 2) * 23 + 30)
+        .append("g")
+        .attr("transform", "translate(10, 20)");
 
-    self.yScale = d3.scale.linear().range([self.graphH, 0]);
-
-    self.xAxis = d3.svg.axis().scale(self.xScale);
-
-    self.yAxis = d3.svg.axis().scale(self.yScale).orient("left");
-
-    self.visG = self.svg.append("g").attr({
-        "transform": "translate(" + 60 + "," + 10 + ")"
-    });
-
-    self.visG.append("g")
-        .attr("class", "xAxis axis")
-        .attr("transform", "translate(0," + self.graphH + ")")
-        .call(self.xAxis)
-        .selectAll("text")
-        .attr("y", 3) // magic number
-        .attr("x", 10) // magic number
-        .attr("transform", "rotate(45)")
-        .style("text-anchor", "start")
-        .text(function (d) {
-            return d;
-    });
-
-    self.visG.append("g").attr("class", "yAxis axis");
-
-    self.updateVis();
+    self.updateVis(2011);
 };
 
 
-/**
- * the drawing function - should use the D3 selection, enter, exit
- */
-usSectorBarChartVis.prototype.updateVis = function () {
-
+usSectorBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var self = this;
 
-    // update the scales :
-    var minMaxY = [0, d3.max(self.data)];
-    self.yScale.domain(minMaxY);
-    self.yAxis.scale(self.yScale);
+    dataForYear = self.data[selectedYear];
 
-    // draw the scales :
-    self.visG.select(".yAxis").call(self.yAxis);
-    
-    // draw the bars :
-    var bars = self.visG.selectAll(".bar").data(self.data);
-    bars.exit().remove();
-    bars.enter().append("rect")
-        .attr({
-            "class": "bar",
-            "width": self.xScale.rangeBand(),
-            "x": function (d, i) {
-                return self.xScale(i);
-            }
-        });
+    var sortedKeys = [];
+    for(var key in dataForYear) sortedKeys.push(key);
+    sortedKeys.sort( function(a, b) { return dataForYear[b] - dataForYear[a] } );
 
-    bars.attr({
-        "height": function (d, i) {
-            return self.graphH - self.yScale(d[i]) - 1;
-        },
-        "y": function (d) {
-            return self.yScale(d);
-        }
-    });
-};
+    var sortedValues = [];
+    for (var i = 0; i < sortedKeys.length; i++)
+      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]]});
 
+    var sortedNames = [];
+    for (var i = 0; i < sortedKeys.length; i++)
+        sortedNames.push(self.idSectorMap[sortedKeys[i]]);
 
-function makeBars() {
-  var names = [],
-      ids = [],
-      name_values = [],
-      values = [],
-      chart,
-      width = 400,
-      bar_height = 20,
-      height = (bar_height + 2 * gap) * names.length;
-  
-  var total_categories = 0, categories_count = 0;
-  Object.keys(name_id_map).forEach(function(n) {
-    if (valueById.get(+name_id_map[n])) {
-      ids.push(+name_id_map[n]);
-      values.push(valueById.get(+name_id_map[n]));
-      name_values.push({name: n, value: valueById.get(+name_id_map[n])});
-      total_categories += valueById.get(+name_id_map[n]);
-      categories_count++;
-    }
-  });
-  
-  values.push(Math.round(total_categories / categories_count));
-  name_values.push({name: AVG_CATEGORY, value: Math.round(total_categories / categories_count)});
-  
-  values = values.sort(function(a, b) {
-    return -(a - b);
-  });
-  
-  name_values = name_values.sort(function(a, b) {
-    return -(a.value - b.value);
-  });
-  
-  name_values.forEach(function(d) {
-    names.push(d.name);
-  });
-
-  var left_width = 150;
-  
-  var x = d3.scale.linear()
-     .domain([0, d3.max(values)])
-     .range([0, width]);
-  
-  var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("top");
  
-  var gap = 2;
-  // redefine y for adjusting the gap
-  var y = d3.scale.ordinal()
-    .domain(names)
-    .rangeBands([0, (bar_height + 2 * gap) * names.length]);
+    var y = d3.scale.ordinal()
+        .domain(sortedNames)
+        .rangeBands([0, (self.bar_height + 2 * self.gap) * sortedNames.length]);
 
-  chart = d3.select("#canvas-svg")
-    .append('svg')
-    .attr('class', 'chart')
-    .attr('width', left_width + width + 100)
-    .attr('height', (bar_height + gap * 2) * names.length + 30)
-    .append("g")
-    .attr("transform", "translate(10, 20)");
+    self.chart.selectAll("rect").remove();
+    self.chart.selectAll("text").remove();
 
-  chart.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(" + left_width + ", 0)")
-    .call(xAxis)
-  .append("text")
-    .attr("transform", "rotate(90) translate(10, " + (-width - 20) + ")")
-    .attr("y", 6)
-    .attr("dy", ".71em")
-    .style("text-anchor", "right")
-    .text(MAP_VALUE);
 
-  chart.selectAll(".tick").append("line")
-    .attr("x1", 0)
-    .attr("x2", 0)
-    .attr("y1", 0)
-    .attr("y2", (bar_height + gap * 2) * names.length);
+    self.chart.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(" + self.left_width + ", 0)")
+        .call(self.xAxis)
+        .append("text")
+        .attr("transform", "rotate(90) translate(10, " + (-self.width - 20) + ")")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "right")
+        .text("Wage ratio");
 
-  chart.selectAll("rect")
-    .data(name_values)
-    .enter().append("rect")
-    .attr("x", left_width)
-    .attr("y", function(d) { return y(d.name) + gap; })
-    .attr("name", function(d, i) {
-      return d.name;
+    self.chart.selectAll(".tick").append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", 0)
+        .attr("y2", (self.bar_height + self.gap * 2) * 23);
+
+
+    var chart_bar = self.chart.selectAll("rect").data(sortedValues);
+    chart_bar.enter().append("rect")
+        .attr("x", self.left_width)
+        .attr("y", function(d) { return y(sortedNames[d.name]) + self.gap; })
+        .attr("name", function(d, i) {
+            return d.name;
     })
     .attr("width", function(d, i) {
-      return x(d.value);
+      return self.x(d.value);
     })
-    .attr("height", bar_height)
+    .attr("height", self.bar_height)
     .style("fill", function(d) {
       var i = quantize(d.value);
       var color = colors[i].getColors();
@@ -187,18 +165,14 @@ function makeBars() {
           "," + color.b + ")";
     })
     .attr("class", function(d) {
-      if (d.name === MAIN_CATEGORY || d.name === AVG_CATEGORY) {
-        return "main-category-bar";
-      } else {
         return "category-bar";
-      }
     });
 
-  chart.selectAll("text.score")
-    .data(name_values)
-    .enter().append("text")
-    .attr("x", function(d) { return x(d.value) + left_width; })
-    .attr("y", function(d, i){ return y(d.name) + y.rangeBand()/2; } )
+  var chart_score = self.chart.selectAll("text.score").data(sortedValues);
+
+  chart_score.enter().append("text")
+    .attr("x", function(d) { return self.x(d.value) + self.left_width; })
+    .attr("y", function(d, i){ return y(sortedNames[d.name]) + y.rangeBand()/2; } )
     .attr("dx", -5)
     .attr("dy", ".36em")
     .attr("text-anchor", "end")
@@ -206,23 +180,20 @@ function makeBars() {
     .text(function(d) {
       return d.value;
     });
- 
-  chart.selectAll("text.name")
-    .data(name_values)
-    .enter().append("text")
-    .attr("x", left_width / 2)
+  
+  var chart_names = self.chart.selectAll("text.name").data(sortedValues);
+
+  chart_names.enter().append("text")
+    .attr("x", self.left_width / 2)
     .attr("y", function(d, i){
-      return y(d.name) + y.rangeBand()/2; } )
+      return y(sortedNames[d.name]) + y.rangeBand()/2; } )
     .attr("dy", ".36em")
     .attr("text-anchor", "middle")
     .attr('class', function(d) {
-      if (d.name === MAIN_CATEGORY || d.name === AVG_CATEGORY) {
-        return "main-category-text";
-      } else {
         return "";
-      }
-    })
+        })
     .text(function(d) {
-      return d.name;
+      return sortedNames[d.name];
     });
-}
+
+};

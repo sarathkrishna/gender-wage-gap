@@ -60,7 +60,7 @@ var quantize = d3.scale.quantize()
     .range(d3.range(9).map(function(i) { return i }));
 
 var usStatesBar_this;
-function usStatesBarChartVis (_parentElement, _data, _idStateMap, _metaData) {
+function usStatesBarChartVis (_parentElement, _data, _idStateMap) {
 
     var self = this;
     usStatesBar_this = this;
@@ -68,7 +68,6 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap, _metaData) {
     self.parentElement = _parentElement;
     self.data = _data;
     self.idStateMap = _idStateMap;
-    self.metaData = _metaData;
 
     self.initVis();
 }
@@ -80,10 +79,10 @@ usStatesBarChartVis.prototype.initVis = function () {
     self.svg = self.parentElement.select("svg");
 
     self.left_width = 150;
-    self.bar_height = 15;
-    self.width = 400;
-    self.gap = 1;
-    self.height = (self.bar_height + 2 * self.gap) * 50;
+    self.bar_height = 14;
+    self.width = 300;
+    self.gap = 0.05;
+    self.height = (self.bar_height + 2 * self.gap) * 51;
 
     self.x = d3.scale.linear()
         .domain([0, 100])
@@ -95,7 +94,7 @@ usStatesBarChartVis.prototype.initVis = function () {
  
     self.chart = self.svg.attr('class', 'chart')
         .attr('width', self.left_width + self.width + 100)
-        .attr('height', (self.bar_height + self.gap * 2) * 50 + 30)
+        .attr('height', (self.bar_height + self.gap * 2) * 51 + 30)
         .append("g")
         .attr("transform", "translate(10, 20)");
 
@@ -145,7 +144,7 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
         .attr("x1", 0)
         .attr("x2", 0)
         .attr("y1", 0)
-        .attr("y2", (self.bar_height + self.gap * 2) * 50);
+        .attr("y2", (self.bar_height + self.gap * 2) * 51);
 
 
     var chart_bar = self.chart.selectAll("rect").data(sortedValues);

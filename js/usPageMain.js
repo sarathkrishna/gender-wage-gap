@@ -7,7 +7,9 @@
     var sectorWiseData = {};
     var mapData = {};
     var idStateMap = {};
+    var idSectorMap = {};
     var stateIdMap = {};
+    var sectorIdMap = {};
     var statesBarVis;
     var usAggrData;
 
@@ -26,10 +28,22 @@
             stateWiseDataWithID[year] = object;
         }
 
-        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, mapData, null);
-        // var usSectorBarVis = new
-		// usSectorBarChartVis(d3.select("#us-sector-bar-chart"), stateWiseData,
-		// mapData, null);
+        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, null);
+
+        var sectorWiseDataWithID = {};
+        var years = Object.keys(sectorWiseData);
+        for (var year of years) {
+            var sectors = Object.keys(sectorWiseData[year]);
+            var object = {}
+            for (var sector of sectors) {
+                object[sectorIdMap[sector]] = sectorWiseData[year][sector];
+            }
+            sectorWiseDataWithID[year] = object;
+        }
+        
+        usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), sectorWiseDataWithID, idSectorMap, null);
+
+
         var sectorLineChartInfo = getLineChartInfo(d3.select("#us-sector-line-chart"), sectorWiseData, 800, 300, 30, 50, 100, 2011, 2014, 0.015);
         var stateLineChartInfo = getLineChartInfo(d3.select("#us-state-line-chart"), stateWiseData, 800, 300, 30, 60, 90, 2011, 2014, 0.015);
         
@@ -86,6 +100,15 @@
                 for (var key of keys) {
                     object[key] = usSectorData[i][key];
                 }
+                if (i == 0) {
+                   var sectorId = 0;
+                    for (var key of keys) {
+                        idSectorMap[sectorId] = key;
+                        sectorIdMap[key] = sectorId;
+                        sectorId = sectorId + 1;
+                   }
+                }
+
             	sectorWiseData[year] = object;
             }
             mapData = _mapData;
@@ -110,6 +133,7 @@
     	var year = d3.format(".0f")(slider.value());
     	statesMapVis.updateYear(year);
         statesBarVis.updateVis(year);
+        usSectorBarVis.updateVis(year);
     }
     
     startHere();
