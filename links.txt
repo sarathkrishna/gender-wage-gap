@@ -16,6 +16,7 @@ d3 slider		- http://thematicmapping.org/playground/d3/d3.slider/
 US Map States - Choropleth Plus Bar (An example)
 				- https://vida.io/documents/4vZ9mRGyepoyQxFcK
 Line chart		- http://projects.flowingdata.com/life-expectancy/
+Tooltips		- http://bl.ocks.org/lhoworko/7753a11efc189a936371
 
 
 US state-wise Data:

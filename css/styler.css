@@ -21,8 +21,8 @@ text {
 	font-size: 11px;
 }
 
-path.line.current {
-	stroke: #000;
+path.line.current, path.line.USA.current {
+	stroke: steelblue;
 	stroke-width: 5;
 }
 
@@ -30,4 +30,29 @@ path.line {
 	stroke: #e2e2e2;
 	stroke-width: 1.5;
 	fill: none;
+}
+
+path.line.USA {
+	stroke: #B00000;
+	stroke-width: 3;
+}
+
+path.area {
+	stroke: steelblue;
+	stroke-width: 3;
+	fill: steelblue;
+}
+
+.hidden {
+	display: none;
+}
+
+div.tooltip {
+	color: #222;
+	background-color: #cce5ff;
+	padding: .5em;
+	text-shadow: #f5f5f5 0 1px 0;
+	border-radius: 2px;
+	opacity: 0.9;
+	position: absolute;
 }
