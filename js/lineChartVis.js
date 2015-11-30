@@ -13,7 +13,6 @@ function lineChartVis(lineChartInfo) {
 
 lineChartVis.prototype.initVis = function() {
 	var self = this;
-	console.log(self.lineChartInfo);
 	
 	self.chart = self.parentElement.select("svg");
 
@@ -26,6 +25,8 @@ lineChartVis.prototype.initVis = function() {
 	var highestYear = self.lineChartInfo.highestYear;
 	var yTickWidth = self.lineChartInfo.yTickWidth;
 	
+	/*self.xScale = d3.time.scale().domain([ lowestYear, highestYear ]).range(
+			[ 0 + self.margin - 5, self.graphW ])*/
 	self.xScale = d3.scale.linear().domain([ lowestYear, highestYear ]).range(
 			[ 0 + self.margin - 5, self.graphW ])
 
@@ -100,10 +101,13 @@ lineChartVis.prototype.updateVis = function() {
 			var obj = {};
 			obj['year'] = year;
 			obj['val'] = self.data[year][element];
+			obj['element'] = element;
 			object[element].push(obj);
-			object['element'] = element;
 		}
 	}
+	self.body = d3.select('body');
+	self.tooltip = self.body.append('div').attr('class', 'hidden tooltip');
+	
 	// console.log(object);
 	for (var element of elements) {
 		var yearsObj = object[element];
@@ -112,19 +116,47 @@ lineChartVis.prototype.updateVis = function() {
 		self.visG.append("path")
 			.data([yearsObj])
 			.attr("d", line)
-			.attr("class", "line")
-			.on("mouseover", self.onmouseOver)
-			.on("mouseout", self.onmouseOut);
+			.attr("class", function (d) {
+				if (element == "USA" || element == "United States") {
+					return "line USA";
+				}
+				return "line";
+			})
+			.on("mouseover", self.onmouseover)
+			.on("mouseout", self.onmouseout)
+			.on('mousemove',self.onmousemove);
 	}
 };
 
-lineChartVis.prototype.onmouseOver = function (d, i) {
+lineChartVis.prototype.onmouseover = function (d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
 	console.log(this);
 }
-lineChartVis.prototype.onmouseOut = function(d, i) {
+lineChartVis.prototype.onmouseout = function(d, i) {
+	var self = line_this;
 	var currClass = d3.select(this).attr("class");
 	var prevClass = currClass.substring(0, currClass.length - 8);
 	d3.select(this).attr("class", prevClass);
+	
+	self.tooltip.classed('hidden', true);
+}
+
+lineChartVis.prototype.onmousemove = function(d,i) {
+	var self = line_this;
+	console.log(d);
+	console.log(i);
+	var mouse = d3.mouse(self.body.node()).map(function(d) {
+		return parseInt(d);
+	});
+	//var year = self.xScale.invert(d3.mouse(this)[0]).getFullYear();
+	var year = self.xScale.invert(d3.mouse(this)[0]);
+	year = d3.format(".0f")(year);
+	console.log(year);
+	index = year - self.lineChartInfo.lowestYear;
+	self.tooltip.classed('hidden', false).attr(
+			'style',
+			'left:' + (mouse[0] + 15) + 'px; top:'
+					+ (mouse[1] + 50) + 'px').html(
+			d[index]['element'] + ", " + d[index]['val']);
 }

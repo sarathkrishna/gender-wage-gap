@@ -21,7 +21,7 @@ text {
 	font-size: 11px;
 }
 
-path.line.current {
+path.line.current, path.line.USA.current {
 	stroke: steelblue;
 	stroke-width: 5;
 }
@@ -30,6 +30,11 @@ path.line {
 	stroke: #e2e2e2;
 	stroke-width: 1.5;
 	fill: none;
+}
+
+path.line.USA {
+	stroke: #B00000;
+	stroke-width: 3;
 }
 
 path.area {
