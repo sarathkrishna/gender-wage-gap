@@ -58,7 +58,7 @@
             	stateWiseData[year] = object;
             }
             //console.log(stateWiseData);
-            console.log(usSectorData);
+            // console.log(usSectorData);
             for (var i = 0; i < usSectorData.length; i++) {
             	var year = usSectorData[i].Year;
             	delete usSectorData[i].Year;
@@ -70,7 +70,7 @@
                 }
             	sectorWiseData[year] = object;
             }
-            console.log(sectorWiseData);
+            // console.log(sectorWiseData);
             mapData = _mapData;
 
             initVis();

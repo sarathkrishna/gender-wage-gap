@@ -106,7 +106,7 @@ usStatesLineChartVis.prototype.updateVis = function() {
 function onmouseover(d, i) {
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).attr("class", currClass + " current");
-	console.log(this);
+	// console.log(this);
 /*
  * var countryCode = $(this).attr("country"); var countryVals =
  * startEnd[countryCode]; var percentChange = 100 * (countryVals['endVal'] -

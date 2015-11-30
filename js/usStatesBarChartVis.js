@@ -1,4 +1,64 @@
 
+
+function Interpolate(start, end, steps, count) {
+    var s = start,
+        e = end,
+        final = s + (((e - s) / steps) * count);
+    return Math.floor(final);
+}
+
+function Color(_r, _g, _b) {
+    var r, g, b;
+    var setColors = function(_r, _g, _b) {
+        r = _r;
+        g = _g;
+        b = _b;
+    };
+
+    setColors(_r, _g, _b);
+    this.getColors = function() {
+        var colors = {
+            r: r,
+            g: g,
+            b: b
+        };
+        return colors;
+    };
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+var COLOR_FIRST = "#c3e2ff", COLOR_LAST = "#08306B";
+
+var rgb = hexToRgb(COLOR_FIRST);
+var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
+var rgb = hexToRgb(COLOR_LAST);
+var COLOR_END = new Color(rgb.r, rgb.g, rgb.b);
+
+var startColors = COLOR_START.getColors(),
+    endColors = COLOR_END.getColors();
+
+
+var colors = [];
+
+for (var i = 0; i < 9; i++) {
+  var r = Interpolate(startColors.r, endColors.r, 9, i);
+  var g = Interpolate(startColors.g, endColors.g, 9, i);
+  var b = Interpolate(startColors.b, endColors.b, 9, i);
+  colors.push(new Color(r, g, b));
+}
+
+var quantize = d3.scale.quantize()
+    .domain([0, 1.0])
+    .range(d3.range(9).map(function(i) { return i }));
+
 var usStatesBar_this;
 function usStatesBarChartVis (_parentElement, _data, _idStateMap, _metaData) {
 
@@ -14,109 +74,127 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap, _metaData) {
 }
 
 
-
 usStatesBarChartVis.prototype.initVis = function () {
     var self = this; // read about the this
 
     self.svg = self.parentElement.select("svg");
 
-    self.graphW = 800;
-    self.graphH = 300;
+    self.left_width = 150;
+    self.bar_height = 15;
+    self.width = 400;
+    self.gap = 1;
+    self.height = (self.bar_height + 2 * self.gap) * 50;
 
-    self.xScale = d3.scale.ordinal().rangeBands([0, self.graphW], 0.1).domain(d3.range(0, 50));
-
-    self.yScale = d3.scale.linear().range([self.graphH, 0]);
-
-    self.xAxis = d3.svg.axis().scale(self.xScale);
-
-    self.yAxis = d3.svg.axis().scale(self.yScale).orient("left");
-
-    self.visG = self.svg.append("g").attr({
-        "transform": "translate(" + 60 + "," + 10 + ")"
-    });
-
-    self.visG.append("g")
-        .attr("class", "xAxis axis")
-        .attr("transform", "translate(0," + self.graphH + ")")
-        .call(self.xAxis)
-        .selectAll("text")
-        .attr("y", 3) // magic number
-        .attr("x", 5) // magic number
-        .attr("transform", "rotate(45)")
-        .style("text-anchor", "start")
-        .text(function (d) {
-            return self.idStateMap[d];
-    });
-
-    self.visG.append("g").attr("class", "yAxis axis");
+    self.x = d3.scale.linear()
+        .domain([0, 100])
+        .range([0, self.width]);
+  
+    self.xAxis = d3.svg.axis()
+        .scale(self.x)
+        .orient("top");
+ 
+    self.chart = self.svg.attr('class', 'chart')
+        .attr('width', self.left_width + self.width + 100)
+        .attr('height', (self.bar_height + self.gap * 2) * 50 + 30)
+        .append("g")
+        .attr("transform", "translate(10, 20)");
 
     self.updateVis(2011);
 };
 
 
-/**
- * the drawing function - should use the D3 selection, enter, exit
- */
 usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var self = this;
-//    console.log(self.idStateMap);
 
     dataForYear = self.data[selectedYear];
-  //  console.log(dataForYear);
+
     var sortedKeys = [];
     for(var key in dataForYear) sortedKeys.push(key);
     sortedKeys.sort( function(a, b) { return dataForYear[b] - dataForYear[a] } );
 
     var sortedValues = [];
     for (var i = 0; i < sortedKeys.length; i++)
-      sortedValues.push(dataForYear[sortedKeys[i]]);
+      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]]});
 
-    //console.log(sortedKeys);
-    //console.log(sortedValues);
+    var sortedNames = [];
+    for (var i = 0; i < sortedKeys.length; i++)
+        sortedNames.push(self.idStateMap[sortedKeys[i]]);
 
-    // update the scales :
-    var minMaxY = [0, 100];
-    self.yScale.domain(minMaxY);
-    self.yAxis.scale(self.yScale);
+ 
+    var y = d3.scale.ordinal()
+        .domain(sortedNames)
+        .rangeBands([0, (self.bar_height + 2 * self.gap) * sortedNames.length]);
 
-    // draw the scales :
-    self.visG.select(".yAxis").call(self.yAxis);
+    self.chart.selectAll("rect").remove();
+    self.chart.selectAll("text").remove();
 
-    
-    // draw the bars :
-    var bars = self.visG.selectAll(".bar").data(sortedKeys);
-    bars.exit().remove();
-    bars.enter().append("rect")
-        .attr({
-            "class": "bar",
-            "width": self.xScale.rangeBand(),
-            "x": function (d, i) {
-                return self.xScale(i);
-            }
-        }).style({
-            "fill": "#4E95C7"
-        });
 
-    bars.attr({
-        "height": function (d, i) {
-            return self.graphH - self.yScale(dataForYear[d]) - 1;
-        },
-        "y": function (d) {
-            return self.yScale(dataForYear[d]);
-        }
+    self.chart.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(" + self.left_width + ", 0)")
+        .call(self.xAxis)
+        .append("text")
+        .attr("transform", "rotate(90) translate(10, " + (-self.width - 20) + ")")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "right")
+        .text("Wage ratio");
+
+    self.chart.selectAll(".tick").append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", 0)
+        .attr("y2", (self.bar_height + self.gap * 2) * 50);
+
+
+    var chart_bar = self.chart.selectAll("rect").data(sortedValues);
+    chart_bar.enter().append("rect")
+        .attr("x", self.left_width)
+        .attr("y", function(d) { return y(sortedNames[d.name]) + self.gap; })
+        .attr("name", function(d, i) {
+            return d.name;
+    })
+    .attr("width", function(d, i) {
+      return self.x(d.value);
+    })
+    .attr("height", self.bar_height)
+    .style("fill", function(d) {
+      var i = quantize(d.value);
+      var color = colors[i].getColors();
+      return "rgb(" + color.r + "," + color.g +
+          "," + color.b + ")";
+    })
+    .attr("class", function(d) {
+        return "category-bar";
     });
 
-    self.visG.select(".xAxis").data(sortedKeys)
-        .attr("transform", "translate(0," + self.graphH + ")")
-        .call(self.xAxis)
-        .selectAll("text")
-        .attr("y", 3) // magic number
-        .attr("x", 5) // magic number
-        .attr("transform", "rotate(45)")
-        .style("text-anchor", "start")
-        .text(function (d) {
-            return self.idStateMap[sortedKeys[d]];
+  var chart_score = self.chart.selectAll("text.score").data(sortedValues);
+
+  chart_score.enter().append("text")
+    .attr("x", function(d) { return self.x(d.value) + self.left_width; })
+    .attr("y", function(d, i){ return y(sortedNames[d.name]) + y.rangeBand()/2; } )
+    .attr("dx", -5)
+    .attr("dy", ".36em")
+    .attr("text-anchor", "end")
+    .attr('class', 'score')
+    .text(function(d) {
+      return d.value;
+    });
+  
+  var chart_names = self.chart.selectAll("text.name").data(sortedValues);
+
+  chart_names.enter().append("text")
+    .attr("x", self.left_width / 2)
+    .attr("y", function(d, i){
+      return y(sortedNames[d.name]) + y.rangeBand()/2; } )
+    .attr("dy", ".36em")
+    .attr("text-anchor", "middle")
+    .attr('class', function(d) {
+        return "";
+        })
+    .text(function(d) {
+      return sortedNames[d.name];
     });
 
 };
