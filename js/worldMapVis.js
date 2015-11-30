@@ -8,7 +8,7 @@ function drawCountries(countriesData, metaData) {
 	var path = d3.geo.path().projection(projection);
 	var body = d3.select('body');
 	var tooltip = body.append('div').attr('class', 'hidden tooltip');
-	console.log(metaData);
+	// console.log(metaData);
 	d3.select("#countries").selectAll("path").data(
 			topojson.feature(metaData, metaData.objects.countries).features)
 			.enter().append("path").attr("d", path).on(
@@ -61,7 +61,6 @@ countryMapVis.prototype.initVis = function() {
 
 countryMapVis.prototype.updateYear = function(year) {
 	var self = this;
-	console.log("Here! " + year);
 	if (year != selectedYear) {
 		selectedYear = year;
 		updateData(self.data);
