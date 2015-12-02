@@ -51,7 +51,7 @@
             sectorWiseDataWithID[year] = object;
         }
         
-        usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), sectorWiseDataWithID, idSectorMap, null);
+        usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), sectorWiseDataWithID, idSectorMap, updateSelectedSector, null);
 
 
         var sectorLineChartInfo = getLineChartInfo("sector", d3.select("#us-sector-line-chart"), sectorWiseData, 500, 300, 30, 50, 100, 2011, 2014, 0.015);
@@ -72,6 +72,7 @@
     
     function updateSelectedSector(sector) {
     	selectedSector = sector;
+        usSectorBarVis.updateSector(sector);
     	sectorLineChartVis.updateSelectedSectorInLineChart(sector);
     }
 
@@ -160,7 +161,7 @@
     	var year = d3.format(".0f")(slider.value());
     	statesMapVis.updateYear(year);
         statesBarVis.updateYear(year);
-        usSectorBarVis.updateVis(year);
+        usSectorBarVis.updateYear(year);
     }
     
     startHere();

@@ -191,7 +191,7 @@ usStatesBarChartVis.prototype.updateVis = function () {
     }).on('click', function(d) {
         self.outerUpdateSelectedState(d.state);
         event.stopPropagation();
-    });;
+    });
 
   var chart_score = self.chart.selectAll("text.score").data(sortedValues);
 
