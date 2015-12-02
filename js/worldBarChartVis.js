@@ -184,11 +184,11 @@ worldBarChartVis.prototype.updateVis = function (selectedYear) {
   var chart_names = self.chart.selectAll("text.name").data(sortedValues);
 
   chart_names.enter().append("text")
-    .attr("x", self.left_width / 2)
+    .attr("x", self.left_width / 1.1)
     .attr("y", function(d, i){
       return y(sortedNames[d.name]) + y.rangeBand()/2; } )
     .attr("dy", ".36em")
-    .attr("text-anchor", "middle")
+    .attr("text-anchor", "end")
     .attr('class', function(d) {
         return "";
         })
