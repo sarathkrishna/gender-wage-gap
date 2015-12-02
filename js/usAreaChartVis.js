@@ -30,11 +30,28 @@ usAreaChartVis.prototype.initVis = function() {
 	self.yScale = d3.scale.linear().domain([ self.yMaximum, self.yMinimum ])
 			.range([ 0 + self.margin, self.graphH - self.margin ]);
 
-	self.xAxis = d3.svg.axis().scale(self.xScale);
+	self.xAxis = d3.svg.axis().scale(self.xScale).orient("bottom").ticks(37);
 
-	self.yAxis = d3.svg.axis().scale(self.yScale).orient("left");
+	self.yAxis = d3.svg.axis().scale(self.yScale).orient("left").ticks(9);
 
 	self.visG = self.chart.append("g");
+
+	// Draw the x Grid lines
+    self.visG.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + self.graphH + ")")
+        .call(self.xAxis
+            .tickSize(-self.graphH, 0, 0)
+            .tickFormat("")
+        )
+
+    // Draw the y Grid lines
+    self.visG.append("g")            
+        .attr("class", "grid")
+        .call(self.yAxis
+            .tickSize(-self.graphW, 0, 0)
+            .tickFormat("")
+        )
 
 	self.visG.append("line").attr("x1", self.xScale(lowestYear)).attr("y1",
 			self.yScale(self.yMinimum)).attr("x2", self.xScale(highestYear))
