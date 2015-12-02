@@ -2,6 +2,8 @@
 (
     function () {
 
+    d3.select("body").on("click", updateSelectedState);
+    
     var statesMapVis;
     var stateWiseData = {};
     var sectorWiseData = {};
@@ -12,10 +14,12 @@
     var sectorIdMap = {};
     var statesBarVis;
     var usAggrData;
-
+    
+    var selectedState;
+    
     function initVis() {
-        
-        statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, mapData, null);
+    	
+        statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, mapData, updateSelectedState);
 
         var stateWiseDataWithID = {};
         var years = Object.keys(stateWiseData);
@@ -51,6 +55,19 @@
         var stateLineChartVis = new lineChartVis(stateLineChartInfo);
         
         var areaChartVis = new usAreaChartVis(d3.select("#us-area-chart"), usAggrData);
+    }
+    
+    var prevPos;
+    function updateSelectedState(state) {
+    	var currPos = d3.mouse(d3.select("body").node());
+    	if (prevPos && prevPos[0]==currPos[0]&&prevPos[1]==currPos[1]) {
+    		prevPos = currPos;
+    		return;
+    	}
+    	prevPos = currPos;
+    	console.log("Here! " + state);
+    	selectedState = state;
+    	statesMapVis.updateSelectedStateInMap(state);
     }
 
     function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
@@ -90,7 +107,7 @@
                 }
             	stateWiseData[year] = object;
             }
-            //console.log(stateWiseData);
+            // console.log(stateWiseData);
             for (var i = 0; i < usSectorData.length; i++) {
             	var year = usSectorData[i].Year;
             	delete usSectorData[i].Year;
