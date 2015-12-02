@@ -3,7 +3,9 @@ var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 var selectedYear = 2011;
 
 function drawStates(usStateData, metaData) {
-	var projection = d3.geo.albersUsa().scale(600);
+	var width = 500;
+	var height = 500;
+	var projection = d3.geo.albersUsa().scale(600).translate([width / 2, height / 2]);
 	var path = d3.geo.path().projection(projection);
 	var body = d3.select('body');
 	var tooltip = body.append('div').attr('class', 'hidden tooltip');
