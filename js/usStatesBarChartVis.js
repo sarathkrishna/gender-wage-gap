@@ -57,7 +57,7 @@ for (var i = 0; i < 9; i++) {
 }
 
 var usStatesBar_this;
-function usStatesBarChartVis (_parentElement, _data, _idStateMap) {
+function usStatesBarChartVis (_parentElement, _data, _idStateMap, _outerUpdateSelectedState) {
 
     var self = this;
     usStatesBar_this = this;
@@ -65,7 +65,9 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap) {
     self.parentElement = _parentElement;
     self.data = _data;
     self.idStateMap = _idStateMap;
-
+    self.selectedYear = 2011;
+    self.selectedState = 'none';
+    self.outerUpdateSelectedState = _outerUpdateSelectedState;
     self.initVis();
 }
 
@@ -95,15 +97,27 @@ usStatesBarChartVis.prototype.initVis = function () {
         .append("g")
         .attr("transform", "translate(10, 20)");
 
-    self.updateVis(2011);
+    self.updateVis();
 };
 
+usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
+    var self = this;
+    self.selectedYear = selectedYear;
+    self.updateVis();
+}
 
-usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
+usStatesBarChartVis.prototype.updateState = function (selectedState) {
+    var self = this;
+    self.selectedState = selectedState;
+    self.updateVis();
+}
+
+
+usStatesBarChartVis.prototype.updateVis = function () {
 
     var self = this;
 
-    dataForYear = self.data[selectedYear];
+    dataForYear = self.data[self.selectedYear];
 
     var sortedKeys = [];
     for(var key in dataForYear) sortedKeys.push(key);
@@ -114,7 +128,7 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var sortedValues = [];
     for (var i = 0; i < sortedKeys.length; i++)
-      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]]});
+      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]], state: self.idStateMap[sortedKeys[i]].split(" ").join("-")});
 
     var sortedNames = [];
     for (var i = 0; i < sortedKeys.length; i++)
@@ -161,15 +175,23 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
     })
     .attr("height", self.bar_height)
     .style("fill", function(d) {
-        // return colorScale(d.value);
-      var i = quantize(d.value);
-      var color = colors[i].getColors();
-      return "rgb(" + color.r + "," + color.g +
-          "," + color.b + ")";
+      if (d.state == "United-States") {
+            return "#B00000";
+        } else if (d.state == self.selectedState) {
+            return "#B00000";
+        } else {
+            var i = quantize(d.value);
+            var color = colors[i].getColors();
+            return "rgb(" + color.r + "," + color.g +
+            "," + color.b + ")";
+        }
     })
     .attr("class", function(d) {
-        return "category-bar";
-    });
+            return "category-bar";
+    }).on('click', function(d) {
+        self.outerUpdateSelectedState(d.state);
+        event.stopPropagation();
+    });;
 
   var chart_score = self.chart.selectAll("text.score").data(sortedValues);
 

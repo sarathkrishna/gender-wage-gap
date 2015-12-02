@@ -38,7 +38,7 @@
             stateWiseDataWithID[year] = object;
         }
 
-        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, null);
+        statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, updateSelectedState, null);
 
         var sectorWiseDataWithID = {};
         var years = Object.keys(sectorWiseData);
@@ -64,14 +64,13 @@
     }
     
     function updateSelectedState(state) {
-    	console.log("Here! " + state);
     	selectedState = state;
+        statesBarVis.updateState(state);
     	statesMapVis.updateSelectedStateInMap(state);
     	stateLineChartVis.updateSelectedStateInLineChart(state);
     }
     
     function updateSelectedSector(sector) {
-    	console.log("Here! " + sector);
     	selectedSector = sector;
     	sectorLineChartVis.updateSelectedSectorInLineChart(sector);
     }
@@ -99,7 +98,6 @@
     function stateDataLoaded(error, usStateData, _mapData, usSectorData, _usAggrData) {
         if (!error) {
 
-            // console.log(usStateData);
             for (var i = 0; i < usStateData.length; i++) {
             	var year = usStateData[i].Year;
             	delete usStateData[i].Year;
@@ -119,7 +117,7 @@
                 }
             	stateWiseData[year] = object;
             }
-            // console.log(stateWiseData);
+
             for (var i = 0; i < usSectorData.length; i++) {
             	var year = usSectorData[i].Year;
             	delete usSectorData[i].Year;
@@ -161,7 +159,7 @@
     function updateOnSliderChange(slider) {
     	var year = d3.format(".0f")(slider.value());
     	statesMapVis.updateYear(year);
-        statesBarVis.updateVis(year);
+        statesBarVis.updateYear(year);
         usSectorBarVis.updateVis(year);
     }
     
