@@ -101,6 +101,7 @@ usmapVis.prototype.drawStates = function (usStateData, metaData) {
 				tooltip.classed('hidden', true);
 			}).on('click', function(d) {
 				self.outerUpdateSelectedState(d.properties.NAME);
+				event.stopPropagation();
 			});
 	updateData(usStateData);
 }

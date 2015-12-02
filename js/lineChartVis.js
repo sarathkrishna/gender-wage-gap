@@ -135,6 +135,7 @@ lineChartVis.prototype.updateVis = function() {
 			.on('click', function(d) {
 					console.log(self.outerUpdateSelected);
 					self.outerUpdateSelected(d[0]['element']);
+					event.stopPropagation();
 			});
 	}
 };
@@ -191,6 +192,7 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 	console.log("In line chart update for state");
 	if (!state) {
+		console.log("Removing state thingy");
 		d3.select(".selected-state-line").classed("selected-state-line", false);
 		return;
 	}
@@ -201,6 +203,7 @@ lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 lineChartVis.prototype.updateSelectedSectorInLineChart = function(state) {
 	console.log("In line chart update for sector");
 	if (!state) {
+		console.log("Removing sector thingy");
 		d3.select(".selected-sector-line").classed("selected-sector-line", false);
 		return;
 	}

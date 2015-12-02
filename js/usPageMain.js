@@ -3,8 +3,8 @@
     function () {
 
     d3.select("body").on("click", function() {
-    	//updateSelectedState();
-    	//updateSelectedSector();
+    	updateSelectedState();
+    	updateSelectedSector();
     });
     
     var statesMapVis;
@@ -63,28 +63,14 @@
         var areaChartVis = new usAreaChartVis(d3.select("#us-area-chart"), usAggrData);
     }
     
-    var statePrevPos;
     function updateSelectedState(state) {
-    	var currPos = d3.mouse(d3.select("body").node());
-    	if (statePrevPos && statePrevPos[0]==currPos[0] && statePrevPos[1]==currPos[1]) {
-    		prevPos = currPos;
-    		return;
-    	}
-    	prevPos = currPos;
     	console.log("Here! " + state);
     	selectedState = state;
     	statesMapVis.updateSelectedStateInMap(state);
     	stateLineChartVis.updateSelectedStateInLineChart(state);
     }
     
-    var sectorPrevPos;
     function updateSelectedSector(sector) {
-    	var currPos = d3.mouse(d3.select("body").node());
-    	if (sectorPrevPos && sectorPrevPos[0]==currPos[0] && sectorPrevPos[1]==currPos[1]) {
-    		sectorPrevPos = currPos;
-    		return;
-    	}
-    	prevPos = currPos;
     	console.log("Here! " + sector);
     	selectedSector = sector;
     	sectorLineChartVis.updateSelectedSectorInLineChart(sector);
