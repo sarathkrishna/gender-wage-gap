@@ -1,4 +1,5 @@
 #us-slider {
+	margin:auto
 	width: 250px
 }
 
@@ -6,6 +7,9 @@
 	width: 1000px
 }
 
+#map {
+	float:left
+}
 .axis {
 	stroke-width: 0.8;
 	stroke: #000;

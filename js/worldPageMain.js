@@ -25,7 +25,7 @@
         }
         worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idCountryMap, null);
 
-        var worldLineChartInfo = getLineChartInfo(d3.select("#world-line-chart"), yearToCountriesDataWithID, 1200, 500, 30, 50, 100, 1970, 2013, 0.21);
+        var worldLineChartInfo = getLineChartInfo(d3.select("#world-line-chart"), yearToCountriesData, 1200, 500, 30, 50, 100, 1970, 2013, 0.21);
         
         
         var worldLineChartVis = new lineChartVis(worldLineChartInfo);
