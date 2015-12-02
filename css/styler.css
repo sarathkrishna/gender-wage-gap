@@ -70,3 +70,8 @@ path.line.selected-state-line, path.line.selected-sector-line {
 .selected-state {
 	fill: #B00000;
 }
+
+#states>path,#countries>path {
+	stroke: #e2e2e2;
+	stroke-width: 0.25;
+}
