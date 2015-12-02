@@ -73,6 +73,7 @@ body{
 }
  
 .chart .score {
+  text-shadow: 1px 0px 5px black;
   fill: white;
 }
  

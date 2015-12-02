@@ -35,7 +35,7 @@ function hexToRgb(hex) {
     } : null;
 }
 
-var COLOR_FIRST = "#c3e2ff", COLOR_LAST = "#08306B";
+var COLOR_FIRST = "#9bbcdf", COLOR_LAST = "#08306B";
 
 var rgb = hexToRgb(COLOR_FIRST);
 var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
@@ -54,10 +54,6 @@ for (var i = 0; i < 9; i++) {
   var b = Interpolate(startColors.b, endColors.b, 9, i);
   colors.push(new Color(r, g, b));
 }
-
-var quantize = d3.scale.quantize()
-    .domain([0, 1.0])
-    .range(d3.range(9).map(function(i) { return i }));
 
 var worldBar_this;
 function worldBarChartVis (_parentElement, _data, _idCountryMap) {

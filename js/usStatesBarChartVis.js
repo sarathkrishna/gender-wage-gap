@@ -36,7 +36,7 @@ function hexToRgb(hex) {
     } : null;
 }
 
-var COLOR_FIRST = "#c3e2ff", COLOR_LAST = "#08306B";
+var COLOR_FIRST = "#9bbcdf", COLOR_LAST = "#08306B";
 
 var rgb = hexToRgb(COLOR_FIRST);
 var COLOR_START = new Color(rgb.r, rgb.g, rgb.b);
