@@ -7,7 +7,11 @@ function lineChartVis(lineChartInfo) {
 	self.parentElement = lineChartInfo.parentElement;
 	self.data = lineChartInfo.data;
 	self.lineChartInfo = lineChartInfo;
-
+	
+	self.outerUpdateSelected = lineChartInfo.updateSelected;
+	console.log(self.lineChartInfo.type);
+	console.log(self.outerUpdateSelected);
+	
 	self.initVis();
 }
 
@@ -25,8 +29,10 @@ lineChartVis.prototype.initVis = function() {
 	var highestYear = self.lineChartInfo.highestYear;
 	var yTickWidth = self.lineChartInfo.yTickWidth;
 	
-	/*self.xScale = d3.time.scale().domain([ lowestYear, highestYear ]).range(
-			[ 0 + self.margin - 5, self.graphW ])*/
+	/*
+	 * self.xScale = d3.time.scale().domain([ lowestYear, highestYear ]).range( [
+	 * 0 + self.margin - 5, self.graphW ])
+	 */
 	self.xScale = d3.scale.linear().domain([ lowestYear, highestYear ]).range(
 			[ 0 + self.margin - 5, self.graphW ])
 
@@ -118,26 +124,29 @@ lineChartVis.prototype.updateVis = function() {
 			.attr("d", line)
 			.attr("class", function (d) {
 				if (element == "USA" || element == "United States") {
-					return "line USA";
+					console.log("USA");
+					return "line USA " + element.split('\& ').join('-').split(' ').join('-');
 				}
-				return "line";
+				return "line " + element.split('\& ').join('-').split(' ').join('-');
 			})
 			.on("mouseover", self.onmouseover)
 			.on("mouseout", self.onmouseout)
-			.on('mousemove',self.onmousemove);
+			.on('mousemove',self.onmousemove)
+			.on('click', function(d) {
+					console.log(self.outerUpdateSelected);
+					self.outerUpdateSelected(d[0]['element']);
+			});
 	}
 };
 
 lineChartVis.prototype.onmouseover = function (d, i) {
 	var currClass = d3.select(this).attr("class");
-	d3.select(this).attr("class", currClass + " current");
-	//console.log(this);
+	d3.select(this).classed("current", true);
+	// console.log(this);
 }
 lineChartVis.prototype.onmouseout = function(d, i) {
 	var self = line_this;
-	var currClass = d3.select(this).attr("class");
-	var prevClass = currClass.substring(0, currClass.length - 8);
-	d3.select(this).attr("class", prevClass);
+	d3.select(this).classed("current", false);
 	
 	self.tooltip.classed('hidden', true);
 }
@@ -147,11 +156,11 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 	var mouse = d3.mouse(self.body.node()).map(function(d) {
 		return parseInt(d);
 	});
-	//var year = self.xScale.invert(d3.mouse(this)[0]).getFullYear();
+	// var year = self.xScale.invert(d3.mouse(this)[0]).getFullYear();
 	var year = self.xScale.invert(d3.mouse(this)[0]);
 	year = d3.format(".0f")(year);
 	index = year - self.lineChartInfo.lowestYear;
-	//console.log(d[0]['element']);
+	// console.log(d[0]['element']);
 	if(!d[index] || d[index]['year'] != year) {
 		var diff = 10000;
 		var calcYear = d[0]['year'];
@@ -168,13 +177,33 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 				index = i;
 			}
 		}
-		//console.log("year: " + year);
+		// console.log("year: " + year);
 		year = calcYear;
-		//console.log("new year: " + year);
+		// console.log("new year: " + year);
 	}
 	self.tooltip.classed('hidden', false).attr(
 			'style',
 			'left:' + (mouse[0] + 15) + 'px; top:'
 					+ (mouse[1] + 50) + 'px').html(
 			d[index]['element'] + " in " +year + ": " + d[index]['val']);
+}
+
+lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
+	console.log("In line chart update for state");
+	if (!state) {
+		d3.select(".selected-state-line").classed("selected-state-line", false);
+		return;
+	}
+	d3.select(".selected-state-line").classed("selected-state-line", false);
+	d3.select(".line." + state.split('\& ').join('-').split(' ').join('-')).classed("selected-state-line", true);
+}
+
+lineChartVis.prototype.updateSelectedSectorInLineChart = function(state) {
+	console.log("In line chart update for sector");
+	if (!state) {
+		d3.select(".selected-sector-line").classed("selected-sector-line", false);
+		return;
+	}
+	d3.select(".selected-sector-line").classed("selected-sector-line", false);
+	d3.select(".line." + state.split('\& ').join('-').split(' ').join('-')).classed("selected-sector-line", true);
 }

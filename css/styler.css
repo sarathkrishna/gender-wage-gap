@@ -1,6 +1,5 @@
 #us-slider {
-	margin:auto
-	width: 250px
+	margin: auto width: 250px
 }
 
 #world-slider {
@@ -8,8 +7,9 @@
 }
 
 #map {
-	float:left
+	float: left
 }
+
 .axis {
 	stroke-width: 0.8;
 	stroke: #000;
@@ -61,6 +61,12 @@ div.tooltip {
 	position: absolute;
 }
 
+path.line.selected-state-line, path.line.selected-sector-line {
+	stroke: #B00000;
+	stroke-width: 5;
+	fill: none;
+}
+
 .selected-state {
-	fill: #B00000;	
+	fill: #B00000;
 }

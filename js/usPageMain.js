@@ -2,7 +2,10 @@
 (
     function () {
 
-    d3.select("body").on("click", updateSelectedState);
+    d3.select("body").on("click", function() {
+    	//updateSelectedState();
+    	//updateSelectedSector();
+    });
     
     var statesMapVis;
     var stateWiseData = {};
@@ -14,8 +17,11 @@
     var sectorIdMap = {};
     var statesBarVis;
     var usAggrData;
+    var sectorLineChartVis;
+    var stateLineChartVis;
     
     var selectedState;
+    var selectedSector;
     
     function initVis() {
     	
@@ -48,19 +54,19 @@
         usSectorBarVis = new usSectorBarChartVis(d3.select("#us-sector-bar-chart"), sectorWiseDataWithID, idSectorMap, null);
 
 
-        var sectorLineChartInfo = getLineChartInfo(d3.select("#us-sector-line-chart"), sectorWiseData, 800, 300, 30, 50, 100, 2011, 2014, 0.015);
-        var stateLineChartInfo = getLineChartInfo(d3.select("#us-state-line-chart"), stateWiseData, 800, 300, 30, 60, 90, 2011, 2014, 0.015);
+        var sectorLineChartInfo = getLineChartInfo("sector", d3.select("#us-sector-line-chart"), sectorWiseData, 800, 300, 30, 50, 100, 2011, 2014, 0.015);
+        var stateLineChartInfo = getLineChartInfo("state", d3.select("#us-state-line-chart"), stateWiseData, 800, 300, 30, 60, 90, 2011, 2014, 0.015);
         
-        var sectorLineChartVis = new lineChartVis(sectorLineChartInfo);
-        var stateLineChartVis = new lineChartVis(stateLineChartInfo);
+        sectorLineChartVis = new lineChartVis(sectorLineChartInfo);
+        stateLineChartVis = new lineChartVis(stateLineChartInfo);
         
         var areaChartVis = new usAreaChartVis(d3.select("#us-area-chart"), usAggrData);
     }
     
-    var prevPos;
+    var statePrevPos;
     function updateSelectedState(state) {
     	var currPos = d3.mouse(d3.select("body").node());
-    	if (prevPos && prevPos[0]==currPos[0]&&prevPos[1]==currPos[1]) {
+    	if (statePrevPos && statePrevPos[0]==currPos[0] && statePrevPos[1]==currPos[1]) {
     		prevPos = currPos;
     		return;
     	}
@@ -68,10 +74,30 @@
     	console.log("Here! " + state);
     	selectedState = state;
     	statesMapVis.updateSelectedStateInMap(state);
+    	stateLineChartVis.updateSelectedStateInLineChart(state);
+    }
+    
+    var sectorPrevPos;
+    function updateSelectedSector(sector) {
+    	var currPos = d3.mouse(d3.select("body").node());
+    	if (sectorPrevPos && sectorPrevPos[0]==currPos[0] && sectorPrevPos[1]==currPos[1]) {
+    		sectorPrevPos = currPos;
+    		return;
+    	}
+    	prevPos = currPos;
+    	console.log("Here! " + sector);
+    	selectedSector = sector;
+    	sectorLineChartVis.updateSelectedSectorInLineChart(sector);
     }
 
-    function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
+    function getLineChartInfo(type, parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth) {
     	var infoObject = {};
+    	if (type == "state") {
+    		infoObject.updateSelected = updateSelectedState;
+    	} else if (type == "sector") {
+    		infoObject.updateSelected = updateSelectedSector;
+    	}
+    	infoObject.type = type;
     	infoObject.parentElement = parentElement;
     	infoObject.data = data;
     	infoObject.width = width;
