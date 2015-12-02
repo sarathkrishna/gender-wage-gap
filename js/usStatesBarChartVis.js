@@ -78,9 +78,9 @@ usStatesBarChartVis.prototype.initVis = function () {
 
     self.svg = self.parentElement.select("svg");
 
-    self.left_width = 150;
+    self.left_width = 75;
     self.bar_height = 14;
-    self.width = 300;
+    self.width = 225;
     self.gap = 0.05;
     self.height = (self.bar_height + 2 * self.gap) * 51;
 
@@ -93,7 +93,7 @@ usStatesBarChartVis.prototype.initVis = function () {
         .orient("top");
  
     self.chart = self.svg.attr('class', 'chart')
-        .attr('width', self.left_width + self.width + 100)
+        .attr('width', self.left_width + self.width + 50)
         .attr('height', (self.bar_height + self.gap * 2) * 51 + 30)
         .append("g")
         .attr("transform", "translate(10, 20)");
@@ -137,8 +137,7 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
         .attr("transform", "rotate(90) translate(10, " + (-self.width - 20) + ")")
         .attr("y", 6)
         .attr("dy", ".71em")
-        .style("text-anchor", "right")
-        .text("Wage ratio");
+        .style("text-anchor", "right");
 
     self.chart.selectAll(".tick").append("line")
         .attr("x1", 0)

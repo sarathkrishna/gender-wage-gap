@@ -64,6 +64,7 @@ body{
 .chart {
   background: #fff;
   margin: 5px;
+  float:left;
 }
  
 .chart .category-bar {

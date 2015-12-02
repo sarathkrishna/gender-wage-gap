@@ -78,9 +78,9 @@ usSectorBarChartVis.prototype.initVis = function () {
 
     self.svg = self.parentElement.select("svg");
 
-    self.left_width = 400;
+    self.left_width = 190;
     self.bar_height = 15;
-    self.width = 300;
+    self.width = 250;
     self.gap = 1;
     self.height = (self.bar_height + 2 * self.gap) * 23;
 
@@ -93,7 +93,7 @@ usSectorBarChartVis.prototype.initVis = function () {
         .orient("top");
  
     self.chart = self.svg.attr('class', 'chart')
-        .attr('width', self.left_width + self.width + 100)
+        .attr('width', self.left_width + self.width + 50)
         .attr('height', (self.bar_height + self.gap * 2) * 23 + 30)
         .append("g")
         .attr("transform", "translate(10, 20)");
@@ -137,8 +137,7 @@ usSectorBarChartVis.prototype.updateVis = function (selectedYear) {
         .attr("transform", "rotate(90) translate(10, " + (-self.width - 20) + ")")
         .attr("y", 6)
         .attr("dy", ".71em")
-        .style("text-anchor", "right")
-        .text("Wage ratio");
+        .style("text-anchor", "right");
 
     self.chart.selectAll(".tick").append("line")
         .attr("x1", 0)
@@ -184,7 +183,7 @@ usSectorBarChartVis.prototype.updateVis = function (selectedYear) {
   var chart_names = self.chart.selectAll("text.name").data(sortedValues);
 
   chart_names.enter().append("text")
-    .attr("x", self.left_width / 1.1)
+    .attr("x", self.left_width / 1.02)
     .attr("y", function(d, i){
       return y(sortedNames[d.name]) + y.rangeBand()/2; } )
     .attr("dy", ".36em")
