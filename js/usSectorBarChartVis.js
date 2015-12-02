@@ -112,6 +112,9 @@ usSectorBarChartVis.prototype.updateVis = function (selectedYear) {
     for(var key in dataForYear) sortedKeys.push(key);
     sortedKeys.sort( function(a, b) { return dataForYear[b] - dataForYear[a] } );
 
+    var minKey = sortedKeys[0];
+    var maxKey = sortedKeys[sortedKeys.length - 1];
+
     var sortedValues = [];
     for (var i = 0; i < sortedKeys.length; i++)
       sortedValues.push({name: i, value: dataForYear[sortedKeys[i]]});
@@ -120,6 +123,9 @@ usSectorBarChartVis.prototype.updateVis = function (selectedYear) {
     for (var i = 0; i < sortedKeys.length; i++)
         sortedNames.push(self.idSectorMap[sortedKeys[i]]);
 
+    var quantize = d3.scale.quantize()
+        .domain([dataForYear[maxKey], dataForYear[minKey]])
+        .range(d3.range(9).map(function(i) { return i }));
  
     var y = d3.scale.ordinal()
         .domain(sortedNames)

@@ -1,4 +1,5 @@
 
+// var colorScale = d3.scale.linear().domain([30, 60, 90]).range(colorbrewer.Blues[3]);
 
 function Interpolate(start, end, steps, count) {
     var s = start,
@@ -55,10 +56,6 @@ for (var i = 0; i < 9; i++) {
   colors.push(new Color(r, g, b));
 }
 
-var quantize = d3.scale.quantize()
-    .domain([0, 1.0])
-    .range(d3.range(9).map(function(i) { return i }));
-
 var usStatesBar_this;
 function usStatesBarChartVis (_parentElement, _data, _idStateMap) {
 
@@ -80,7 +77,7 @@ usStatesBarChartVis.prototype.initVis = function () {
 
     self.left_width = 75;
     self.bar_height = 14;
-    self.width = 225;
+    self.width = 250;
     self.gap = 0.05;
     self.height = (self.bar_height + 2 * self.gap) * 51;
 
@@ -112,6 +109,9 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
     for(var key in dataForYear) sortedKeys.push(key);
     sortedKeys.sort( function(a, b) { return dataForYear[b] - dataForYear[a] } );
 
+    var minKey = sortedKeys[0];
+    var maxKey = sortedKeys[sortedKeys.length - 1];
+
     var sortedValues = [];
     for (var i = 0; i < sortedKeys.length; i++)
       sortedValues.push({name: i, value: dataForYear[sortedKeys[i]]});
@@ -120,7 +120,10 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
     for (var i = 0; i < sortedKeys.length; i++)
         sortedNames.push(self.idStateMap[sortedKeys[i]]);
 
- 
+    var quantize = d3.scale.quantize()
+        .domain([dataForYear[maxKey], dataForYear[minKey]])
+        .range(d3.range(9).map(function(i) { return i }));
+
     var y = d3.scale.ordinal()
         .domain(sortedNames)
         .rangeBands([0, (self.bar_height + 2 * self.gap) * sortedNames.length]);
@@ -158,6 +161,7 @@ usStatesBarChartVis.prototype.updateVis = function (selectedYear) {
     })
     .attr("height", self.bar_height)
     .style("fill", function(d) {
+        // return colorScale(d.value);
       var i = quantize(d.value);
       var color = colors[i].getColors();
       return "rgb(" + color.r + "," + color.g +
