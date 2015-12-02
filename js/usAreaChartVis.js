@@ -39,9 +39,9 @@ usAreaChartVis.prototype.initVis = function() {
 	// Draw the x Grid lines
     self.visG.append("g")
         .attr("class", "grid")
-        .attr("transform", "translate(0," + self.graphH + ")")
+        .attr("transform", "translate(0," + 470 + ")")
         .call(self.xAxis
-            .tickSize(-self.graphH, 0, 0)
+            .tickSize(-self.graphH+60, 0, 0)
             .tickFormat("")
         )
 
