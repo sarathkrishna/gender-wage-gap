@@ -45,20 +45,27 @@
 		  stroke: #999;
 		  stroke-width: 1.5px;
 		}
+
+		#nav {
+			z-index: 99999;
+		}
+		#nav.affix {
+		    position: fixed;
+		    top: 0;
+		    width: 100%
+		}
+
+		#nav > .navbar-inner {
+		    border-left: 0;
+		    border-right: 0;
+		    border-radius: 0;
+		    -webkit-border-radius: 0;
+		    -moz-border-radius: 0;
+		    -o-border-radius: 0;
+		    background-color: #fff;
+		}
+
 		</style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
-<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="js/d3.slider.js"></script>
-<script src="js/usmapVis.js"></script>
-<script src="js/usStatesBarChartVis.js"></script>
-<script src="js/usStatesLineChartVis.js"></script>
-<script src="js/usSectorBarChartVis.js"></script>
-<script src="js/usSectorLineChartVis.js"></script>
-
 
 <link rel="stylesheet" href="css/d3.slider.css" />
 <link rel="stylesheet" href="css/styler.css" />
@@ -105,10 +112,10 @@
 			<div class="header-table">
 				<div class="header-wrapper">
 					<h1 class="header-title">
-						best digital agency
+						Gender wage gap
 					</h1>
 					<p class="header-subtitle">
-						since 2013
+						in us and other oecd countries
 					</p>
 				</div> <!-- /.header-wrapper -->
 			</div>
@@ -116,41 +123,107 @@
 	</section> <!-- /#header -->
 
 	<!-- About Us -->
-	<section class="about" id="about">
+	<section class="" id="about">
 		<div class="container section-wrapper">
 			<h2 class="section-title black">
 				US Map
 			</h2> <!-- /.section-title -->
 			<div class="underline purple"></div>	
-			<div class="row">
-				
-	<h2>US Map</h2>
-	<div id="us-slider"></div>
-	<span width="900"> <svg width="700" height="500" id="map">
-            	<g id="states"></g>
-        	</svg>
-	</span>
-	<span id="us-states-bar-chart" width="900"> <svg width="900"
-			height="440">
-        	</svg>
-	</span>
-	<div id="us-state-line-chart">
-		<svg width="840" height="300">
-		</svg>
-	</div>
-	<div id="us-sector-bar-chart">
-		<svg width="650" height="440">
-        	</svg>
-	</div>
-	<div id="us-sector-line-chart">
-		<svg width="840" height="300">
-		</svg>
-	</div>
-
-
+				<div id="nav-wrapper">
+				    <div id="nav" class="navbar">
+				        <div class="navbar-inner">
+					        <div class="span12">
+			                    <div id="us-slider"></div>
+		                    </div>
+			                 
+				        </div> <!-- navbar-inner -->
+				    </div> <!-- navbar -->
+				</div>
+			<div class="row">				
+				<h2>US Map</h2>
+				<div class="col-md-6">
+					<div class="row">
+						<div>
+							<svg id="map" width="700" height="500" >
+				            	<g id="states"></g>
+				        	</svg>
+						</div>
+					</div>
+					<div class="row">
+						<div id="us-sector-bar-chart">
+							<svg width="650" height="440">
+					        	</svg>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+				<div id="us-states-bar-chart"> <svg width="900"
+						height="440">
+			        	</svg>
+				</div>
+				</div>
 			</div> <!-- /.row -->
 		</div> <!-- /.container -->
 	</section> <!-- /.about -->
+
+	<section class="team">
+		<div class="container section-wrapper">
+			<h2 class="section-title black">
+				US State line chart
+			</h2> <!-- /.section-title -->
+			<div class="underline purple"></div>
+			<div class="row">
+				<div id="us-state-line-chart">
+					<svg width="840" height="300">
+					</svg>
+				</div>
+			</div> <!-- /.row -->
+		</div> <!-- /.container -->
+	</section> <!-- /.team -->
+
+	<section class="service">
+		<div class="container section-wrapper">
+			<h2 class="section-title black">
+				US sector bar and line chart
+			</h2> <!-- /.section-title -->
+			<div class="underline purple"></div>
+			<div class="row">
+
+				
+				<div class="col-md-6">
+					<div id="us-sector-line-chart">
+						<svg width="840" height="300">
+						</svg>
+					</div>
+	<div id="us-area-chart">
+		<svg width="1325" height="500">
+		</svg>
+				</div>
+				<div class="col-md-6">
+					<div id="us-sector-line-chart-info"></div>
+				</div>
+
+			</div> <!-- /.row -->
+		</div> <!-- /.container -->
+	</section> <!-- /.team -->
+
+
+			
+	<script src="assets/js/jquery-1.11.2.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+	<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
+	<script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="js/d3.slider.js"></script>
+	<script src="js/usmapVis.js"></script>
+	<script src="js/usStatesBarChartVis.js"></script>
+	<script src="js/lineChartVis.js"></script>
+	<script src="js/usSectorBarChartVis.js"></script>
+	<script src="js/usAreaChartVis.js"></script>
+
 	<script src="js/usPageMain.js"></script>
 
 </body>

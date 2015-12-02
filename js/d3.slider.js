@@ -22,7 +22,6 @@ d3.slider = function module() {
       value = value || min; 
       scale = d3.scale.linear().domain([min, max]).range([0, width])
       .clamp(true);
-      
       // SVG 
       svg = div.append("svg")
       .attr("class", "d3slider-axis")
@@ -64,6 +63,7 @@ d3.slider = function module() {
       if (tickFormat) {
         axis.tickFormat(tickFormat);
       }
+      axis.tickFormat(d3.format("d"));
       
       svg.append("g")
       .attr("transform", "translate(0," + rectHeight + ")")
@@ -89,7 +89,7 @@ d3.slider = function module() {
       } else {
         displayValue = d3.format(".0f")(value);
       }
-      
+
       dragger.append("text")
       .attr("x", 0)
       .attr("y", -15)
