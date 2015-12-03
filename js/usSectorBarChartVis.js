@@ -189,15 +189,25 @@ usSectorBarChartVis.prototype.updateVis = function () {
     }
     }).attr("class", function(d) {
         return "category-bar";
-    }).on('mousemove', function(d) {
-        var mouse = d3.mouse(body.node()).map(function(d) {
-            return parseInt(d);
-        });
-        tooltip.classed('hidden', false).attr(
-            'style', 'left:' + (mouse[0] + 15) + 'px; top:' + (mouse[1] + 50) + 'px')
-            .html(sortedNames[d.name] + " : " + d.value);
-    }).on('mouseout', function() {
-                tooltip.classed('hidden', true);
+    }).on('mouseover', function(d) {
+        if (d.sector == self.selectedSector) {
+            d3.select(this).style("fill", "#B00000");   
+        } else {
+            d3.select(this).style("fill", "orangered");
+        }
+    }).on('mouseout', function(d) {
+        var realcolor;
+        if (d.sector == self.selectedSector) {
+            realcolor = "#B00000";
+        } else if (d.sector == "United-States") {
+            realcolor = "#A9A9A9";
+        } else {
+            var i = quantize(d.value);
+            var color = colors[i].getColors();
+            realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+        }
+        d3.select(this).style("fill", realcolor);
+
     }).on('click', function(d) {
         self.outerUpdateSelectedSector(d.sector);
         event.stopPropagation();
