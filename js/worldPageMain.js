@@ -13,7 +13,6 @@
     var worldLineChartVis;
     var idCountryMap = {};
     var countryIdMap = {};
-    var selectedCountry;
 
     function updateSelectedCountry(country) {
     	if (country) {

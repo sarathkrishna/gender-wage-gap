@@ -101,7 +101,7 @@ usmapVis.prototype.drawStates = function (usStateData, metaData) {
 				tooltip.classed('hidden', true);
 			}).on('click', function(d) {
 				self.outerUpdateSelectedState(d.properties.NAME);
-				event.stopPropagation();
+				d3.event.stopPropagation();
 			});
 	updateData(usStateData);
 }
@@ -167,5 +167,5 @@ usmapVis.prototype.updateSelectedStateInMap = function(state) {
 		return;
 	}
 	d3.select(".selected-state").classed("selected-state", false);
-	d3.select("#" + state.split(' ').join('-')).classed("selected-state", true);
+	d3.select("#" + state).classed("selected-state", true);
 }

@@ -96,7 +96,7 @@ countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 				tooltip.classed('hidden', true);
 			}).on("click", function(d) {
 				self.outerUpdateSelectedCountry(d.properties.name_long);
-				event.stopPropagation();
+				d3.event.stopPropagation();
 			});
 	updateData(countriesData);
 	//console.log(countriesData);
@@ -165,6 +165,6 @@ countryMapVis.prototype.updateSelectedCountryInMap = function(country) {
 		return;
 	}
 	d3.select(".selected-country").classed("selected-country", false);
-	d3.select("#" + country.split(' ').join('-')).classed("selected-country",
+	d3.select("#" + country).classed("selected-country",
 			true);
 }

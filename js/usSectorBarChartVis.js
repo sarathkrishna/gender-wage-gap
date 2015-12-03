@@ -127,7 +127,8 @@ usSectorBarChartVis.prototype.updateVis = function () {
 
     var sortedValues = [];
     for (var i = 0; i < sortedKeys.length; i++)
-      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]], sector: self.idSectorMap[sortedKeys[i]].split('\& ').join('-').split(" ").join("-")});
+      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]], 
+    	  sector: self.idSectorMap[sortedKeys[i]].split('\&').join('-').split(" ").join("-").split(',').join('-')});
 
     var sortedNames = [];
     for (var i = 0; i < sortedKeys.length; i++)
@@ -210,7 +211,7 @@ usSectorBarChartVis.prototype.updateVis = function () {
 
     }).on('click', function(d) {
         self.outerUpdateSelectedSector(d.sector);
-        event.stopPropagation();
+        d3.event.stopPropagation();
     });
 
   var chart_score = self.chart.selectAll("text.score").data(sortedValues);

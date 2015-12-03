@@ -211,7 +211,7 @@ worldBarChartVis.prototype.updateVis = function () {
 
     }).on('click', function(d) {
         self.outerUpdateSelectedCountry(d.country);
-        event.stopPropagation();
+        d3.event.stopPropagation();
     });
 
   var chart_score = self.chart.selectAll("text.score").data(sortedValues);

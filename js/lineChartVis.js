@@ -122,16 +122,16 @@ lineChartVis.prototype.updateVis = function() {
 			.attr("d", line)
 			.attr("class", function (d) {
 				if (element == "USA" || element == "United States") {
-					return "line USA " + element.split('\& ').join('-').split(' ').join('-');
+					return "line USA " + element.split('&').join('-').split(' ').join('-');
 				}
-				return "line " + element.split('\& ').join('-').split(' ').join('-');
+				return "line " + element.split('&').join('-').split(' ').join('-').split(',').join('-');
 			})
 			.on("mouseover", self.onmouseover)
 			.on("mouseout", self.onmouseout)
 			.on('mousemove',self.onmousemove)
 			.on('click', function(d) {
 					self.outerUpdateSelected(d[0]['element']);
-					event.stopPropagation();
+					d3.event.stopPropagation();
 			});
 	}
 };
@@ -191,7 +191,7 @@ lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 		return;
 	}
 	d3.select(".selected-state-line").classed("selected-state-line", false);
-	d3.select(".line." + state.split('\& ').join('-').split(' ').join('-')).classed("selected-state-line", true);
+	d3.select(".line." + state).classed("selected-state-line", true);
 }
 
 lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
@@ -200,7 +200,7 @@ lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
 		return;
 	}
 	d3.select(".selected-sector-line").classed("selected-sector-line", false);
-	d3.select(".line." + sector.split('\& ').join('-').split(' ').join('-')).classed("selected-sector-line", true);
+	d3.select(".line." + sector).classed("selected-sector-line", true);
 }
 
 lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
@@ -209,5 +209,5 @@ lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
 		return;
 	}
 	d3.select(".selected-country-line").classed("selected-country-line", false);
-	d3.select(".line." + country.split('\& ').join('-').split(' ').join('-')).classed("selected-country-line", true);
+	d3.select(".line." + country).classed("selected-country-line", true);
 }

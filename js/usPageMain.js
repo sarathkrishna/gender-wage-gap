@@ -20,9 +20,6 @@
     var sectorLineChartVis;
     var stateLineChartVis;
     
-    var selectedState;
-    var selectedSector;
-    
     function initVis() {
     	
         statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, mapData, updateSelectedState);
@@ -64,14 +61,18 @@
     }
     
     function updateSelectedState(state) {
-    	selectedState = state;
+    	if (state) {
+		 state = state.split(' ').join('-');
+	    }
         statesBarVis.updateState(state);
     	statesMapVis.updateSelectedStateInMap(state);
     	stateLineChartVis.updateSelectedStateInLineChart(state);
     }
     
     function updateSelectedSector(sector) {
-    	selectedSector = sector;
+    	if (sector) {
+    		sector = sector.split(' ').join('-').split('&').join('-').split(',').join('-');
+   	    }
         usSectorBarVis.updateSector(sector);
     	sectorLineChartVis.updateSelectedSectorInLineChart(sector);
     }
