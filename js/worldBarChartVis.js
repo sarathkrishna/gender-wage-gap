@@ -56,7 +56,7 @@ for (var i = 0; i < 9; i++) {
 }
 
 var worldBar_this;
-function worldBarChartVis (_parentElement, _data, _idCountryMap) {
+function worldBarChartVis (_parentElement, _data, _idCountryMap, _outerUpdateSelectedCountry) {
 
     var self = this;
     worldBar_this = this;
@@ -64,6 +64,9 @@ function worldBarChartVis (_parentElement, _data, _idCountryMap) {
     self.parentElement = _parentElement;
     self.data = _data;
     self.idCountryMap = _idCountryMap;
+    self.outerUpdateSelectedCountry = _outerUpdateSelectedCountry;
+    self.selectedYear = 2011;
+    self.selectedCountry = 'none';
 
     self.initVis();
 }
@@ -94,15 +97,27 @@ worldBarChartVis.prototype.initVis = function () {
         .append("g")
         .attr("transform", "translate(10, 20)");
 
-    self.updateVis(2011);
+    self.updateVis();
 };
 
+worldBarChartVis.prototype.updateYear = function (selectedYear) {
+    var self = this;
+    self.selectedYear = selectedYear;
+    self.updateVis();
+}
 
-worldBarChartVis.prototype.updateVis = function (selectedYear) {
+worldBarChartVis.prototype.updateCountry = function (selectedCountry) {
+    var self = this;
+    self.selectedCountry = selectedCountry;
+    self.updateVis();
+}
+
+
+worldBarChartVis.prototype.updateVis = function () {
 
     var self = this;
 
-    dataForYear = self.data[selectedYear];
+    dataForYear = self.data[self.selectedYear];
 
     var sortedKeys = [];
     for(var key in dataForYear) sortedKeys.push(key);
@@ -113,7 +128,7 @@ worldBarChartVis.prototype.updateVis = function (selectedYear) {
 
     var sortedValues = [];
     for (var i = 0; i < sortedKeys.length; i++)
-      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]]});
+      sortedValues.push({name: i, value: dataForYear[sortedKeys[i]], country: self.idCountryMap[sortedKeys[i]].split(' ').join('-')});
 
     var sortedNames = [];
     for (var i = 0; i < sortedKeys.length; i++)
@@ -162,13 +177,20 @@ worldBarChartVis.prototype.updateVis = function (selectedYear) {
     })
     .attr("height", self.bar_height)
     .style("fill", function(d) {
-      var i = quantize(d.value);
-      var color = colors[i].getColors();
-      return "rgb(" + color.r + "," + color.g +
+      if (d.country == self.selectedCountry) {
+        return "#B00000";
+      } else {
+        var i = quantize(d.value);
+        var color = colors[i].getColors();
+        return "rgb(" + color.r + "," + color.g +
           "," + color.b + ")";
+      }
     })
     .attr("class", function(d) {
         return "category-bar";
+    }).on('click', function(d) {
+        self.outerUpdateSelectedCountry(d.country);
+        event.stopPropagation();
     });
 
   var chart_score = self.chart.selectAll("text.score").data(sortedValues);

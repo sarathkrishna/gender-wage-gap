@@ -8,6 +8,15 @@
     var worldBarVis;
     var idCountryMap = {};
     var countryIdMap = {};
+    var selectedCountry;
+
+    function updateSelectedCountry(country) {
+        selectedCountry = country;
+        worldBarVis.updateCountry(country);
+        // statesMapVis.updateSelectedStateInMap(state);
+        // stateLineChartVis.updateSelectedStateInLineChart(state);
+    }
+
     
     function initVis() {
        
@@ -23,7 +32,7 @@
             }
             yearToCountriesDataWithID[year] = object;
         }
-        worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idCountryMap, null);
+        worldBarVis = new worldBarChartVis(d3.select("#world-bar-chart"), yearToCountriesDataWithID, idCountryMap, updateSelectedCountry, null);
 
         var worldLineChartInfo = getLineChartInfo(d3.select("#world-line-chart"), yearToCountriesData, 1200, 500, 30, 50, 100, 1970, 2013, 0.21);
         
@@ -84,7 +93,7 @@
     function updateOnSliderChange(slider) {
     	var year = d3.format(".0f")(slider.value());
     	worldMapVis.updateYear(year);
-        worldBarVis.updateVis(year);
+        worldBarVis.updateYear(year);
     }
     
     startHere();
