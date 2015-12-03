@@ -133,7 +133,7 @@ worldBarChartVis.prototype.updateVis = function () {
     var sortedNames = [];
     for (var i = 0; i < sortedKeys.length; i++)
         sortedNames.push(self.idCountryMap[sortedKeys[i]]);
-
+    
     var quantize = d3.scale.quantize()
         .domain([dataForYear[maxKey], dataForYear[minKey]])
         .range(d3.range(9).map(function(i) { return i }));

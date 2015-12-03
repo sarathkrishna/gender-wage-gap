@@ -113,8 +113,6 @@ function updateData(usStateData) {
 
 	var minValue = Math.min.apply(null, year_values);
 	var maxValue = Math.max.apply(null, year_values);
-	console.log(minValue);
-	console.log(maxValue);
 
 	var quantize = d3.scale.quantize()
         .domain([minValue, maxValue])
@@ -147,7 +145,6 @@ function usmapVis(_parentElement, _data, _metaData, _outerUpdateSelectedState) {
 	self.displayData = [];
 	selectedYear = 2011;
 	self.outerUpdateSelectedState = _outerUpdateSelectedState;
-	console.log(self.updateSelectedState);
 	self.initVis();
 }
 

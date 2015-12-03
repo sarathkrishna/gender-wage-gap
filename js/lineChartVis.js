@@ -9,8 +9,6 @@ function lineChartVis(lineChartInfo) {
 	self.lineChartInfo = lineChartInfo;
 	
 	self.outerUpdateSelected = lineChartInfo.updateSelected;
-	console.log(self.lineChartInfo.type);
-	console.log(self.outerUpdateSelected);
 	
 	self.initVis();
 }
@@ -124,7 +122,6 @@ lineChartVis.prototype.updateVis = function() {
 			.attr("d", line)
 			.attr("class", function (d) {
 				if (element == "USA" || element == "United States") {
-					console.log("USA");
 					return "line USA " + element.split('\& ').join('-').split(' ').join('-');
 				}
 				return "line " + element.split('\& ').join('-').split(' ').join('-');
@@ -133,7 +130,6 @@ lineChartVis.prototype.updateVis = function() {
 			.on("mouseout", self.onmouseout)
 			.on('mousemove',self.onmousemove)
 			.on('click', function(d) {
-					console.log(self.outerUpdateSelected);
 					self.outerUpdateSelected(d[0]['element']);
 					event.stopPropagation();
 			});
@@ -190,9 +186,7 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 }
 
 lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
-	console.log("In line chart update for state");
 	if (!state) {
-		console.log("Removing state thingy");
 		d3.select(".selected-state-line").classed("selected-state-line", false);
 		return;
 	}
@@ -200,13 +194,20 @@ lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 	d3.select(".line." + state.split('\& ').join('-').split(' ').join('-')).classed("selected-state-line", true);
 }
 
-lineChartVis.prototype.updateSelectedSectorInLineChart = function(state) {
-	console.log("In line chart update for sector");
-	if (!state) {
-		console.log("Removing sector thingy");
+lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
+	if (!sector) {
 		d3.select(".selected-sector-line").classed("selected-sector-line", false);
 		return;
 	}
 	d3.select(".selected-sector-line").classed("selected-sector-line", false);
-	d3.select(".line." + state.split('\& ').join('-').split(' ').join('-')).classed("selected-sector-line", true);
+	d3.select(".line." + sector.split('\& ').join('-').split(' ').join('-')).classed("selected-sector-line", true);
+}
+
+lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
+	if (!country) {
+		d3.select(".selected-country-line").classed("selected-country-line", false);
+		return;
+	}
+	d3.select(".selected-country-line").classed("selected-country-line", false);
+	d3.select(".line." + country.split('\& ').join('-').split(' ').join('-')).classed("selected-country-line", true);
 }

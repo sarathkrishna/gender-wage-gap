@@ -45,16 +45,17 @@ path.area {
 	stroke: steelblue;
 	stroke-width: 3;
 	fill: lightsteelblue;
-	opacity: 0.7	
+	opacity: 0.7
 }
 
 .grid .tick {
-    stroke:#CCC;
-    stroke-opacity: 0.7;
-    shape-rendering: crispEdges;
+	stroke: #CCC;
+	stroke-opacity: 0.7;
+	shape-rendering: crispEdges;
 }
+
 .grid path {
- 	stroke-width: 0;
+	stroke-width: 0;
 }
 
 .hidden {
@@ -71,17 +72,18 @@ div.tooltip {
 	position: absolute;
 }
 
-path.line.selected-state-line, path.line.selected-sector-line {
+path.line.selected-state-line, path.line.selected-sector-line, path.line.selected-country-line
+	{
 	stroke: #B00000;
 	stroke-width: 5;
 	fill: none;
 }
 
-.selected-state {
+.selected-state, .selected-country {
 	fill: #B00000;
 }
 
-#states>path,#countries>path {
+#states>path, #countries>path {
 	stroke: #e2e2e2;
 	stroke-width: 0.25;
 }

@@ -6,7 +6,6 @@ function usAreaChartVis(_parentElement, _data) {
 
 	self.parentElement = _parentElement;
 	self.data = _data;
-	console.log(_data);
 	self.initVis();
 }
 

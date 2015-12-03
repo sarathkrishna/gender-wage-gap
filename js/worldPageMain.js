@@ -2,25 +2,32 @@
 (
     function () {
 
+	d3.select("body").on("click", function() {
+		updateSelectedCountry();
+    });
+    	
     var yearToCountriesData = {};
     var metaData = {};
     var worldMapVis;
     var worldBarVis;
+    var worldLineChartVis;
     var idCountryMap = {};
     var countryIdMap = {};
     var selectedCountry;
 
     function updateSelectedCountry(country) {
-        selectedCountry = country;
+    	if (country) {
+    		country = country.split(' ').join('-');
+    	}
         worldBarVis.updateCountry(country);
-        // statesMapVis.updateSelectedStateInMap(state);
-        // stateLineChartVis.updateSelectedStateInLineChart(state);
+        worldMapVis.updateSelectedCountryInMap(country);
+        worldLineChartVis.updateSelectedCountryInLineChart(country);
     }
 
     
     function initVis() {
        
-        worldMapVis = new countryMapVis(d3.select("#map"), yearToCountriesData, metaData, null);
+        worldMapVis = new countryMapVis(d3.select("#map"), yearToCountriesData, metaData, updateSelectedCountry);
         
         yearToCountriesDataWithID = {};
         years = Object.keys(yearToCountriesData);
@@ -37,7 +44,7 @@
         var worldLineChartInfo = getLineChartInfo(d3.select("#world-line-chart"), yearToCountriesData, 1200, 500, 30, 50, 100, 1970, 2013, 0.21);
         
         
-        var worldLineChartVis = new lineChartVis(worldLineChartInfo);
+        worldLineChartVis = new lineChartVis(worldLineChartInfo);
     }
 
     function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
@@ -52,6 +59,8 @@
     	infoObject.lowestYear = lowestYear;
     	infoObject.highestYear = highestYear;
     	infoObject.yTickWidth = yTickWidth;
+    	infoObject.updateSelected = updateSelectedCountry;
+    	
     	return infoObject;
     }
     function dataLoaded(error, countriesData, _metaData) {
@@ -74,7 +83,7 @@
                 }
             	yearToCountriesData[year] = object;
             }
-            //console.log(yearToCountriesData);
+            // console.log(yearToCountriesData);
             metaData = _metaData;
 
             initVis();
