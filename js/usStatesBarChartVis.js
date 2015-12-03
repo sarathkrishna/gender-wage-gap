@@ -142,6 +142,9 @@ usStatesBarChartVis.prototype.updateVis = function () {
         .domain(sortedNames)
         .rangeBands([0, (self.bar_height + 2 * self.gap) * sortedNames.length]);
 
+    var body = d3.select('body');
+    var tooltip = body.append('div').attr('class', 'hidden tooltip');
+
     self.chart.selectAll("rect").remove();
     self.chart.selectAll("text").remove();
 
@@ -175,19 +178,27 @@ usStatesBarChartVis.prototype.updateVis = function () {
     })
     .attr("height", self.bar_height)
     .style("fill", function(d) {
-      if (d.state == "United-States") {
+        if (d.state == self.selectedState) {
             return "#B00000";
-        } else if (d.state == self.selectedState) {
-            return "#B00000";
+        } if (d.state == "United-States") {
+            return "#A9A9A9";
         } else {
             var i = quantize(d.value);
             var color = colors[i].getColors();
             return "rgb(" + color.r + "," + color.g +
             "," + color.b + ")";
         }
-    })
-    .attr("class", function(d) {
-            return "category-bar";
+    }).attr("class", function(d) {
+        return "category-bar";
+    }).on('mousemove', function(d) {
+        var mouse = d3.mouse(body.node()).map(function(d) {
+            return parseInt(d);
+        });
+        tooltip.classed('hidden', false).attr(
+            'style', 'left:' + (mouse[0] + 15) + 'px; top:' + (mouse[1] + 50) + 'px')
+            .html(sortedNames[d.name] + " : " + d.value);
+    }).on('mouseout', function() {
+                tooltip.classed('hidden', true);
     }).on('click', function(d) {
         self.outerUpdateSelectedState(d.state);
         event.stopPropagation();

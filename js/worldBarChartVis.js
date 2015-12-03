@@ -146,6 +146,8 @@ worldBarChartVis.prototype.updateVis = function () {
     self.chart.selectAll("rect").remove();
     self.chart.selectAll("text").remove();
 
+    var body = d3.select('body');
+    var tooltip = body.append('div').attr('class', 'hidden tooltip');
 
     self.chart.append("g")
         .attr("class", "x axis")
@@ -188,6 +190,15 @@ worldBarChartVis.prototype.updateVis = function () {
     })
     .attr("class", function(d) {
         return "category-bar";
+    }).on('mousemove', function(d) {
+        var mouse = d3.mouse(body.node()).map(function(d) {
+            return parseInt(d);
+        });
+        tooltip.classed('hidden', false).attr(
+            'style', 'left:' + (mouse[0] + 15) + 'px; top:' + (mouse[1] + 50) + 'px')
+            .html(sortedNames[d.name] + " : " + d.value);
+    }).on('mouseout', function() {
+                tooltip.classed('hidden', true);
     }).on('click', function(d) {
         self.outerUpdateSelectedCountry(d.country);
         event.stopPropagation();
