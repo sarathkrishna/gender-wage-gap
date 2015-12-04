@@ -102,6 +102,10 @@ usmapVis.prototype.drawStates = function (usStateData, metaData) {
 			}).on('click', function(d) {
 				self.outerUpdateSelectedState(d.properties.NAME);
 				d3.event.stopPropagation();
+			}).on('mouseover', function(d) {
+				d3.select(this).classed("hovered", true);
+			}).on('mouseout', function(d) {
+				d3.select(this).classed("hovered", false);
 			});
 	updateData(usStateData);
 }

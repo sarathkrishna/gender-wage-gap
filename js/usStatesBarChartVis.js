@@ -109,7 +109,6 @@ usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
 }
 
 usStatesBarChartVis.prototype.updateState = function (selectedState) {
-    console.log("usStatesBarChartVis.prototype.updateState");
     var self = this;
     self.selectedState = selectedState;
     self.updateVis();
@@ -117,9 +116,6 @@ usStatesBarChartVis.prototype.updateState = function (selectedState) {
 
 
 usStatesBarChartVis.prototype.updateVis = function () {
-
-    console.log("usStatesBarChartVis.prototype.updateVis");
-
     var self = this;
 
     dataForYear = self.data[self.selectedYear];
@@ -192,7 +188,7 @@ usStatesBarChartVis.prototype.updateVis = function () {
             if (d.state == self.selectedState) {
                 d3.select(this).style("fill", "#B00000");   
             } else {
-                d3.select(this).style("fill", "orangered");
+                d3.select(this).style("fill", "#E86850");
             }
         }).on('mouseout', function(d) {
             var realcolor;

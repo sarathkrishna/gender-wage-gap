@@ -191,7 +191,7 @@ worldBarChartVis.prototype.updateVis = function () {
         if (d.country == self.selectedCountry) {
             d3.select(this).style("fill", "#B00000");   
         } else {
-            d3.select(this).style("fill", "orangered");
+            d3.select(this).style("fill", "#E86850");
         }
     }).on('mouseout', function(d) {
         var realcolor;

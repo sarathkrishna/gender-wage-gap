@@ -84,6 +84,7 @@
     	} else if (type == "sector") {
     		infoObject.updateSelected = updateSelectedSector;
     	}
+    	infoObject.type = type;
     	infoObject.parentElement = parentElement;
     	infoObject.data = data;
     	infoObject.width = width;

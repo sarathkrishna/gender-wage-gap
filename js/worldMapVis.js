@@ -97,6 +97,10 @@ countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 			}).on("click", function(d) {
 				self.outerUpdateSelectedCountry(d.properties.name_long);
 				d3.event.stopPropagation();
+			}).on('mouseover', function(d) {
+				d3.select(this).classed("hovered", true);
+			}).on('mouseout', function(d) {
+				d3.select(this).classed("hovered", false);
 			});
 	updateData(countriesData);
 	//console.log(countriesData);

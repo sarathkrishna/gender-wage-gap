@@ -27,7 +27,7 @@ text {
 }
 
 path.line.current, path.line.USA.current {
-	stroke: steelblue;
+	stroke: #E86850;
 	stroke-width: 5;
 }
 
@@ -83,6 +83,10 @@ path.line.selected-state-line, path.line.selected-sector-line, path.line.selecte
 
 .selected-state, .selected-country {
 	fill: #B00000;
+}
+
+.hovered {
+	fill: #E86850;
 }
 
 #states>path, #countries>path {
