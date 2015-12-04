@@ -25,6 +25,12 @@
 		<link rel="stylesheet" href="css/styler.css" />
 		<link rel="stylesheet" type="text/css" href="css/myStyle.css">
 
+
+		<link rel="stylesheet" href="css/d3.slider.css" />
+		<link rel="stylesheet" href="css/styler.css" />
+		<link rel="stylesheet" type="text/css" href="css/myStyle.css">
+
+
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 			<!--[if lt IE 9]>
 				<script src="assets/js/html5shiv.js"></script>
@@ -34,49 +40,6 @@
 			<!--[if IE 8]>
 		    	<script src="assets/js/selectivizr.js"></script>
 		    <![endif]-->
-		<style>
-
-		.node {
-		  stroke: #000;
-		  stroke-width: 1.5px;
-		}
-
-		.link {
-		  stroke: #999;
-		  stroke-width: 1.5px;
-		}
-
-		#nav {
-			z-index: 99999;
-		}
-		#nav.affix {
-		    position: fixed;
-		    top: 0;
-		    width: 100%
-		}
-
-		#nav > .navbar-inner {
-		    border-left: 0;
-		    border-right: 0;
-		    border-radius: 0;
-		    -webkit-border-radius: 0;
-		    -moz-border-radius: 0;
-		    -o-border-radius: 0;
-		    background-color: #fff;
-		}
-		
-		</style>
-
-<link rel="stylesheet" href="css/d3.slider.css" />
-<link rel="stylesheet" href="css/styler.css" />
-<link rel="stylesheet" type="text/css" href="css/myStyle.css">
-
-<style>
-.a {
-	stroke: rgb(255, 255, 255);
-	fill: rgb(216, 216, 216);
-}
-</style>
 </head>
 
 <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1">
@@ -85,7 +48,7 @@
 		
 		<nav class="navbar navbar-default" id="navigation-bar">
 			<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
+			
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 						<span class="sr-only">Toggle navigation</span>
@@ -93,20 +56,19 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="index-one-page.html">SIGHT</a>
-				</div> <!-- /.navbar-header -->
+					<a class="navbar-brand" href="boot_world_map.html">World Map</a>
+				</div> 
 
-		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    
 			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#header">home</a></li>
-						<li><a href="#about">about us</a></li>
-						<li><a href="#service">services</a></li>
-						<li><a href="#portfolio">portfolio</a></li>
-						<li><a href="#contact">contact</a></li>
-					</ul> <!-- /.nav -->
-			    </div><!-- /.navbar-collapse -->
-		  	</div><!-- /.container -->
+						<li><a href="#detailed">Detailed</a></li>
+						<li><a href="#ataglance">At a glance</a></li>
+						<li><a href="#quicklook">Quick look</a></li>
+						<li><a href="#video">Video</a></li>
+					</ul> 
+			    </div>
+		  	</div>
 		</nav>
 		<div class="container">
 			<div class="header-table">
@@ -117,17 +79,17 @@
 					<p class="header-subtitle">
 						in us and other oecd countries
 					</p>
-				</div> <!-- /.header-wrapper -->
+				</div> 
 			</div>
-		</div> <!-- /.container -->
-	</section> <!-- /#header -->
+		</div> 
+	</section> 
 
-	<!-- About Us -->
-	<section class="" id="about">
+	
+	<section class="" id="detailed">
 		<div class="container section-wrapper">
 			<h2 class="section-title black">
-				US Map
-			</h2> <!-- /.section-title -->
+				Wage Analysis - geographical, state, and sector wise
+			</h2> 
 			<div class="underline purple"></div>	
 				<div id="nav-wrapper">
 				    <div id="nav" class="navbar">
@@ -136,20 +98,24 @@
 			                    <div id="us-slider"></div>
 		                    </div>
 			                 
-				        </div> <!-- navbar-inner -->
-				    </div> <!-- navbar -->
+				        </div> 
+				    </div> 
 				</div>
-			<div class="row">				
-				<h2>US Map</h2>
+			<div class="row" style="margin-top: 20px">				
+				<h2 >Wage analysis - Geographical</h2>
 				<div class="col-md-6">
-					<div class="row">
+					<div class="row" style="margin-top: -80px;">
 						<div>
-							<svg id="map" width="700" height="500" >
+							<svg id="map" width="700" height="400" >
 				            	<g id="states"></g>
 				        	</svg>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="margin-top: 10px;">
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</div>
+					<div class="row" style="margin-top: 50px;">
+					<h2 style="margin-bottom: 20px;">Wage Analysis - Sector wise</h2>
 						<div id="us-sector-bar-chart">
 							<svg width="650" height="440">
 					        	</svg>
@@ -157,56 +123,89 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-				<div id="us-states-bar-chart"> <svg width="900"
-						height="440">
-			        	</svg>
+					<div class="row" style="margin-top: -65px;">
+						<div class="col-md-8">
+							<h2>Wage Analysis - State wise</h2>
+							<div id="us-states-bar-chart"> <svg width="900"
+									height="440">
+						        	</svg>
+							</div>
+						</div>
+						<div class="col-md-4" style="margin-top: 80px; margin-left: -10px;">
+							"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+						</div>
+					</div>
+					<div class="row" style="margin-left: -120px; margin-top: 135px;">
+							"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</div>
 				</div>
-				</div>
-			</div> <!-- /.row -->
-		</div> <!-- /.container -->
-	</section> <!-- /.about -->
+			</div> 
+		</div> 
+	</section> 
 
-	<section class="team">
+	<section class="linechart" id="ataglance">
 		<div class="container section-wrapper">
 			<h2 class="section-title black">
-				US State and sector line charts
-			</h2> <!-- /.section-title -->
+				Wage analysis - at a glance - over the years
+			</h2> 
 			<div class="underline purple"></div>
 			<div class="row">
 				<div class="col-md-6">
-					<div id="us-state-line-chart">
-						<svg width="840" height="300">
-						</svg>
-					</div>
-				</div> <!-- /.row -->
+					<div class="row">
+						<h2>Wage Analysis - State wise</h2>
+						<div id="us-state-line-chart">
+							<svg width="840" height="300">
+							</svg>
+						</div>
+					</div> 
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 20px;">
+							"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+						</div>
+					</div> 
+				</div>
+
 				<div class="col-md-6">
-					<div id="us-sector-line-chart">
-						<svg width="840" height="300">
-						</svg>
+					<div class="row">
+						<h2>Wage Analysis - Sector wise</h2>
+						<div id="us-sector-line-chart">
+							<svg width="840" height="300">
+							</svg>
+						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-12" style="margin-top: 20px;">
+							"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+						</div>
+					</div> 
 				</div>
 			</div>
-		</div> <!-- /.container -->
-	</section> <!-- /.team -->
+		</div> 
+	</section> 
 
-	<section class="service">
+	<section class="" id="quicklook">
 		<div class="container section-wrapper">
 			<h2 class="section-title black">
-				US area chart
-			</h2> <!-- /.section-title -->
+				Wage Analysis - Since 1979
+			</h2> 
 			<div class="underline purple"></div>
 			<div class="row">
-
-				
 				<div class="col-md-12">
-					<div id="us-area-chart">
-						<svg width="1325" height="500">
-						</svg>
+					<div class="row">
+						<div id="us-area-chart">
+							<svg width="1325" height="500">
+							</svg>
+						</div>
 					</div>
+					<div class="row" style="margin-top: 15px;">
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</div>
+				</div> 
+			</div> 
+		</div> 
+	</section> 
 
-			</div> <!-- /.row -->
-		</div> <!-- /.container -->
-	</section> <!-- /.team -->
+
 
 
 			
