@@ -67,9 +67,6 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap, _outerUpdateSe
     self.idStateMap = _idStateMap;
     self.selectedYear = 2011;
     self.selectedState = 'none';
-    self.yearChanged = 0;
-    self.stateChanged = 0;
-    self.initialUpdate = 0;
     self.outerUpdateSelectedState = _outerUpdateSelectedState;
     self.initVis();
 }
@@ -108,7 +105,6 @@ usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
     console.log("usStatesBarChartVis.prototype.updateYear");
     var self = this;
     self.selectedYear = selectedYear;
-    self.yearChanged = 2;
     self.updateVis();
 }
 
@@ -116,7 +112,6 @@ usStatesBarChartVis.prototype.updateState = function (selectedState) {
     console.log("usStatesBarChartVis.prototype.updateState");
     var self = this;
     self.selectedState = selectedState;
-    self.stateChanged = 1;
     self.updateVis();
 }
 
@@ -178,51 +173,8 @@ usStatesBarChartVis.prototype.updateVis = function () {
         .attr("x", self.left_width)
         .attr("y", function(d) { return y(sortedNames[d.name]) + self.gap; })
         .attr("name", function(d, i) { return d.name; })
-        .attr("width", function(d, i) { return 0; })
+        .attr("width", function(d, i) { return self.x(d.value); })
         .attr("height", self.bar_height)
-        .style("fill", "#9bbcdf")
-        .attr("class", function(d) { return "category-bar"; })
-        .on('mouseover', function(d) {
-            if (d.state == self.selectedState) {
-                d3.select(this).style("fill", "#B00000");   
-            } else {
-                d3.select(this).style("fill", "orangered");
-            }
-        })
-        .on('mouseout', function(d) {
-            var realcolor;
-            if (d.state == self.selectedState) {
-                realcolor = "#B00000";
-            } else if (d.state == "United-States") {
-                realcolor = "#834c24";
-            } else {
-                var i = quantize(d.value);
-                var color = colors[i].getColors();
-                realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
-            }
-            d3.select(this).style("fill", realcolor);
-
-        })
-        .on('click', function(d) {
-            self.outerUpdateSelectedState(d.state);
-            d3.event.stopPropagation();
-        });
-
-    var dn = 0;
-    if (self.initialUpdate == 1) {
-        self.initialUpdate = 0;
-        dn = 1500;
-    } else if (self.yearChanged == 2) {
-        self.yearChanged = 1;
-        dn = 1500;
-    } else if (self.yearChanged == 1 && self.stateChanged == 1) {
-        self.yearChanged = 0;
-        self.stateChanged = 0;
-        dn = 1500;
-    }
-    chart_bar.transition().duration(dn)
-        .attr("width", function(d, i) {
-            return self.x(d.value);})
         .style("fill", function(d) {
             var realcolor;
             if (d.state == self.selectedState) {
@@ -235,7 +187,31 @@ usStatesBarChartVis.prototype.updateVis = function () {
                 realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
             }
             return realcolor; 
+        }).attr("class", function(d) { return "category-bar"; })
+        .on('mouseover', function(d) {
+            if (d.state == self.selectedState) {
+                d3.select(this).style("fill", "#B00000");   
+            } else {
+                d3.select(this).style("fill", "orangered");
+            }
+        }).on('mouseout', function(d) {
+            var realcolor;
+            if (d.state == self.selectedState) {
+                realcolor = "#B00000";
+            } else if (d.state == "United-States") {
+                realcolor = "#834c24";
+            } else {
+                var i = quantize(d.value);
+                var color = colors[i].getColors();
+                realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+            }
+            d3.select(this).style("fill", realcolor);
+
+        }).on('click', function(d) {
+            self.outerUpdateSelectedState(d.state);
+            d3.event.stopPropagation();
         });
+
 
     var chart_score = self.chart.selectAll("text.score").data(sortedValues);
 
