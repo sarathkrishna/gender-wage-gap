@@ -47,8 +47,9 @@ usAreaChartVis.prototype.initVis = function() {
     // Draw the y Grid lines
     self.visG.append("g")            
         .attr("class", "grid")
+        .attr("transform", "translate(20," + 0 + ")")
         .call(self.yAxis
-            .tickSize(-self.graphW, 0, 0)
+            .tickSize(-self.graphW+20, 0, 0)
             .tickFormat("")
         )
 
