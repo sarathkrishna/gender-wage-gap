@@ -12,6 +12,11 @@
 	float: left;
 }
 
+.overlay {
+	fill: none;
+	pointer-events: all;
+}
+
 .axis {
 	stroke-width: 0.8;
 	stroke: #000;

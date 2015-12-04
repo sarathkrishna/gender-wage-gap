@@ -130,7 +130,6 @@ lineChartVis.prototype.updateVis = function() {
 			.on("mouseout", self.onmouseout)
 			.on('mousemove',self.onmousemove)
 			.on('click', function(d) {
-					console.log(d);
 					self.outerUpdateSelected(d[0]['element']);
 					d3.event.stopPropagation();
 			});

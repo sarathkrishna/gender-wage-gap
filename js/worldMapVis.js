@@ -54,24 +54,38 @@ var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 
 var selectedYear = 2011;
 
+countryMapVis.prototype.zoomed = function() {
+	var self = countriesmap_this;
+	self.projection.translate(self.zoom.translate()).scale(self.zoom.scale());
+	self.countries.selectAll("path").attr("d", self.path);
+}
+
 countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 	var self = this;
 	var width = 500;
 	var height = 500;
-	var projection = d3.geo.mercator().scale(70).translate(
+	self.projection = d3.geo.mercator().scale(70).translate(
 			[ width / 2, height / 2 ]);
-	var path = d3.geo.path().projection(projection);
+	self.path = d3.geo.path().projection(self.projection);
+
+	var scale0 = (width - 1) / 2 / Math.PI;
+	self.zoom = d3.behavior.zoom().translate([ width / 2, height / 2 ]).scale(
+			scale0).scaleExtent([ scale0, 8 * scale0 ]).on("zoom", self.zoomed);
+	self.countries = d3.select("#countries");
+	self.countries.call(self.zoom).call(self.zoom.event);
+	self.countries.append("rect").attr("class", "overlay").attr("width", width).attr(
+			"height", height);
+
 	var body = d3.select('body');
 	var tooltip = body.append('div').attr('class', 'hidden tooltip');
 	// console.log(metaData);
-	d3
-			.select("#countries")
+	self.countries
 			.selectAll("path")
 			.data(
 					topojson.feature(metaData, metaData.objects.countries).features)
 			.enter()
 			.append("path")
-			.attr("d", path)
+			.attr("d", self.path)
 			.attr("id", function(d) {
 				return d.properties.name_long.split(' ').join('-');
 			})
