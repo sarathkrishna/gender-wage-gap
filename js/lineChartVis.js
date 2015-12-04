@@ -181,7 +181,7 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 	self.tooltip.classed('hidden', false).attr(
 			'style',
 			'left:' + (mouse[0] + 15) + 'px; top:'
-					+ (mouse[1] + 50) + 'px').html(
+					+ (mouse[1] + 15) + 'px').html(
 			d[index]['element'] + " in " +year + ": " + d[index]['val']);
 }
 

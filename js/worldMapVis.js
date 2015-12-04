@@ -86,7 +86,7 @@ countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 								.attr(
 										'style',
 										'left:' + (mouse[0] + 15) + 'px; top:'
-												+ (mouse[1] + 50) + 'px')
+												+ (mouse[1] + 15) + 'px')
 								.html(
 										d.properties.name_long
 												+ ", "
