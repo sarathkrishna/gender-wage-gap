@@ -1,13 +1,14 @@
 #us-slider {
-	margin: auto width: 250px
+	margin: auto;
+	width: 500px;
 }
 
 #world-slider {
-	width: 1000px
+	width: 1000px;
 }
 
 #map {
-	float: left
+	float: left;
 }
 
 .axis {
