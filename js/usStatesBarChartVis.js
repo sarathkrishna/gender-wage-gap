@@ -67,6 +67,7 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap, _outerUpdateSe
     self.idStateMap = _idStateMap;
     self.selectedYear = 2011;
     self.selectedState = 'none';
+    self.stateChanged = 0;
     self.outerUpdateSelectedState = _outerUpdateSelectedState;
     self.initVis();
 }
@@ -109,6 +110,7 @@ usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
 usStatesBarChartVis.prototype.updateState = function (selectedState) {
     var self = this;
     self.selectedState = selectedState;
+    self.stateChanged = 1;
     self.updateVis();
 }
 
@@ -141,9 +143,6 @@ usStatesBarChartVis.prototype.updateVis = function () {
     var y = d3.scale.ordinal()
         .domain(sortedNames)
         .rangeBands([0, (self.bar_height + 2 * self.gap) * sortedNames.length]);
-
-    var body = d3.select('body');
-    var tooltip = body.append('div').attr('class', 'hidden tooltip');
 
     self.chart.selectAll("rect").remove();
     self.chart.selectAll("text").remove();
@@ -201,7 +200,12 @@ usStatesBarChartVis.prototype.updateVis = function () {
             d3.event.stopPropagation();
         });
 
-    chart_bar.transition().duration(2000)
+    var dn = 2000;
+    if (self.stateChanged == 1) {
+        self.stateChanged = 0;
+        dn = 0;
+    }
+    chart_bar.transition().duration(dn)
         .attr("width", function(d, i) {
             return self.x(d.value);})
         .style("fill", function(d) {
@@ -215,7 +219,8 @@ usStatesBarChartVis.prototype.updateVis = function () {
                 var color = colors[i].getColors();
                 realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
             }
-            return realcolor; });
+            return realcolor; 
+        });
 
     var chart_score = self.chart.selectAll("text.score").data(sortedValues);
 
