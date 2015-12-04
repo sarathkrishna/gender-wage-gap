@@ -117,6 +117,7 @@ body{
   z-index: 99999;
   border: 1px solid #CCC;
   padding-top: 10px;
+  opacity: 0.5;
 }
 #nav.affix {
   position: fixed;
