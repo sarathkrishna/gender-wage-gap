@@ -92,14 +92,13 @@ countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 												+ ", "
 												+ (countriesData[selectedYear][d.properties.name_long] ? countriesData[selectedYear][d.properties.name_long]
 														: "-"));
-					}).on('mouseout', function() {
-				tooltip.classed('hidden', true);
-			}).on("click", function(d) {
+					}).on("click", function(d) {
 				self.outerUpdateSelectedCountry(d.properties.name_long);
 				d3.event.stopPropagation();
 			}).on('mouseover', function(d) {
 				d3.select(this).classed("hovered", true);
 			}).on('mouseout', function(d) {
+				tooltip.classed('hidden', true);
 				d3.select(this).classed("hovered", false);
 			});
 	updateData(countriesData);
@@ -169,6 +168,5 @@ countryMapVis.prototype.updateSelectedCountryInMap = function(country) {
 		return;
 	}
 	d3.select(".selected-country").classed("selected-country", false);
-	d3.select("#" + country).classed("selected-country",
-			true);
+	d3.select("#" + country).classed("selected-country", true);
 }
