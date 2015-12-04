@@ -179,7 +179,7 @@ worldBarChartVis.prototype.updateVis = function () {
       if (d.country == self.selectedCountry) {
         return "#B00000";
       } else if (d.country == "United-States") {
-        return "#A9A9A9";
+        return "#834c24";
       } else {
         var i = quantize(d.value);
         var color = colors[i].getColors();
@@ -198,7 +198,7 @@ worldBarChartVis.prototype.updateVis = function () {
         if (d.country == self.selectedCountry) {
             realcolor = "#B00000";
         } else if (d.country == "United-States") {
-            realcolor = "#A9A9A9";
+            realcolor = "#834c24";
         } else {
             var i = quantize(d.value);
             var color = colors[i].getColors();

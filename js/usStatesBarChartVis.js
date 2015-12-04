@@ -67,7 +67,9 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap, _outerUpdateSe
     self.idStateMap = _idStateMap;
     self.selectedYear = 2011;
     self.selectedState = 'none';
+    self.yearChanged = 0;
     self.stateChanged = 0;
+    self.initialUpdate = 0;
     self.outerUpdateSelectedState = _outerUpdateSelectedState;
     self.initVis();
 }
@@ -98,16 +100,20 @@ usStatesBarChartVis.prototype.initVis = function () {
         .append("g")
         .attr("transform", "translate(10, 20)");
 
+    self.initialUpdate = 1;
     self.updateVis();
 };
 
 usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
+    console.log("usStatesBarChartVis.prototype.updateYear");
     var self = this;
     self.selectedYear = selectedYear;
+    self.yearChanged = 2;
     self.updateVis();
 }
 
 usStatesBarChartVis.prototype.updateState = function (selectedState) {
+    console.log("usStatesBarChartVis.prototype.updateState");
     var self = this;
     self.selectedState = selectedState;
     self.stateChanged = 1;
@@ -116,6 +122,8 @@ usStatesBarChartVis.prototype.updateState = function (selectedState) {
 
 
 usStatesBarChartVis.prototype.updateVis = function () {
+
+    console.log("usStatesBarChartVis.prototype.updateVis");
 
     var self = this;
 
@@ -186,7 +194,7 @@ usStatesBarChartVis.prototype.updateVis = function () {
             if (d.state == self.selectedState) {
                 realcolor = "#B00000";
             } else if (d.state == "United-States") {
-                realcolor = "#A9A9A9";
+                realcolor = "#834c24";
             } else {
                 var i = quantize(d.value);
                 var color = colors[i].getColors();
@@ -200,10 +208,17 @@ usStatesBarChartVis.prototype.updateVis = function () {
             d3.event.stopPropagation();
         });
 
-    var dn = 2000;
-    if (self.stateChanged == 1) {
+    var dn = 0;
+    if (self.initialUpdate == 1) {
+        self.initialUpdate = 0;
+        dn = 1500;
+    } else if (self.yearChanged == 2) {
+        self.yearChanged = 1;
+        dn = 1500;
+    } else if (self.yearChanged == 1 && self.stateChanged == 1) {
+        self.yearChanged = 0;
         self.stateChanged = 0;
-        dn = 0;
+        dn = 1500;
     }
     chart_bar.transition().duration(dn)
         .attr("width", function(d, i) {
@@ -213,7 +228,7 @@ usStatesBarChartVis.prototype.updateVis = function () {
             if (d.state == self.selectedState) {
                 realcolor = "#B00000";
             } else if (d.state == "United-States") {
-                realcolor = "#A9A9A9";
+                realcolor = "#834c24";
             } else {
                 var i = quantize(d.value);
                 var color = colors[i].getColors();

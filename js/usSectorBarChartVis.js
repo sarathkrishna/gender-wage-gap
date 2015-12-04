@@ -175,7 +175,7 @@ usSectorBarChartVis.prototype.updateVis = function () {
     .attr("height", self.bar_height)
     .style("fill", function(d) {
     if (d.sector == "United-States") {
-        return "#A9A9A9";
+        return "#834c24";
     } else if (d.sector == self.selectedSector) {
         return "#B00000";
     } else {
@@ -197,7 +197,7 @@ usSectorBarChartVis.prototype.updateVis = function () {
         if (d.sector == self.selectedSector) {
             realcolor = "#B00000";
         } else if (d.sector == "United-States") {
-            realcolor = "#A9A9A9";
+            realcolor = "#834c24";
         } else {
             var i = quantize(d.value);
             var color = colors[i].getColors();
