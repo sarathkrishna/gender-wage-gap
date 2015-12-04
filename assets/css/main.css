@@ -66,16 +66,22 @@ body
 }
 			/*navbar*/
 .navbar-default .navbar-brand{
-	border: 1px solid #fff;
+	/*border: 1px solid #fff;*/
 	color: #fff;
 	font-size: 30px;
 	padding: 10px 20px;
 	height: auto;
 	font-weight: 200;
 	letter-spacing: 5px;
+	background: rgba(0,0,0,0.5);
 }
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover{
 	color: #fff;
+	border: 1px solid #fff;
+	margin-top: -2px;
+}
+.navbar-brand-sel {
+	margin-top: -2px;
 }
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #FFF;
@@ -100,6 +106,7 @@ body
     font-size: 12px;
     font-weight: 300;
     letter-spacing: 1px;
+    background: rgba(0,0,0,0.5);
 }
 .navbar-default .navbar-toggle{
 	border-radius: 0px;
