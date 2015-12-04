@@ -76,7 +76,11 @@ body{
   text-shadow: 1px 0px 5px black;
   fill: white;
 }
- 
+
+.chart .state-name {
+  fill: white;
+}
+
 .chart text.name {
   fill: #000;
 }

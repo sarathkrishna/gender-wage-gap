@@ -50,10 +50,10 @@ var startColors = COLOR_START.getColors(),
 var colors = [];
 
 for (var i = 0; i < 9; i++) {
-  var r = Interpolate(startColors.r, endColors.r, 9, i);
-  var g = Interpolate(startColors.g, endColors.g, 9, i);
-  var b = Interpolate(startColors.b, endColors.b, 9, i);
-  colors.push(new Color(r, g, b));
+    var r = Interpolate(startColors.r, endColors.r, 9, i);
+    var g = Interpolate(startColors.g, endColors.g, 9, i);
+    var b = Interpolate(startColors.b, endColors.b, 9, i);
+    colors.push(new Color(r, g, b));
 }
 
 var usStatesBar_this;
@@ -77,7 +77,7 @@ usStatesBarChartVis.prototype.initVis = function () {
 
     self.svg = self.parentElement.select("svg");
 
-    self.left_width = 75;
+    self.left_width = 5;
     self.bar_height = 14;
     self.width = 250;
     self.gap = 0.05;
@@ -165,83 +165,79 @@ usStatesBarChartVis.prototype.updateVis = function () {
         .attr("y1", 0)
         .attr("y2", (self.bar_height + self.gap * 2) * 51);
 
-
     var chart_bar = self.chart.selectAll("rect").data(sortedValues);
+
     chart_bar.enter().append("rect")
         .attr("x", self.left_width)
         .attr("y", function(d) { return y(sortedNames[d.name]) + self.gap; })
-        .attr("name", function(d, i) {
-            return d.name;
-    })
-    .attr("width", function(d, i) {
-      return self.x(d.value);
-    })
-    .attr("height", self.bar_height)
-    .style("fill", function(d) {
-        var realcolor;
-        if (d.state == self.selectedState) {
-            realcolor = "#B00000";
-        } else if (d.state == "United-States") {
-            realcolor = "#A9A9A9";
-        } else {
-            var i = quantize(d.value);
-            var color = colors[i].getColors();
-            realcolor = "rgb(" + color.r + "," + color.g +
-            "," + color.b + ")";
-        }
-        return realcolor;
-    }).attr("class", function(d) {
-        return "category-bar";
-    }).on('mouseover', function(d) {
-        if (d.state == self.selectedState) {
-            d3.select(this).style("fill", "#B00000");   
-        } else {
-            d3.select(this).style("fill", "orangered");
-        }
-    }).on('mouseout', function(d) {
-        var realcolor;
-        if (d.state == self.selectedState) {
-            realcolor = "#B00000";
-        } else if (d.state == "United-States") {
-            realcolor = "#A9A9A9";
-        } else {
-            var i = quantize(d.value);
-            var color = colors[i].getColors();
-            realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
-        }
-        d3.select(this).style("fill", realcolor);
-
-    }).on('click', function(d) {
-        self.outerUpdateSelectedState(d.state);
-        d3.event.stopPropagation();
-    });
-
-  var chart_score = self.chart.selectAll("text.score").data(sortedValues);
-
-  chart_score.enter().append("text")
-    .attr("x", function(d) { return self.x(d.value) + self.left_width; })
-    .attr("y", function(d, i){ return y(sortedNames[d.name]) + y.rangeBand()/2; } )
-    .attr("dx", -5)
-    .attr("dy", ".36em")
-    .attr("text-anchor", "end")
-    .attr('class', 'score')
-    .text(function(d) {
-      return d.value;
-    });
-  
-  var chart_names = self.chart.selectAll("text.name").data(sortedValues);
-
-  chart_names.enter().append("text")
-    .attr("x", self.left_width/1.1)
-    .attr("y", function(d, i){
-      return y(sortedNames[d.name]) + y.rangeBand()/2; } )
-    .attr("dy", ".36em")
-    .attr("text-anchor", "end")
-    .attr('class', function(d) {
-        return "";
+        .attr("name", function(d, i) { return d.name; })
+        .attr("width", function(d, i) { return 0; })
+        .attr("height", self.bar_height)
+        .style("fill", "#9bbcdf")
+        .attr("class", function(d) { return "category-bar"; })
+        .on('mouseover', function(d) {
+            if (d.state == self.selectedState) {
+                d3.select(this).style("fill", "#B00000");   
+            } else {
+                d3.select(this).style("fill", "orangered");
+            }
         })
-    .text(function(d) {
-      return sortedNames[d.name];
-    });
+        .on('mouseout', function(d) {
+            var realcolor;
+            if (d.state == self.selectedState) {
+                realcolor = "#B00000";
+            } else if (d.state == "United-States") {
+                realcolor = "#A9A9A9";
+            } else {
+                var i = quantize(d.value);
+                var color = colors[i].getColors();
+                realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+            }
+            d3.select(this).style("fill", realcolor);
 
+        })
+        .on('click', function(d) {
+            self.outerUpdateSelectedState(d.state);
+            d3.event.stopPropagation();
+        });
+
+    chart_bar.transition().duration(2000)
+        .attr("width", function(d, i) {
+            return self.x(d.value);})
+        .style("fill", function(d) {
+            var realcolor;
+            if (d.state == self.selectedState) {
+                realcolor = "#B00000";
+            } else if (d.state == "United-States") {
+                realcolor = "#A9A9A9";
+            } else {
+                var i = quantize(d.value);
+                var color = colors[i].getColors();
+                realcolor = "rgb(" + color.r + "," + color.g + "," + color.b + ")";
+            }
+            return realcolor; });
+
+    var chart_score = self.chart.selectAll("text.score").data(sortedValues);
+
+    chart_score.enter().append("text")
+        .attr("x", function(d) { return self.x(d.value) + self.left_width; })
+        .attr("y", function(d, i){ return y(sortedNames[d.name]) + y.rangeBand()/2; } )
+        .attr("dx", -5)
+        .attr("dy", ".36em")
+        .attr("text-anchor", "end")
+        .attr('class', 'score')
+        .text(function(d) { return d.value; });
+
+    var chart_names = self.chart.selectAll("text.name").data(sortedValues);
+
+    chart_names.enter().append("text")
+        .attr("x", self.left_width/0.8)
+        .attr("y", function(d, i){
+            return y(sortedNames[d.name]) + y.rangeBand()/2; } )
+        .attr("dy", ".36em")
+        .attr("text-anchor", "begin")
+        .attr('class', function(d) { return "state-name"; })
+        .text(function(d) { return sortedNames[d.name]; });
+
+  
 };
