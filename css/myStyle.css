@@ -140,3 +140,8 @@ body{
   stroke: rgb(255, 255, 255);
   fill: rgb(216, 216, 216);
 }
+.transparent-bg {
+  padding-top: 20px;
+  padding-bottom: 25px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
