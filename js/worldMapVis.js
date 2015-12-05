@@ -52,7 +52,7 @@ for (var i = 0; i < 9; i++) {
 var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 		colorbrewer.Blues[3]);
 
-var selectedYear = 2011;
+var selectedYear = 2013;
 
 countryMapVis.prototype.zoomed = function() {
 	var self = countriesmap_this;

@@ -51,7 +51,7 @@ for (var i = 0; i < 9; i++) {
 
 var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 		colorbrewer.Blues[3])
-var selectedYear = 2011;
+var selectedYear = 2014;
 var selectedState;
 
 usmapVis.prototype.drawStates = function(usStateData, metaData) {
@@ -142,7 +142,7 @@ function usmapVis(_parentElement, _data, _metaData, _outerUpdateSelectedState) {
 	self.data = _data;
 	self.metaData = _metaData;
 	self.displayData = [];
-	selectedYear = 2011;
+	selectedYear = 2014;
 	self.outerUpdateSelectedState = _outerUpdateSelectedState;
 	self.initVis();
 }

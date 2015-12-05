@@ -65,7 +65,7 @@ function worldBarChartVis (_parentElement, _data, _idCountryMap, _outerUpdateSel
     self.data = _data;
     self.idCountryMap = _idCountryMap;
     self.outerUpdateSelectedCountry = _outerUpdateSelectedCountry;
-    self.selectedYear = 2011;
+    self.selectedYear = 2013;
     self.selectedCountry = 'none';
 
     self.initVis();

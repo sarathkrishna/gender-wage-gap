@@ -64,7 +64,7 @@ function usSectorBarChartVis (_parentElement, _data, _idSectorMap, _outerUpdateS
     self.parentElement = _parentElement;
     self.data = _data;
     self.idSectorMap = _idSectorMap;
-    self.selectedYear = 2011;
+    self.selectedYear = 2014;
     self.selectedSector = "none";
     self.outerUpdateSelectedSector = _outerUpdateSelectedSector;
 

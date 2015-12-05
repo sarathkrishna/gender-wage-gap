@@ -65,7 +65,7 @@ function usStatesBarChartVis (_parentElement, _data, _idStateMap, _outerUpdateSe
     self.parentElement = _parentElement;
     self.data = _data;
     self.idStateMap = _idStateMap;
-    self.selectedYear = 2011;
+    self.selectedYear = 2014;
     self.selectedState = 'none';
     self.outerUpdateSelectedState = _outerUpdateSelectedState;
     self.initVis();
