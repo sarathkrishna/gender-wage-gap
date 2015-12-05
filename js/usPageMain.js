@@ -149,10 +149,10 @@
 
     function startHere() {
         queue()
-            .defer(d3.csv, '../data/USStatewise.csv')
-            .defer(d3.json, '../data/states.json')
-            .defer(d3.csv, '../data/sectors.csv')
-            .defer(d3.csv, '../data/US_1979-2015.csv')
+            .defer(d3.csv, 'data/USStatewise.csv')
+            .defer(d3.json, 'data/states.json')
+            .defer(d3.csv, 'data/sectors.csv')
+            .defer(d3.csv, 'data/US_1979-2015.csv')
             .await(stateDataLoaded);
         var slider = d3.slider().min(2011).max(2014).ticks(4).showRange(true).value(2011).callback(updateOnSliderChange);
         d3.select('#us-slider').call(slider);
