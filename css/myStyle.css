@@ -118,11 +118,12 @@ body{
   border: 1px solid #CCC;
   padding-top: 10px;
   opacity: 0.5;
+  width: 600px;
 }
 #nav.affix {
   position: fixed;
   top: 0;
-  width: 100%
+  /*width: 100%*/
 }
 
 #nav > .navbar-inner {
