@@ -56,9 +56,9 @@ var selectedState;
 
 usmapVis.prototype.drawStates = function(usStateData, metaData) {
 	var self = this;
-	var width = 500;
+	var width = 400;
 	var height = 500;
-	var projection = d3.geo.albersUsa().scale((width - 1) * 3 / Math.PI)
+	var projection = d3.geo.albersUsa().scale((width - 1) * 4 / Math.PI)
 			.translate([ width / 2, height / 2 ]);
 	var path = d3.geo.path().projection(projection);
 	var body = d3.select('body');

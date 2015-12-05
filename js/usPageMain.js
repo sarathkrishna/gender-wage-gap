@@ -52,7 +52,7 @@
 
 
         var sectorLineChartInfo = getLineChartInfo("sector", d3.select("#us-sector-line-chart"), sectorWiseData, 500, 300, 30, 50, 100, 2011, 2014, 0.015);
-        var stateLineChartInfo = getLineChartInfo("state", d3.select("#us-state-line-chart"), stateWiseData, 500, 300, 30, 60, 90, 2011, 2014, 0.015);
+        var stateLineChartInfo = getLineChartInfo("state", d3.select("#us-state-line-chart"), stateWiseData, 400, 300, 30, 60, 90, 2011, 2014, 0.015);
         
         sectorLineChartVis = new lineChartVis(sectorLineChartInfo);
         stateLineChartVis = new lineChartVis(stateLineChartInfo);
