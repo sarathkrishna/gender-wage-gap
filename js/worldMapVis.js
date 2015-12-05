@@ -62,14 +62,14 @@ countryMapVis.prototype.zoomed = function() {
 
 countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 	var self = this;
-	var width = 500;
+	var width = 600;
 	var height = 500;
 	self.projection = d3.geo.mercator().scale(70).translate(
 			[ width / 2, height / 2 ]);
 	self.path = d3.geo.path().projection(self.projection);
 
 	var scale0 = (width - 1) / 2 / Math.PI;
-	self.zoom = d3.behavior.zoom().translate([ width / 2, height / 2 ]).scale(
+	self.zoom = d3.behavior.zoom().translate([ width / 2, height / 1.7 ]).scale(
 			scale0).scaleExtent([ scale0, 8 * scale0 ]).on("zoom", self.zoomed);
 	self.countries = d3.select("#countries");
 	self.countries.call(self.zoom).call(self.zoom.event);
