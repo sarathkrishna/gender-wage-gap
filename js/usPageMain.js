@@ -1,7 +1,10 @@
-
+/**
+ * The controller JS for US page.
+ */
 (
     function () {
 
+    //Added to implement de-selection of selected state and sector.
     d3.select("body").on("click", function() {
     	updateSelectedState();
     	updateSelectedSector();
@@ -24,6 +27,7 @@
     	
         statesMapVis = new usmapVis(d3.select("#map"), stateWiseData, mapData, updateSelectedState);
 
+        //Data preparation for state bar chart
         var stateWiseDataWithID = {};
         var years = Object.keys(stateWiseData);
         for (var year of years) {
@@ -37,6 +41,7 @@
 
         statesBarVis = new usStatesBarChartVis(d3.select("#us-states-bar-chart"), stateWiseDataWithID, idStateMap, updateSelectedState, null);
 
+        //Data preparation for sector bar chart
         var sectorWiseDataWithID = {};
         var years = Object.keys(sectorWiseData);
         for (var year of years) {
@@ -60,6 +65,7 @@
         var areaChartVis = new usAreaChartVis(d3.select("#us-area-chart"), usAggrData);
     }
     
+    //The function called from other files for updating state selection
     function updateSelectedState(state) {
     	if (state) {
 		 state = state.split(' ').join('-');
@@ -69,6 +75,7 @@
     	stateLineChartVis.updateSelectedStateInLineChart(state);
     }
     
+    //The function called from other files for updating sector selection
     function updateSelectedSector(sector) {
     	if (sector) {
     		sector = sector.split(' ').join('-').split('&').join('-').split(',').join('-');
@@ -77,6 +84,7 @@
     	sectorLineChartVis.updateSelectedSectorInLineChart(sector);
     }
 
+    //To prepare the object to be used by lineChart.js for generating different line charts.
     function getLineChartInfo(type, parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth) {
     	var infoObject = {};
     	if (type == "state") {
@@ -97,6 +105,15 @@
     	infoObject.yTickWidth = yTickWidth;
     	return infoObject;
     }
+    /**
+     * Function that will be called once all of the data has been loaded.
+     * @param error
+     * @param usStateData
+     * @param _mapData
+     * @param usSectorData
+     * @param _usAggrData
+     * @returns
+     */
     function stateDataLoaded(error, usStateData, _mapData, usSectorData, _usAggrData) {
         if (!error) {
 
@@ -147,6 +164,10 @@
         }
     }
 
+    /**
+     * Function that takes care of loading data.
+     * @returns
+     */
     function startHere() {
         queue()
             .defer(d3.csv, 'data/USStatewise.csv')
@@ -154,10 +175,16 @@
             .defer(d3.csv, 'data/sectors.csv')
             .defer(d3.csv, 'data/US_1979-2015.csv')
             .await(stateDataLoaded);
+        //The slider that appears on the US page.
         var slider = d3.slider().min(2011).max(2014).ticks(4).showRange(true).value(2014).callback(updateOnSliderChange);
         d3.select('#us-slider').call(slider);
     }
     
+    /**
+     * Function that gets called when slider is moved.
+     * @param slider
+     * @returns
+     */
     function updateOnSliderChange(slider) {
     	var year = d3.format(".0f")(slider.value());
     	statesMapVis.updateYear(year);

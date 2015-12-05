@@ -1,3 +1,11 @@
+/**
+ * JS that takes care of rendering the US map.
+ * @param start
+ * @param end
+ * @param steps
+ * @param count
+ * @returns
+ */
 function Interpolate(start, end, steps, count) {
 	var s = start, e = end, final = s + (((e - s) / steps) * count);
 	return Math.floor(final);
@@ -54,7 +62,7 @@ var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 var selectedYear = 2014;
 var selectedState;
 
-usmapVis.prototype.drawStates = function(usStateData, metaData) {
+usmapVis.prototype.drawStates = function(usStateData, mapData) {
 	var self = this;
 	var width = 400;
 	var height = 500;
@@ -66,7 +74,7 @@ usmapVis.prototype.drawStates = function(usStateData, metaData) {
 	d3
 			.select("#states")
 			.selectAll("path")
-			.data(topojson.feature(metaData, metaData.objects.states).features)
+			.data(topojson.feature(mapData, mapData.objects.states).features)
 			.enter()
 			.append("path")
 			.attr("d", path)
@@ -102,10 +110,13 @@ usmapVis.prototype.drawStates = function(usStateData, metaData) {
 				d3.select(this).classed("hovered", false);
 				tooltip.classed('hidden', true);
 			});
-	updateData(usStateData);
+	self.updateData(usStateData);
 }
 
-function updateData(usStateData) {
+/**
+ * This function will be called initially and then repeatedly on year change.
+ */
+usmapVis.prototype.updateData = function(usStateData) {
 	year_values = [];
 	for ( var state in usStateData[selectedYear])
 		year_values.push(usStateData[selectedYear][state]);
@@ -120,11 +131,10 @@ function updateData(usStateData) {
 
 	d3.select("#states").selectAll("path").attr("fill", function(d) {
 		var val = usStateData[selectedYear][d.properties.NAME];
-		// console.log(d.properties.NAME + ":" + val);
+		//If there exists no value, gray color is returned
 		if (isNaN(val)) {
 			return "#C0C0C0";
 		} else {
-			// return colorScale(val);
 			var i = quantize(val);
 			var color = colors[i].getColors();
 			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
@@ -133,14 +143,21 @@ function updateData(usStateData) {
 }
 
 var usmap_this;
-function usmapVis(_parentElement, _data, _metaData, _outerUpdateSelectedState) {
+/** Constructor
+ * 
+ * @param _parentElement
+ * @param _data
+ * @param _mapData
+ * @param _outerUpdateSelectedState function to be called on click-select
+ */
+function usmapVis(_parentElement, _data, _mapData, _outerUpdateSelectedState) {
 
 	var self = this;
 	usmap_this = this;
 
 	self.parentElement = _parentElement;
 	self.data = _data;
-	self.metaData = _metaData;
+	self.mapData = _mapData;
 	self.displayData = [];
 	selectedYear = 2014;
 	self.outerUpdateSelectedState = _outerUpdateSelectedState;
@@ -149,17 +166,21 @@ function usmapVis(_parentElement, _data, _metaData, _outerUpdateSelectedState) {
 
 usmapVis.prototype.initVis = function() {
 	var self = this;
-	self.drawStates(self.data, self.metaData);
+	self.drawStates(self.data, self.mapData);
 };
 
 usmapVis.prototype.updateYear = function(year) {
 	var self = this;
 	if (year != selectedYear) {
 		selectedYear = year;
-		updateData(self.data);
+		self.updateData(self.data);
 	}
 }
 
+/**
+ * To update selected state in map
+ * @param state
+ */
 usmapVis.prototype.updateSelectedStateInMap = function(state) {
 	if (!state) {
 		d3.select(".selected-state").classed("selected-state", false);

@@ -1,3 +1,12 @@
+/**
+ * JS that takes care of rendering the world map.
+ * 
+ * @param start
+ * @param end
+ * @param steps
+ * @param count
+ * @returns
+ */
 function Interpolate(start, end, steps, count) {
 	var s = start, e = end, final = s + (((e - s) / steps) * count);
 	return Math.floor(final);
@@ -54,6 +63,9 @@ var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
 
 var selectedYear = 2013;
 
+/**
+ * Function that will be called when zoom in or zoom out happens
+ */
 countryMapVis.prototype.zoomed = function() {
 	var self = countriesmap_this;
 	self.projection.translate(self.zoom.translate()).scale(self.zoom.scale());
@@ -64,21 +76,23 @@ countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 	var self = this;
 	var width = 600;
 	var height = 500;
-	self.projection = d3.geo.mercator().scale(70).translate(
-			[ width / 2, height / 2 ]);
+	self.projection = d3.geo.mercator().translate([ width / 2, height / 2 ]);
 	self.path = d3.geo.path().projection(self.projection);
 
+	// Initial scale
 	var scale0 = (width - 1) / 2 / Math.PI;
-	self.zoom = d3.behavior.zoom().translate([ width / 2, height / 1.7 ]).scale(
-			scale0).scaleExtent([ scale0, 8 * scale0 ]).on("zoom", self.zoomed);
+	self.zoom = d3.behavior.zoom().translate([ width / 2, height / 1.7 ])
+			.scale(scale0).scaleExtent([ scale0, 8 * scale0 ]).on("zoom",
+					self.zoomed);
 	self.countries = d3.select("#countries");
 	self.countries.call(self.zoom).call(self.zoom.event);
-	self.countries.append("rect").attr("class", "overlay").attr("width", width).attr(
-			"height", height);
+	// Used for pan. An invisible rectangular overlay will be present over the
+	// map.
+	self.countries.append("rect").attr("class", "overlay").attr("width", width)
+			.attr("height", height);
 
 	var body = d3.select('body');
 	var tooltip = body.append('div').attr('class', 'hidden tooltip');
-	// console.log(metaData);
 	self.countries
 			.selectAll("path")
 			.data(
@@ -116,9 +130,12 @@ countryMapVis.prototype.drawCountries = function(countriesData, metaData) {
 				d3.select(this).classed("hovered", false);
 			});
 	updateData(countriesData);
-	//console.log(countriesData);
+	// console.log(countriesData);
 }
 
+/**
+ * This function will be called initially and then repeatedly on year change.
+ */
 function updateData(countriesData) {
 
 	year_values = [];
@@ -128,6 +145,7 @@ function updateData(countriesData) {
 	var minValue = Math.min.apply(null, year_values);
 	var maxValue = Math.max.apply(null, year_values);
 
+	//For colors
 	var quantize = d3.scale.quantize().domain([ minValue, maxValue ]).range(
 			d3.range(9).map(function(i) {
 				return i
@@ -136,6 +154,7 @@ function updateData(countriesData) {
 	d3.select("#countries").selectAll("path").attr("fill", function(d) {
 		var val = countriesData[selectedYear][d.properties.name_long];
 		if (!val) {
+			//Grey for countries without data
 			return "#C0C0C0";
 		} else {
 			// return colorScale(val);
@@ -148,6 +167,13 @@ function updateData(countriesData) {
 }
 
 var countriesmap_this;
+/**
+ * Constructor
+ * @param _parentElement
+ * @param _data
+ * @param _metaData
+ * @param _outerUpdateSelectedCountry
+ */
 function countryMapVis(_parentElement, _data, _metaData,
 		_outerUpdateSelectedCountry) {
 
@@ -168,6 +194,10 @@ countryMapVis.prototype.initVis = function() {
 	self.drawCountries(self.data, self.metaData)
 };
 
+/**
+ * To handle change in year
+ * @param year
+ */
 countryMapVis.prototype.updateYear = function(year) {
 	var self = this;
 	if (year != selectedYear) {
@@ -176,6 +206,10 @@ countryMapVis.prototype.updateYear = function(year) {
 	}
 }
 
+/**
+ * Function that will be called when a new country is selected. 
+ * @param country
+ */
 countryMapVis.prototype.updateSelectedCountryInMap = function(country) {
 	if (!country) {
 		d3.select(".selected-country").classed("selected-country", false);

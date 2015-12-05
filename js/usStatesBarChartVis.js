@@ -1,4 +1,11 @@
-
+/**
+ * The JS that takes care of states bar chart.
+ * @param start
+ * @param end
+ * @param steps
+ * @param count
+ * @returns
+ */
 // var colorScale = d3.scale.linear().domain([30, 60, 90]).range(colorbrewer.Blues[3]);
 
 function Interpolate(start, end, steps, count) {
@@ -57,6 +64,9 @@ for (var i = 0; i < 9; i++) {
 }
 
 var usStatesBar_this;
+/**
+ * Constructor
+ */
 function usStatesBarChartVis (_parentElement, _data, _idStateMap, _outerUpdateSelectedState) {
 
     var self = this;
@@ -101,6 +111,10 @@ usStatesBarChartVis.prototype.initVis = function () {
     self.updateVis();
 };
 
+/**
+ * Function that handles year change.
+ * @param selectedYear
+ */
 usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
     console.log("usStatesBarChartVis.prototype.updateYear");
     var self = this;
@@ -108,6 +122,10 @@ usStatesBarChartVis.prototype.updateYear = function (selectedYear) {
     self.updateVis();
 }
 
+/**
+ * Function that handles click select of state.
+ * @param selectedState
+ */
 usStatesBarChartVis.prototype.updateState = function (selectedState) {
     var self = this;
     self.selectedState = selectedState;

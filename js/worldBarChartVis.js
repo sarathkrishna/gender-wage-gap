@@ -1,4 +1,11 @@
-
+/**
+ * The JS that takes care of world bar chart.
+ * @param start
+ * @param end
+ * @param steps
+ * @param count
+ * @returns
+ */
 
 function Interpolate(start, end, steps, count) {
     var s = start,
@@ -56,6 +63,9 @@ for (var i = 0; i < 9; i++) {
 }
 
 var worldBar_this;
+/**
+ * Constructor
+ */
 function worldBarChartVis (_parentElement, _data, _idCountryMap, _outerUpdateSelectedCountry) {
 
     var self = this;
@@ -100,12 +110,20 @@ worldBarChartVis.prototype.initVis = function () {
     self.updateVis();
 };
 
+/**
+ * Function that handles year change.
+ * @param selectedYear
+ */
 worldBarChartVis.prototype.updateYear = function (selectedYear) {
     var self = this;
     self.selectedYear = selectedYear;
     self.updateVis();
 }
 
+/**
+ * Function that handles click select of sector.
+ * @param selectedCountry
+ */
 worldBarChartVis.prototype.updateCountry = function (selectedCountry) {
     var self = this;
     self.selectedCountry = selectedCountry;

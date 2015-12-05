@@ -1,4 +1,11 @@
-
+/**
+ * The JS that takes care of sector bar chart.
+ * @param start
+ * @param end
+ * @param steps
+ * @param count
+ * @returns
+ */
 
 function Interpolate(start, end, steps, count) {
     var s = start,
@@ -56,6 +63,9 @@ for (var i = 0; i < 9; i++) {
 }
 
 var usSectorBar_this;
+/**
+ * Constructor
+ */
 function usSectorBarChartVis (_parentElement, _data, _idSectorMap, _outerUpdateSelectedSector) {
 
     var self = this;
@@ -100,12 +110,20 @@ usSectorBarChartVis.prototype.initVis = function () {
     self.updateVis();
 };
 
+/**
+ * Function that handles year change.
+ * @param selectedYear
+ */
 usSectorBarChartVis.prototype.updateYear = function (selectedYear) {
     var self = this;
     self.selectedYear = selectedYear;
     self.updateVis();
 }
 
+/**
+ * Function that handles click select of sector.
+ * @param selectedSector
+ */
 usSectorBarChartVis.prototype.updateSector = function (selectedSector) {
     var self = this;
     self.selectedSector = selectedSector;

@@ -1,6 +1,11 @@
 var usAreaChart_this;
+/**
+ * This file is used for the creation of area chart in the US page.
+ */
+/**
+ * Constructor
+ */
 function usAreaChartVis(_parentElement, _data) {
-
 	var self = this;
 	usAreaChart_this = this;
 
@@ -53,18 +58,21 @@ usAreaChartVis.prototype.initVis = function() {
 			self.yScale(self.yMinimum)).attr("x2", self.xScale(self.lowestYear))
 			.attr("y2", self.yScale(self.yMaximum)).attr("class", "axis");
 
+	//x labels
 	self.visG.selectAll(".xLabel").data(
 			self.xScale.ticks(highestYear - self.lowestYear + 1)).enter().append(
 			"text").attr("class", "xLabel").text(String).attr("x", function(d) {
 		return self.xScale(d)
 	}).attr("y", self.graphH - 10).attr("text-anchor", "middle");
 
+	//y labels
 	self.visG.selectAll(".yLabel").data(self.yScale.ticks(9)).enter().append(
 			"text").attr("class", "yLabel").text(String).attr("x",
 			self.xScale(self.lowestYear) - 25).attr("y", function(d) {
 		return self.yScale(d)
 	}).attr("text-anchor", "right").attr("dy", 3)
 
+	//xTicks
 	self.visG.selectAll(".xTicks").data(
 			self.xScale.ticks(highestYear - self.lowestYear + 1)).enter().append(
 			"line").attr("class", "xTicks").attr("x1", function(d) {
@@ -72,6 +80,7 @@ usAreaChartVis.prototype.initVis = function() {
 	}).attr("y1", self.yScale(self.yMinimum)).attr("x2", function(d) {
 		return self.xScale(d);
 	}).attr("y2", self.yScale(self.yMinimum) + 7);
+	//yTicks
 	self.visG.selectAll(".yTicks").data(self.yScale.ticks(9)).enter().append(
 			"line").attr("class", "yTicks").attr("y1", function(d) {
 		return self.yScale(d);
@@ -100,6 +109,11 @@ usAreaChartVis.prototype.updateVis = function() {
 			self.onmouseout);
 };
 
+/**
+ * Done for tool-tips.
+ * @param d
+ * @param i
+ */
 usAreaChartVis.prototype.onmousemove = function(d, i) {
 	var self = usAreaChart_this;
 	var mouse = d3.mouse(self.body.node()).map(function(d) {

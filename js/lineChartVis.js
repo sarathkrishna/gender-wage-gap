@@ -1,4 +1,11 @@
+/**
+ * This file is used for the creation of three line charts - US state line
+ * chart, US sector line chart and OECD countries chart.
+ */
 var line_this;
+/**
+ * Constructor
+ */
 function lineChartVis(lineChartInfo) {
 
 	var self = this;
@@ -7,9 +14,9 @@ function lineChartVis(lineChartInfo) {
 	self.parentElement = lineChartInfo.parentElement;
 	self.data = lineChartInfo.data;
 	self.lineChartInfo = lineChartInfo;
-	
-	self.outerUpdateSelected = lineChartInfo.updateSelected;
-	
+
+	// For updating the other charts
+	self.outerUpdateSelected = lineChartInfo.updateSelected; 
 	self.initVis();
 }
 
@@ -17,7 +24,6 @@ lineChartVis.prototype.initVis = function() {
 	var self = this;
 	
 	self.chart = self.parentElement.select("svg");
-
 	self.graphW = self.lineChartInfo.width;
 	self.graphH = self.lineChartInfo.height;
 	self.margin = self.lineChartInfo.margin;
@@ -27,14 +33,11 @@ lineChartVis.prototype.initVis = function() {
 	var highestYear = self.lineChartInfo.highestYear;
 	var yTickWidth = self.lineChartInfo.yTickWidth;
 	
-	/*
-	 * self.xScale = d3.time.scale().domain([ lowestYear, highestYear ]).range( [
-	 * 0 + self.margin - 5, self.graphW ])
-	 */
-	self.xScale = d3.scale.linear().domain([ lowestYear, highestYear ]).range(
-			[ 0 + self.margin - 5, self.graphW ])
 
-			self.yScale = d3.scale.linear().domain([ self.yMaximum, self.yMinimum]).range(
+	self.xScale = d3.scale.linear().domain([ lowestYear, highestYear ]).range(
+			[ 0 + self.margin - 5, self.graphW ]);
+
+	self.yScale = d3.scale.linear().domain([ self.yMaximum, self.yMinimum]).range(
 					[ 0 + self.margin, self.graphH - self.margin ]);
 
 	self.xAxis = d3.svg.axis().scale(self.xScale);
@@ -82,11 +85,8 @@ lineChartVis.prototype.updateVis = function() {
 
 	var self = this;
 	var line = d3.svg.line().x(function(d, i) {
-		// console.log(d);
-		// console.log("x: "+ self.xScale(d['year']));
 		return self.xScale(d['year']);
 	}).y(function(d,i) {
-		// console.log(self.yScale(d['val']));
 		return self.yScale(d['val']);
 	});
 
@@ -112,16 +112,16 @@ lineChartVis.prototype.updateVis = function() {
 	self.body = d3.select('body');
 	self.tooltip = self.body.append('div').attr('class', 'hidden tooltip');
 	
-	// console.log(object);
 	for (var element of elements) {
 		var yearsObj = object[element];
-		// console.log(yearsObj);
-		// console.log(elementObj[yearObj]);
 		self.visG.append("path")
 			.data([yearsObj])
 			.attr("d", line)
 			.attr("class", function (d) {
+				// Following is done for highlighting US line
 				if (element == "USA" || element == "United States") {
+					// CSS classes do not support spaces (obviously!), hyphens
+					// and ampersands.
 					return "line USA " + self.lineChartInfo.type + "-" + element.split('&').join('-').split(' ').join('-');
 				}
 				return "line " + self.lineChartInfo.type + "-" + element.split('&').join('-').split(' ').join('-').split(',').join('-');
@@ -131,15 +131,16 @@ lineChartVis.prototype.updateVis = function() {
 			.on('mousemove',self.onmousemove)
 			.on('click', function(d) {
 					self.outerUpdateSelected(d[0]['element']);
+					// So that clear selection won't catch this click.
 					d3.event.stopPropagation();
 			});
 	}
 };
 
 lineChartVis.prototype.onmouseover = function (d, i) {
+	// For hover effect
 	var currClass = d3.select(this).attr("class");
 	d3.select(this).classed("current", true);
-	// console.log(this);
 }
 lineChartVis.prototype.onmouseout = function(d, i) {
 	var self = line_this;
@@ -149,23 +150,24 @@ lineChartVis.prototype.onmouseout = function(d, i) {
 }
 
 lineChartVis.prototype.onmousemove = function(d,i) {
+	// In world chart, missing information exists and hence the nearest data
+	// value is displayed.
 	var self = line_this;
 	var mouse = d3.mouse(self.body.node()).map(function(d) {
 		return parseInt(d);
 	});
-	// var year = self.xScale.invert(d3.mouse(this)[0]).getFullYear();
 	var year = self.xScale.invert(d3.mouse(this)[0]);
 	year = d3.format(".0f")(year);
 	index = year - self.lineChartInfo.lowestYear;
-	// console.log(d[0]['element']);
 	if(!d[index] || d[index]['year'] != year) {
-		var diff = 10000;
+		var diff = 10000; // magic number
 		var calcYear = d[0]['year'];
 		var i = -1;
 		for(var object of d) {
 			i++;
 			var newDiff = year - object['year'];
 			if (newDiff<0) {
+				// To make the value positive, for comparison
 				newDiff = -newDiff;
 			}
 			if (newDiff<diff) {
@@ -174,9 +176,7 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 				index = i;
 			}
 		}
-		// console.log("year: " + year);
 		year = calcYear;
-		// console.log("new year: " + year);
 	}
 	self.tooltip.classed('hidden', false).attr(
 			'style',
@@ -185,6 +185,9 @@ lineChartVis.prototype.onmousemove = function(d,i) {
 			d[index]['element'] + " in " +year + ": " + d[index]['val']);
 }
 
+/**
+ * For state line chart.
+ */
 lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 	if (!state) {
 		d3.select(".selected-state-line").classed("selected-state-line", false);
@@ -196,6 +199,9 @@ lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 	sel.classed("selected-state-line", true);
 }
 
+/**
+ * For sector line chart.
+ */
 lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
 	console.log(sector);
 	if (!sector) {
@@ -208,6 +214,9 @@ lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
 	sel.classed("selected-sector-line", true);
 }
 
+/**
+ * For country line chart.
+ */
 lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
 	if (!country) {
 		d3.select(".selected-country-line").classed("selected-country-line", false);
@@ -219,8 +228,12 @@ lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
 	sel.classed("selected-country-line", true);
 }
 
+/**
+ * For moving the selected element to the front (in other words, make it the
+ * last child of the parent).
+ */
 d3.selection.prototype.moveToFront = function() {
 	  return this.each(function(){
 	  this.parentNode.appendChild(this);
 	  });
-	};
+}

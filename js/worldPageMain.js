@@ -1,7 +1,10 @@
-
+/**
+ * The controller JS for US page.
+ */
 (
     function () {
 
+    // Added to implement de-selection of selected country.
 	d3.select("body").on("click", function() {
 		updateSelectedCountry();
     });
@@ -14,6 +17,8 @@
     var idCountryMap = {};
     var countryIdMap = {};
 
+    
+  // The function called from other files for updating country selection
     function updateSelectedCountry(country) {
     	if (country) {
     		country = country.split(' ').join('-');
@@ -28,6 +33,7 @@
        
         worldMapVis = new countryMapVis(d3.select("#map"), yearToCountriesData, metaData, updateSelectedCountry);
         
+        //data preparation for world bar chart.
         yearToCountriesDataWithID = {};
         years = Object.keys(yearToCountriesData);
         for (var year of years) {
@@ -46,6 +52,20 @@
         worldLineChartVis = new lineChartVis(worldLineChartInfo);
     }
 
+    /**
+     * For preparing object that is to be passed on to lineChartVis.js
+     * @param parentElement
+     * @param data
+     * @param width
+     * @param height
+     * @param margin
+     * @param yMinimum
+     * @param yMaximum
+     * @param lowestYear
+     * @param highestYear
+     * @param yTickWidth
+     * @returns
+     */
     function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
     	var infoObject = {};
     	infoObject.type = "country";
@@ -63,6 +83,13 @@
     	
     	return infoObject;
     }
+    /**
+     * Function that will be called once all of the data has been loaded.
+     * @param error
+     * @param countriesData
+     * @param _metaData
+     * @returns
+     */
     function dataLoaded(error, countriesData, _metaData) {
         if (!error) {
             for (var i = 0; i < countriesData.length; i++) {
@@ -90,6 +117,10 @@
         }
     }
 
+    /**
+     * Function that takes care of loading data.
+     * @returns
+     */
     function startHere() {
         queue()
             .defer(d3.csv, 'data/OECD_Data.csv')
@@ -99,6 +130,11 @@
         d3.select('#world-slider').call(slider); 
     }
     
+    /**
+     * Function that gets called when slider is moved.
+     * @param slider
+     * @returns
+     */
     function updateOnSliderChange(slider) {
     	var year = d3.format(".0f")(slider.value());
     	worldMapVis.updateYear(year);
