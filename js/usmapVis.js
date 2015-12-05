@@ -49,39 +49,27 @@ for (var i = 0; i < 9; i++) {
 	colors.push(new Color(r, g, b));
 }
 
+var colorScale = d3.scale.linear().domain([ 30, 60, 90 ]).range(
+		colorbrewer.Blues[3])
 var selectedYear = 2011;
 var selectedState;
-
-usmapVis.prototype.zoomed = function() {
-	var self = usmap_this;
-	self.projection.translate(self.zoom.translate()).scale(self.zoom.scale());
-	self.states.selectAll("path").attr("d", self.path);
-}
 
 usmapVis.prototype.drawStates = function(usStateData, metaData) {
 	var self = this;
 	var width = 500;
 	var height = 500;
-	self.projection = d3.geo.albersUsa().translate(
-			[ width / 2 - 50, height / 2 ]);
-	self.path = d3.geo.path().projection(self.projection);
-
-	var scale0 = (width - 1) * 3 / Math.PI;
-	self.zoom = d3.behavior.zoom().translate([ width / 2, height / 2 ]).scale(
-			scale0).scaleExtent([ scale0, 8 * scale0 ]).on("zoom", self.zoomed);
-	self.states = d3.select("#states");
-	self.states.call(self.zoom).call(self.zoom.event);
-	self.states.append("rect").attr("class", "overlay").attr("width", width)
-			.attr("height", height);
-
+	var projection = d3.geo.albersUsa().scale((width - 1) * 3 / Math.PI)
+			.translate([ width / 2, height / 2 ]);
+	var path = d3.geo.path().projection(projection);
 	var body = d3.select('body');
 	var tooltip = body.append('div').attr('class', 'hidden tooltip');
-	self.states
+	d3
+			.select("#states")
 			.selectAll("path")
 			.data(topojson.feature(metaData, metaData.objects.states).features)
 			.enter()
 			.append("path")
-			.attr("d", self.path)
+			.attr("d", path)
 			.attr("class", "state")
 			.attr(
 					"id",
@@ -136,6 +124,7 @@ function updateData(usStateData) {
 		if (isNaN(val)) {
 			return "#C0C0C0";
 		} else {
+			// return colorScale(val);
 			var i = quantize(val);
 			var color = colors[i].getColors();
 			return "rgb(" + color.r + "," + color.g + "," + color.b + ")";
