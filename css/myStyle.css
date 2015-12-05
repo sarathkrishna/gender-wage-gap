@@ -146,3 +146,6 @@ body{
   padding-bottom: 25px;
   background-color: rgba(0, 0, 0, 0.5);
 }
+.bold {
+  font-weight: bold;
+}
