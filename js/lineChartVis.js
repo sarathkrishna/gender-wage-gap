@@ -190,8 +190,10 @@ lineChartVis.prototype.updateSelectedStateInLineChart = function(state) {
 		d3.select(".selected-state-line").classed("selected-state-line", false);
 		return;
 	}
+	var sel = d3.select(".line.state-" + state);
+	sel.moveToFront();
 	d3.select(".selected-state-line").classed("selected-state-line", false);
-	d3.select(".line.state-" + state).classed("selected-state-line", true);
+	sel.classed("selected-state-line", true);
 }
 
 lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
@@ -200,8 +202,10 @@ lineChartVis.prototype.updateSelectedSectorInLineChart = function(sector) {
 		d3.select(".selected-sector-line").classed("selected-sector-line", false);
 		return;
 	}
+	var sel = d3.select(".line.sector-" + sector);
+	sel.moveToFront();
 	d3.select(".selected-sector-line").classed("selected-sector-line", false);
-	d3.select(".line.sector-" + sector).classed("selected-sector-line", true);
+	sel.classed("selected-sector-line", true);
 }
 
 lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
@@ -209,6 +213,14 @@ lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
 		d3.select(".selected-country-line").classed("selected-country-line", false);
 		return;
 	}
+	var sel = d3.select(".line.country-" + country);
+	sel.moveToFront();
 	d3.select(".selected-country-line").classed("selected-country-line", false);
-	d3.select(".line.country-" + country).classed("selected-country-line", true);
+	sel.classed("selected-country-line", true);
 }
+
+d3.selection.prototype.moveToFront = function() {
+	  return this.each(function(){
+	  this.parentNode.appendChild(this);
+	  });
+	};

@@ -18,6 +18,8 @@ US Map States - Choropleth Plus Bar (An example)
 Line chart		- http://projects.flowingdata.com/life-expectancy/
 Tooltips		- http://bl.ocks.org/lhoworko/7753a11efc189a936371
 zoom on maps 	- http://bl.ocks.org/mbostock/eec4a6cda2f573574a11
+Bringing an html element to front 
+				- https://gist.github.com/trtg/3922684
 
 US state-wise Data:
 	https://docs.google.com/spreadsheets/d/1WgPxsDur8OTUkF8K0KMfKvl8U_3iiiPoF0fPGRzFiGw/edit?usp=sharing
