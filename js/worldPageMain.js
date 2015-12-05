@@ -48,6 +48,7 @@
 
     function getLineChartInfo(parentElement, data, width, height, margin, yMinimum, yMaximum, lowestYear, highestYear, yTickWidth ) {
     	var infoObject = {};
+    	infoObject.type = "country";
     	infoObject.parentElement = parentElement;
     	infoObject.data = data;
     	infoObject.width = width;

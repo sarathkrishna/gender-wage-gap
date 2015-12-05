@@ -210,5 +210,5 @@ lineChartVis.prototype.updateSelectedCountryInLineChart = function(country) {
 		return;
 	}
 	d3.select(".selected-country-line").classed("selected-country-line", false);
-	d3.select(".line." + country).classed("selected-country-line", true);
+	d3.select(".line.country-" + country).classed("selected-country-line", true);
 }
