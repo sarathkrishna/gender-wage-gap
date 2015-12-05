@@ -10,7 +10,7 @@
 			<meta http-equiv="X-UA-Compatible" content="IE=edge">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no"/>
-		<title>Gender Wage Gap</title>
+		<title>Gender Wage Gap - United States vs. OECD Nations</title>
 
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/ionicons.min.css">
@@ -25,6 +25,12 @@
 		<link rel="stylesheet" href="css/styler.css" />
 		<link rel="stylesheet" type="text/css" href="css/myStyle.css">
 
+
+		<link rel="stylesheet" href="css/d3.slider.css" />
+		<link rel="stylesheet" href="css/styler.css" />
+		<link rel="stylesheet" type="text/css" href="css/myStyle.css">
+
+
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 			<!--[if lt IE 9]>
 				<script src="assets/js/html5shiv.js"></script>
@@ -34,118 +40,127 @@
 			<!--[if IE 8]>
 		    	<script src="assets/js/selectivizr.js"></script>
 		    <![endif]-->
-		<style>
+</head>
 
-		.node {
-		  stroke: #000;
-		  stroke-width: 1.5px;
-		}
-
-		.link {
-		  stroke: #999;
-		  stroke-width: 1.5px;
-		}
-		</style>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
-		<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
-		<script src="http://d3js.org/queue.v1.min.js"></script>
-		<script src="js/d3.slider.js"></script>
-		<script src="js/worldMapVis.js"></script>
-		<script src="js/worldBarChartVis.js"></script>
-		<script src="js/worldSectorBarChartVis.js"></script>
-		<script src="js/worldLineChartVis.js"></script>
-		
-		<link rel="stylesheet" href="css/d3.slider.css" />
-		<link rel="stylesheet" href="css/styler.css" />
-		<link rel="stylesheet" type="text/css" href="css/myStyle.css">
-	</head>
-	<style>
-		.a {
-			stroke: rgb(255, 255, 255);
-			fill: rgb(216, 216, 216);
-			}
-	</style>
-	
 <body data-spy="scroll" data-target="#bs-example-navbar-collapse-1">
 
 <section class="header" id="header">
 		
 		<nav class="navbar navbar-default" id="navigation-bar">
 			<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="index-one-page.html">SIGHT</a>
-				</div> <!-- /.navbar-header -->
-
-		    <!-- Collect the nav links, forms, and other content for toggling -->
-			    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#header">home</a></li>
-						<li><a href="#about">about us</a></li>
-						<li><a href="#service">services</a></li>
-						<li><a href="#portfolio">portfolio</a></li>
-						<li><a href="#contact">contact</a></li>
-					</ul> <!-- /.nav -->
-			    </div><!-- /.navbar-collapse -->
-		  	</div><!-- /.container -->
+				<div class="row">
+					<div class="col-md-6">
+						<div class="row">
+							<div class="navbar-header">
+								<a class="navbar-brand" href="boot_world_map.html" >United States</a>
+							</div>
+						</div>
+						<div class="row" style="margin-top: 20px;">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand navbar-brand-sel" href="boot_world_map.html" style="border: none; background: none; border-bottom: 1px solid white">U.S. Vs. OECD Nations</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav navbar-right">
+								<li><a href="#world">World</a></li>
+							</ul> 
+					    </div>
+					</div>
+				</div>
+		  	</div>
 		</nav>
 		<div class="container">
 			<div class="header-table">
 				<div class="header-wrapper">
-					<h1 class="header-title">
-						best digital agency
-					</h1>
-					<p class="header-subtitle">
-						since 2013
-					</p>
-				</div> <!-- /.header-wrapper -->
+					<div class="transparent-bg">
+						<h1 class="header-title">
+							Gender wage gap
+						</h1>
+						<p class="header-subtitle">
+							in us and other oecd countries
+						</p>
+					</div
+				</div> 
 			</div>
-		</div> <!-- /.container -->
-	</section> <!-- /#header -->
-
-	<!-- About Us -->
-	<section class="about" id="about">
+		</div> 
+	</section> 
+	
+	<section class="" id="world">
 		<div class="container section-wrapper">
 			<h2 class="section-title black">
-				US Map
-			</h2> <!-- /.section-title -->
+				Wage Analysis - U.S. Vs. OECD Nations
+			</h2> 
 			<div class="underline purple"></div>	
-			<div class="row">
+			<div id="nav-wrapper">
+			    <div id="nav" class="navbar worldnav">
+			        <div class="navbar-inner">
+				        <div class="span12">
+		                    <div id="world-slider"></div>
+	                    </div>
+			        </div> 
+			    </div> 
+			</div>
+			<div class="row" style="margin-top: 50px">				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="row" style="margin-top: 0px; margin-left: 0px;">
+							<div>
+								<svg width="500" height="500" id="map">
+						            <g id="countries"></g>
+					    	    </svg>
+							</div>
+						</div>
+						<div class="row" style="margin-top: 20px;">
+							<span class="bold">Figure: above </span> - Lorem Ipsum doler sit amet
+						</div>
+					</div>
+					<div class="col-md-6" style="margin-left: 0px;">
+						<div class="row" style="margin-top: 0px;">
+							<div class="row">
+								<div id="world-bar-chart">
+						        	<svg width="650" height="440">
+						        	</svg>
+						    	</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 40px;">
+				<div class="row">
+					<div id="world-line-chart">
+			        	<svg width="1325" height="500">
+			        	</svg>
+			    	</div>
+		    	</div>
+		    	<div class="row" style="margin-top: 0px;">
+		    		<span class="bold">Figure: above </span> - Lorem Ipsum doler sit amet
+		    	</div>
+			</div> 
+		</div> 
+	</section> 
+			
+	<script src="assets/js/jquery-1.11.2.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+	<script src="http://colorbrewer2.org/export/colorbrewer.js"></script>
+	<script src="http://d3js.org/queue.v1.min.js"></script>
+	<script src="js/d3.slider.js"></script>
+	<script src="js/worldMapVis.js"></script>
+	<script src="js/worldBarChartVis.js"></script>
+	<script src="js/lineChartVis.js"></script>
 
-		<h2>World Map</h2>
-		<div id="world-slider"></div>
-		<span width="700">
-			<svg width="700" height="500" id="map">
-	            <g id="countries"></g>
-    	    </svg>
-		</span>
-		<span id="world-bar-chart">
-        	<svg width="650" height="440">
-        	</svg>
-    	</span>
+	<script src="js/worldPageMain.js"></script>
 
-	<div id="world-line-chart">
-        	<svg width="1450" height="500">
-        	</svg>
-    	</div>
-    	<div id="world-sector-bar-chart">
-        	<svg width="650" height="440">
-        	</svg>
-    	</div>
-
-    	
-			</div> <!-- /.row -->
-		</div> <!-- /.container -->
-	</section> <!-- /.about -->
-		<script src="js/worldPageMain.js"></script>
-	</body>
+</body>
 </html>

@@ -112,13 +112,18 @@ body{
   stroke: #999;
   stroke-width: 1.5px;
 }
+.usnav{
+  width: 600px;
+}
+.worldnav {
+  width: 1010px;
+}
 
 #nav {
   z-index: 99999;
   border: 1px solid #CCC;
   padding-top: 10px;
   opacity: 0.5;
-  width: 600px;
 }
 #nav.affix {
   position: fixed;
