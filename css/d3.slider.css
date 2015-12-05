@@ -14,7 +14,7 @@ Inspired by http: //sujeetsr.github.io /d3.slider /stylesheets/d3.slider.css
 }
 
 .d3slider-rect-value {
-	fill: #006EE3;
+	fill: none;
 	stroke: none;
 }
 
